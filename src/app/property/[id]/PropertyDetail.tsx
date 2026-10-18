@@ -4,13 +4,13 @@ import dynamic from 'next/dynamic';
 import { useState } from 'react';
 import {
   ArrowLeft, Heart, Share2, MapPin, BedDouble, Maximize2, Sofa, Compass, Building, CalendarDays, PawPrint, Users, ShieldCheck, Video, FileCheck2,
-  Droplets, CloudRain, Zap, Landmark, FileBadge, Star, Car, Train, Info, PlayCircle, Phone, Sparkles, Check,
+  Droplets, CloudRain, Zap, Landmark, FileBadge, Star, Car, Train, Info, PlayCircle, Phone, Sparkles, Check, Smartphone, Lock, Scale, Wallet, Globe2,
 } from 'lucide-react';
 import { getListing, LISTINGS } from '@/data/listings';
 import { TECH_PARKS, localityByName } from '@/data/geo';
 import { distanceKm, formatINR, formatPrice, fullINR, cn } from '@/lib/format';
 import PropertyArt from '@/components/PropertyArt';
-import { VerifiedBadge, KindBadge, priceVerdict } from '@/components/Badges';
+import { VerifiedBadge, KindBadge, priceVerdict, DepositSafeBadge, VerifiedOwnerBadge } from '@/components/Badges';
 import { EmiCalculator, RentVsBuy } from '@/components/Calculators';
 import VisitPicker from '@/components/VisitPicker';
 import ListingCard from '@/components/ListingCard';
@@ -46,6 +46,8 @@ export default function PropertyDetail({ id }: { id: string }) {
   const [mode, setMode] = useState<'car' | 'metro'>('car');
   const [tab, setTab] = useState<'emi' | 'rvb'>(l.deal === 'buy' ? 'emi' : 'rvb');
   const [showVideo, setShowVideo] = useState(false);
+  const [dsRequested, setDsRequested] = useState(false);
+  const [abroad, setAbroad] = useState(false);
 
   const commute = TECH_PARKS.map((p) => {
     const km = distanceKm(l.coord, p.coord);
@@ -85,7 +87,7 @@ export default function PropertyDetail({ id }: { id: string }) {
           <div className="relative aspect-[16/10] overflow-hidden md:aspect-auto md:h-full">
             <PropertyArt hue={l.hue} kind={l.kind} bhk={l.bhk} className="absolute inset-0 h-full w-full" />
             <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/25 to-transparent" />
-            <div className="absolute left-4 top-4 flex gap-2"><VerifiedBadge l={l} size="lg" /></div>
+            <div className="absolute left-4 top-4 flex flex-wrap gap-2"><VerifiedBadge l={l} size="lg" /><VerifiedOwnerBadge l={l} /><DepositSafeBadge l={l} size="lg" /></div>
             <div className="absolute bottom-4 left-4 rounded-lg bg-black/50 px-2 py-1 text-xs text-white">Sample listing · illustration</div>
             {l.verified && (
               <button onClick={() => setShowVideo(true)} className="absolute bottom-4 right-4 btn bg-white/95 text-ink-900 shadow-lift hover:bg-white"><PlayCircle className="h-5 w-5 text-saffron-600" />Watch verified walk-through</button>
@@ -134,21 +136,21 @@ export default function PropertyDetail({ id }: { id: string }) {
           </div>
 
           {/* Verification */}
-          <Section title={FEATURES.proof} subtitle="Video + GPS checks done on-site before this listing went live">
+          <Section title={FEATURES.proof} subtitle="Tiered verification — owners never need to upload a sale deed to list" tag="Sample data">
             <div className="grid gap-3 sm:grid-cols-3">
               {[
-                [Video, 'Video walk-through', 'Recorded live in the flat via our app, no uploads from gallery', l.verification.video],
-                [MapPin, 'Geotag match', 'GPS at recording within 50 m of listed address', l.verification.geotag],
-                [FileCheck2, 'Ownership docs', 'Sale deed / tax receipt matched to lister', l.verification.docs],
-              ].map(([I, t, d, ok]: any) => (
+                [Smartphone, 'Tier 1 · Required to list', 'Phone OTP + live in-app video walk-through with GPS within 50 m of the listed address', l.verification.otp && l.verification.video && l.verification.geotag, l.verification.otp ? 'OTP done · video pending' : 'Pending'],
+                [FileCheck2, 'Tier 2 · Verified Owner (optional)', 'Owner name matched to a recent property tax receipt or electricity bill. Doc kept private, only name + address visible to our reviewer, deletable anytime', l.verification.ownerDoc, l.kind === 'builder' ? 'N/A · builder' : 'Not opted in'],
+                [Scale, 'Tier 3 · At deal stage', l.deal === 'buy' ? 'When you proceed, title documents are checked by partner lawyers before any token amount' : 'When you proceed, ownership is confirmed before you sign or pay a deposit', false, 'When you proceed'],
+              ].map(([I, t, d, ok, pending]: any) => (
                 <div key={t} className={cn('rounded-xl border p-4', ok ? 'border-brand-200 bg-brand-50/60' : 'border-ink-200 bg-ink-50')}>
                   <div className="flex items-center justify-between"><I className={cn('h-5 w-5', ok ? 'text-brand-600' : 'text-ink-400')} />
-                    <span className={cn('chip', ok ? 'bg-brand-600 text-white' : 'bg-ink-200 text-ink-500')}>{ok ? <><Check className="h-3 w-3" />Done</> : 'Pending'}</span></div>
+                    <span className={cn('chip', ok ? 'bg-brand-600 text-white' : 'bg-ink-200 text-ink-500')}>{ok ? <><Check className="h-3 w-3" />Done</> : pending}</span></div>
                   <div className="mt-2 text-sm font-semibold">{t}</div><div className="text-xs text-ink-500">{d}</div>
                 </div>
               ))}
             </div>
-            {l.verification.verifiedOn && <p className="mt-3 text-xs text-ink-500"><ShieldCheck className="mr-1 inline h-3.5 w-3.5 text-brand-600" />Verified on {l.verification.verifiedOn} by field agent #FA-{l.id.slice(-3)} (sample). If it’s fake, you get your fee back plus {FEATURES.proofCredit} credit.</p>}
+            {l.verification.verifiedOn && <p className="mt-3 text-xs text-ink-500"><ShieldCheck className="mr-1 inline h-3.5 w-3.5 text-brand-600" />Tier 1 verified on {l.verification.verifiedOn} (sample). If a Proof listing is fake, you get your fee back plus {FEATURES.proofCredit} credit.</p>}
           </Section>
 
           {/* True price */}
@@ -278,16 +280,25 @@ export default function PropertyDetail({ id }: { id: string }) {
             {revealed && <p className="mt-2 text-[11px] text-ink-500">Calls are routed through {BRAND.name}. Neither side sees the real number. (Demo)</p>}
           </div>
           <div className="card p-5">
-            <h3 className="mb-3 font-display text-lg font-bold">Book a visit</h3>
-            <VisitPicker listingId={l.id} title={l.title} />
+            <div className="mb-3 flex items-center justify-between gap-2"><h3 className="font-display text-lg font-bold">Book a visit</h3><button onClick={() => setAbroad(true)} className="chip bg-indigo-50 text-indigo-700 hover:bg-indigo-100"><Globe2 className="h-3.5 w-3.5" />Book a video visit from abroad</button></div>
+            <VisitPicker listingId={l.id} title={l.title} abroad={abroad} deal={l.deal} />
           </div>
-          {l.deal === 'rent' && (
+          {l.deal === 'rent' && (l.depositSafe ? (
             <Link href="/deposit-safe/" className="card block bg-gradient-to-br from-brand-700 to-brand-900 p-5 text-white">
-              <ShieldCheck className="h-6 w-6 text-saffron-300" />
-              <div className="mt-2 font-semibold">Protect your {formatINR(l.deposit!)} deposit</div>
-              <p className="mt-1 text-sm text-brand-100">Bank escrow via a regulated partner — {BRAND.name} never holds your money. Digital agreement in 10 minutes.</p>
+              <Wallet className="h-6 w-6 text-saffron-300" />
+              <div className="mt-2 font-semibold">This owner accepts {FEATURES.deposit}</div>
+              <p className="mt-1 text-sm text-brand-100">Optional for you: keep the {formatINR(l.deposit!)} deposit in a partner bank escrow, or ask about the deposit-free plan. Learn how it works →</p>
             </Link>
-          )}
+          ) : (
+            <div className="card p-5">
+              <div className="flex items-center gap-2 font-semibold"><Wallet className="h-5 w-5 text-saffron-500" />Want {FEATURES.deposit}?</div>
+              <p className="mt-1 text-sm text-ink-500">This owner hasn’t opted in — that’s fine, it’s optional. You can request it; the owner can accept or decline.</p>
+              <button onClick={() => setDsRequested(true)} disabled={dsRequested} className="btn-ghost mt-3 w-full">{dsRequested ? 'Request sent (demo)' : `Request ${FEATURES.deposit}`}</button>
+            </div>
+          ))}
+          <Link href="/nri/" className="card flex items-center gap-3 p-4 hover:shadow-lift">
+            <Globe2 className="h-5 w-5 text-indigo-600" /><div><div className="text-sm font-semibold">Living abroad?</div><div className="text-xs text-ink-500">Book a live video visit across time zones with {BRAND.name} NRI (planned)</div></div>
+          </Link>
           <button onClick={() => window.dispatchEvent(new Event('gk-open-chat'))} className="card flex w-full items-center gap-3 p-4 text-left hover:shadow-lift">
             <Sparkles className="h-5 w-5 text-saffron-500" /><div><div className="text-sm font-semibold">Ask AI about this home</div><div className="text-xs text-ink-500">“Is this a fair price?” “How bad is flooding?”</div></div>
           </button>

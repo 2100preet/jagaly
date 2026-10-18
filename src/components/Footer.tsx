@@ -9,7 +9,7 @@ export default function Footer() {
       <div className="container-x grid gap-10 py-14 md:grid-cols-5">
         <div className="md:col-span-2">
           <Logo light />
-          <p className="mt-4 max-w-sm text-sm leading-relaxed text-ink-400">{BRAND.tagline} Built in {BRAND.city} for people who are tired of fake listings, broker spam and lost deposits.</p>
+          <p className="mt-4 max-w-sm text-sm leading-relaxed text-ink-400">{BRAND.tagline} Built in {BRAND.city} for people who are tired of fake listings, broker spam and lost deposits. Prototype: all data is sample data.</p>
           <p className="mt-4 text-xs text-ink-500">Prototype · All listings, scores and prices shown are <strong className="text-ink-300">sample data</strong> for demonstration only.</p>
         </div>
         <div>
@@ -24,7 +24,9 @@ export default function Footer() {
           <h4 className="mb-3 text-sm font-semibold text-white">Product</h4>
           <ul className="space-y-2 text-sm">
             <li><Link className="hover:text-white" href="/post/">Post property free</Link></li>
-            <li><Link className="hover:text-white" href="/deposit-safe/">Deposit Safe</Link></li>
+            <li><Link className="hover:text-white" href="/deposit-safe/">Deposit Safe (optional)</Link></li>
+            <li><Link className="hover:text-white" href="/verified-tenant/">Verified Tenant</Link></li>
+            <li><Link className="hover:text-white" href="/nri/">Pakka NRI</Link></li>
             <li><Link className="hover:text-white" href="/project-tracker/">Builder delay tracker</Link></li>
             <li><Link className="hover:text-white" href="/pricing/">Pricing</Link></li>
             <li><Link className="hover:text-white" href="/about/">How it works</Link></li>

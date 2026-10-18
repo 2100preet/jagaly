@@ -1,18 +1,18 @@
 import Link from 'next/link';
-import { ShieldCheck, PhoneOff, BadgeIndianRupee, Video, Gauge, Landmark, Timer, Wallet, MapPinned, Sparkles, ArrowRight, Star, CheckCircle2 } from 'lucide-react';
+import { ShieldCheck, PhoneOff, BadgeIndianRupee, Video, Gauge, Landmark, Timer, Wallet, MapPinned, Sparkles, ArrowRight, Star, CheckCircle2, BadgeCheck, Globe2, Smartphone, FileCheck2, Scale, Lock } from 'lucide-react';
 import SearchHero from '@/components/SearchHero';
 import ListingCard from '@/components/ListingCard';
 import { LISTINGS } from '@/data/listings';
-import { LOCALITIES } from '@/data/geo';
+import { LOCALITIES, AREAS } from '@/data/geo';
 import { BRAND, FEATURES } from '@/config/brand';
 import { formatINR } from '@/lib/format';
 
 const DIFFS = [
-  { icon: Video, title: FEATURES.proof, text: `Every Proof listing has a live video walk-through recorded on-site with GPS. If it’s fake, you get your fee back plus ${FEATURES.proofCredit} credit.` },
+  { icon: Video, title: FEATURES.proof, text: `Every Proof listing has a phone-verified owner and a live in-app video walk-through with GPS. No sale deed needed to list. If it’s fake, you get your fee back plus ${FEATURES.proofCredit} credit.` },
   { icon: BadgeIndianRupee, title: FEATURES.price, text: `See what a home is actually worth vs. the asking price. Rentals priced in line with the market earn a ${FEATURES.fairRent} badge.` },
   { icon: Gauge, title: FEATURES.truth, text: 'Commute, water & tanker dependence, flooding, power cuts, e-Khata A/B, RERA delays and title flags — in one score.' },
   { icon: PhoneOff, title: FEATURES.spam, text: 'Your number stays masked behind a private line and is never resold. Brokers get banned, not your inbox.' },
-  { icon: Wallet, title: FEATURES.deposit, text: `Your deposit sits in a bank escrow with a regulated partner — ${BRAND.name} never holds your money. Checklist-based refunds on move-out.` },
+  { icon: Wallet, title: `${FEATURES.deposit} (optional)`, text: `Owners list with zero obligation. Those who opt in get a badge, higher ranking and damage protection; tenants get escrow-held deposits or a deposit-free plan.` },
   { icon: Landmark, title: 'Builder delay tracker', text: 'RERA-style timelines and delay history for every project — before you pay a single rupee of booking amount.' },
 ];
 
@@ -26,20 +26,20 @@ export default function Home() {
         <div className="pointer-events-none absolute -right-40 -top-40 h-[520px] w-[520px] rounded-full bg-saffron-500/20 blur-3xl" />
         <div className="pointer-events-none absolute -bottom-48 -left-24 h-[420px] w-[420px] rounded-full bg-brand-400/20 blur-3xl" />
         <div className="container-x relative pb-20 pt-14 sm:pt-20">
-          <span className="chip border border-white/20 bg-white/10 text-brand-50"><Sparkles className="h-3.5 w-3.5 text-saffron-300" />Now live in {BRAND.city} · 8 localities</span>
+          <span className="chip border border-white/20 bg-white/10 text-brand-50"><Sparkles className="h-3.5 w-3.5 text-saffron-300" />Prototype · {BRAND.city} · {AREAS.length} localities searchable</span>
           <h1 className="mt-5 max-w-3xl font-display text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-6xl">
-            Every home proven. Every price true. <span className="bg-gradient-to-r from-saffron-300 to-saffron-500 bg-clip-text text-transparent">Every deposit safe.</span>
+            Every home proven. Every price true. <span className="bg-gradient-to-r from-saffron-300 to-saffron-500 bg-clip-text text-transparent">Deposits protected, by choice.</span>
           </h1>
-          <p className="mt-5 max-w-2xl text-lg text-brand-100/90">Rent or buy in {BRAND.city} with no brokers, no spam and no surprises.</p>
+          <p className="mt-5 max-w-2xl text-lg text-brand-100/90">Rent or buy in {BRAND.city} with zero brokerage, zero spam and no surprises.</p>
           <div className="mt-8"><SearchHero /></div>
           <div className="mt-8 grid max-w-4xl gap-3 sm:grid-cols-2">
             <div className="flex items-start gap-3 rounded-2xl border border-white/15 bg-white/10 p-4 backdrop-blur">
               <ShieldCheck className="mt-0.5 h-6 w-6 shrink-0 text-saffron-300" />
-              <div><div className="font-semibold">{FEATURES.proof}: every home proven</div><div className="text-sm text-brand-100/80">Video + GPS verified on-site. If a Proof listing is fake, your fee back plus {FEATURES.proofCredit} credit.</div></div>
+              <div><div className="font-semibold">{FEATURES.proof}: every home proven</div><div className="text-sm text-brand-100/80">Phone OTP + live video with GPS. If a Proof listing is fake, your fee back plus {FEATURES.proofCredit} credit.</div></div>
             </div>
             <div className="flex items-start gap-3 rounded-2xl border border-white/15 bg-white/10 p-4 backdrop-blur">
               <PhoneOff className="mt-0.5 h-6 w-6 shrink-0 text-saffron-300" />
-              <div><div className="font-semibold">{FEATURES.spam}</div><div className="text-sm text-brand-100/80">No broker spam. Your number stays masked behind a private {BRAND.name} line and is never resold.</div></div>
+              <div><div className="font-semibold">{FEATURES.spam}</div><div className="text-sm text-brand-100/80">Zero spam calls. Your number stays masked behind a private {BRAND.name} line and is never resold.</div></div>
             </div>
           </div>
         </div>
@@ -48,7 +48,7 @@ export default function Home() {
       {/* STATS */}
       <section className="container-x -mt-8 relative z-10">
         <div className="card grid grid-cols-2 divide-ink-100 p-2 sm:grid-cols-4 sm:divide-x">
-          {[['100%', `${FEATURES.proof} homes video + GPS checked`], ['₹0', 'brokerage for tenants & owners'], [FEATURES.proofCredit, 'credit + fee back if a Proof listing is fake'], ['30', 'sample listings in this demo']].map(([a, b]) => (
+          {[['100%', `${FEATURES.proof} homes video + GPS checked`], ['₹0', 'brokerage for tenants & owners'], [FEATURES.proofCredit, 'credit + fee back if a Proof listing is fake'], ['30', 'sample listings in this demo (fictional)']].map(([a, b]) => (
             <div key={b} className="p-4 text-center"><div className="font-display text-2xl font-extrabold text-brand-700 sm:text-3xl">{a}</div><div className="mt-1 text-xs text-ink-500">{b}</div></div>
           ))}
         </div>
@@ -56,8 +56,8 @@ export default function Home() {
 
       {/* DIFFERENTIATORS */}
       <section className="container-x mt-20">
-        <div className="max-w-2xl"><p className="eyebrow">Why {BRAND.name}</p><h2 className="h-section mt-2">Everything the old portals never fixed.</h2>
-          <p className="mt-3 text-ink-500">MagicBricks shows you everything. NoBroker charges you to skip brokers. We just verify the home, protect your money, and get out of the way.</p></div>
+        <div className="max-w-2xl"><p className="eyebrow">Why {BRAND.name}</p><h2 className="h-section mt-2">Built for how Bangalore actually rents and buys.</h2>
+          <p className="mt-3 text-ink-500">We verify the home, show you the real numbers, keep your phone number private, and get out of the way. Every score and listing on this prototype is sample data.</p></div>
         <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {DIFFS.map((d) => (
             <div key={d.title} className="card group p-6 transition hover:-translate-y-0.5 hover:shadow-lift">
@@ -100,35 +100,63 @@ export default function Home() {
         <p className="mt-3 text-xs text-ink-400">Rates are sample estimates for demo purposes.</p>
       </section>
 
-      {/* COMPARISON */}
+      {/* WHAT YOU GET */}
       <section className="container-x mt-20">
         <div className="card overflow-hidden">
           <div className="grid lg:grid-cols-[1fr_1.4fr]">
             <div className="bg-gradient-to-br from-saffron-500 to-saffron-700 p-8 text-white sm:p-10">
-              <h2 className="font-display text-3xl font-extrabold">Honest comparison.</h2>
-              <p className="mt-3 text-saffron-50">How {BRAND.name} stacks up against the portals Bangalore already knows. (Our view, based on public product pages; draft.)</p>
-              <Link href="/pricing/" className="btn mt-6 bg-white text-saffron-700 hover:bg-saffron-50">See pricing <ArrowRight className="h-4 w-4" /></Link>
+              <h2 className="font-display text-3xl font-extrabold">What you get with {BRAND.name}</h2>
+              <p className="mt-3 text-saffron-50">Core features are free for tenants, owners and buyers. Optional extras are clearly priced (draft).</p>
+              <Link href="/pricing/" className="btn mt-6 bg-white text-saffron-700 hover:bg-saffron-50">See draft pricing <ArrowRight className="h-4 w-4" /></Link>
             </div>
-            <div className="overflow-x-auto p-4 sm:p-6">
-              <table className="w-full text-sm">
-                <thead><tr className="text-left text-ink-500"><th className="py-2 pr-4 font-medium"></th><th className="px-3 font-bold text-brand-700">{BRAND.name}</th><th className="px-3 font-medium">Typical portal</th><th className="px-3 font-medium">“No-broker” plans</th></tr></thead>
-                <tbody className="divide-y divide-ink-100">
-                  {[
-                    ['Pakka Proof: on-site video + GPS', '✓', '—', 'Partial'],
-                    ['Masked number, never resold', '✓ Free', '—', 'Paid'],
-                    ['True Price Engine + Fair-Rent badge', '✓', '—', '—'],
-                    ['Home Truth Score (water, flood, e-Khata, RERA)', '✓', '—', '—'],
-                    ['Escrow deposit protection', '✓', '—', '—'],
-                    ['Builder delay history', '✓', 'Partial', '—'],
-                    ['Tenant plan from', '₹0', '₹0 (spam)', '~₹999+'],
-                  ].map((r) => (
-                    <tr key={r[0]}><td className="py-2.5 pr-4 font-medium text-ink-700">{r[0]}</td>
-                      <td className="px-3 font-semibold text-brand-700">{r[1]}</td><td className="px-3 text-ink-500">{r[2]}</td><td className="px-3 text-ink-500">{r[3]}</td></tr>
-                  ))}
-                </tbody>
-              </table>
+            <div className="p-4 sm:p-6">
+              <ul className="divide-y divide-ink-100 text-sm">
+                {[
+                  [`${FEATURES.proof}`, 'Phone-verified owner + live in-app video with GPS', 'Free'],
+                  [FEATURES.spam, 'Masked number, never resold', 'Free'],
+                  [`${FEATURES.price} + ${FEATURES.fairRent} badge`, 'Model estimate vs asking price (sample model)', 'Free'],
+                  [FEATURES.truth, 'Water, flooding, power, e-Khata, RERA, commute (sample scores)', 'Free'],
+                  ['Builder delay tracker', 'Promised vs revised possession dates (fictional demo data)', 'Free'],
+                  [`${FEATURES.tenant}`, 'Optional ID check via licensed KYC partner', 'Free, optional'],
+                  [`${FEATURES.deposit}`, 'Escrow-held deposit when the owner opts in', 'Optional'],
+                  [FEATURES.nri, 'Video visits, remote buying, property management', 'Planned · draft'],
+                ].map(([t, d, p]) => (
+                  <li key={t} className="flex items-start justify-between gap-4 py-3"><div className="flex gap-2"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-brand-600" /><div><div className="font-semibold text-ink-800">{t}</div><div className="text-xs text-ink-500">{d}</div></div></div><span className="shrink-0 text-xs font-semibold text-brand-700">{p}</span></li>
+                ))}
+              </ul>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* OWNER-FRIENDLY PROOF */}
+      <section className="container-x mt-20">
+        <p className="eyebrow">For owners</p><h2 className="h-section mt-2">Verification that doesn’t ask for your sale deed</h2>
+        <div className="mt-8 grid gap-5 md:grid-cols-3">
+          {[
+            [Smartphone, 'Tier 1 · to list', 'Phone OTP + a live in-app video walk-through with GPS. That’s all you need to go live.'],
+            [FileCheck2, 'Tier 2 · optional “Verified Owner”', 'Upload a recent property tax receipt or electricity bill. Blur everything except name + address in-app. Kept private, used only for a name match, deletable anytime. Ranks higher.'],
+            [Scale, 'Tier 3 · only at deal stage', 'When a serious tenant or buyer proceeds, documents are checked — for sales, by partner lawyers.'],
+          ].map(([I, t, d]: any) => (
+            <div key={t} className="card p-6"><I className="h-7 w-7 text-brand-600" /><h3 className="mt-3 font-semibold">{t}</h3><p className="mt-1.5 text-sm text-ink-500">{d}</p></div>
+          ))}
+        </div>
+      </section>
+
+      {/* VERIFIED TENANT + NRI */}
+      <section className="container-x mt-20 grid gap-6 lg:grid-cols-2">
+        <div className="card flex flex-col p-8">
+          <span className="chip w-fit bg-indigo-50 text-indigo-700"><BadgeCheck className="h-3.5 w-3.5" />Optional for tenants</span>
+          <h2 className="mt-3 font-display text-2xl font-extrabold">{FEATURES.tenant}</h2>
+          <p className="mt-2 text-sm text-ink-600">Verify your ID once via DigiLocker or Aadhaar offline e-KYC through a licensed partner. Appear first in owners’ inboxes, book visits faster and qualify for deposit-free plans.</p>
+          <p className="mt-3 flex gap-2 rounded-xl bg-ink-50 p-3 text-xs text-ink-600"><Lock className="h-4 w-4 shrink-0" />{BRAND.name} never stores your Aadhaar number. Owners see only “ID verified”, your name and employer if you share it.</p>
+          <Link href="/verified-tenant/" className="btn-ghost mt-5 w-fit">How Verified Tenant works <ArrowRight className="h-4 w-4" /></Link>
+        </div>
+        <div className="card flex flex-col bg-gradient-to-br from-indigo-700 to-indigo-900 p-8 text-white">
+          <span className="chip w-fit bg-white/10 text-indigo-100"><Globe2 className="h-3.5 w-3.5" />Planned add-on</span>
+          <h2 className="mt-3 font-display text-2xl font-extrabold">{FEATURES.nri}</h2>
+          <p className="mt-2 text-sm text-indigo-100">Living in the US, UK, UAE, Singapore or Australia? Live video site visits with a verified agent at a time that suits you, remote buying with partner-lawyer checks, Power of Attorney guidance, and full property management for your Bangalore home.</p>
+          <Link href="/nri/" className="btn mt-5 w-fit bg-white text-indigo-800 hover:bg-indigo-50">Explore {FEATURES.nri} <ArrowRight className="h-4 w-4" /></Link>
         </div>
       </section>
 
@@ -137,7 +165,7 @@ export default function Home() {
         <p className="eyebrow">Early users (sample)</p><h2 className="h-section mt-2">People who stopped getting 40 broker calls a day</h2>
         <div className="mt-8 grid gap-5 md:grid-cols-3">
           {[
-            ['Shruti, product designer', 'Moved to HSR in 9 days. Every flat I visited actually matched the video — that never happened on other apps.'],
+            ['Shruti, product designer', 'Moved to HSR in 9 days. Every flat I visited actually matched the video. No surprises at the door.'],
             ['Aakash & Neha, first-time buyers', 'The delay tracker stopped us from booking in a project that had slipped 3 years. Saved our down payment.'],
             ['Mr. Ramesh, owner in Indiranagar', 'Listed free, got 6 genuine tenant enquiries in two days, zero brokers. The agreement was signed online.'],
           ].map(([n, t]) => (
@@ -158,7 +186,7 @@ export default function Home() {
             <div>
               <h2 className="font-display text-3xl font-extrabold sm:text-4xl">Own a flat in Bangalore? List it free.</h2>
               <ul className="mt-5 grid gap-2 text-ink-300 sm:grid-cols-2">
-                {['AI writes your description', 'Verified badge with a 60-sec video', 'Only genuine, masked enquiries', 'Digital rent agreement included'].map((x) => (
+                {['No sale deed needed: phone OTP + 60-sec video', 'AI writes your description', 'Only genuine, masked enquiries', 'Deposit Safe optional, never required'].map((x) => (
                   <li key={x} className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-brand-400" />{x}</li>
                 ))}
               </ul>

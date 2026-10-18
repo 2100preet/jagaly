@@ -4,7 +4,7 @@ import { BedDouble, Maximize2, MapPin, Sofa, PawPrint } from 'lucide-react';
 import type { Listing } from '@/data/listings';
 import { formatPrice, formatINR } from '@/lib/format';
 import PropertyArt from './PropertyArt';
-import { VerifiedBadge, KindBadge, PriceVerdictChip } from './Badges';
+import { VerifiedBadge, KindBadge, PriceVerdictChip, DepositSafeBadge, VerifiedOwnerBadge } from './Badges';
 
 export default function ListingCard({ l, active, onHover }: { l: Listing; active?: boolean; onHover?: (id: string | null) => void }) {
   return (
@@ -12,7 +12,7 @@ export default function ListingCard({ l, active, onHover }: { l: Listing; active
       className={`card group block overflow-hidden transition hover:-translate-y-0.5 hover:shadow-lift ${active ? 'ring-2 ring-saffron-400' : ''}`}>
       <div className="relative aspect-[16/10] overflow-hidden">
         <PropertyArt hue={l.hue} kind={l.kind} bhk={l.bhk} className="h-full w-full transition duration-500 group-hover:scale-105" />
-        <div className="absolute left-3 top-3 flex flex-wrap gap-1.5"><VerifiedBadge l={l} /></div>
+        <div className="absolute left-3 top-3 flex max-w-[75%] flex-wrap gap-1.5"><VerifiedBadge l={l} /><VerifiedOwnerBadge l={l} /><DepositSafeBadge l={l} /></div>
         <div className="absolute right-3 top-3 rounded-full bg-white/90 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-ink-600">{l.deal === 'rent' ? 'For rent' : 'For sale'}</div>
         <div className="absolute bottom-2 left-3 rounded bg-black/45 px-1.5 py-0.5 text-[10px] font-medium text-white">Sample listing</div>
       </div>

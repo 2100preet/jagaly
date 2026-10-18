@@ -11,6 +11,7 @@ const NAV = [
   { href: '/search/?deal=rent', label: 'Rent', match: '/search' },
   { href: '/search/?deal=buy&kind=builder', label: 'New projects', match: '/search' },
   { href: '/deposit-safe/', label: 'Deposit Safe', match: '/deposit-safe' },
+  { href: '/nri/', label: 'Pakka NRI', match: '/nri' },
   { href: '/project-tracker/', label: 'Delay Tracker', match: '/project-tracker' },
   { href: '/pricing/', label: 'Pricing', match: '/pricing' },
   { href: '/about/', label: 'How it works', match: '/about' },

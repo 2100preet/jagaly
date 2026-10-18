@@ -4,8 +4,8 @@
  */
 export const BRAND = {
   name: 'Pakka',
-  tagline: 'Every home proven, every price true, every deposit safe. No brokers, no spam, no surprises.',
-  shortTagline: 'Every home proven. Every price true. Every deposit safe.',
+  tagline: 'Every home proven, every price true, deposits protected by choice. Zero brokerage, zero spam, no surprises.',
+  shortTagline: 'Every home proven. Every price true. Deposits protected, by choice.',
   city: 'Bangalore',
   domain: 'pakka.example',
   supportEmail: 'hello@pakka.example',
@@ -21,5 +21,7 @@ export const FEATURES = {
   price: 'True Price Engine',
   fairRent: 'Fair-Rent',
   truth: 'Home Truth Score',
-  deposit: 'Deposit Safe', // bank escrow via regulated partner
+  deposit: 'Deposit Safe', // OPTIONAL bank escrow via regulated partner (owner opt-in)
+  tenant: 'Verified Tenant', // optional KYC via licensed partner
+  nri: `${BRAND.name} NRI`, // planned NRI add-on
 } as const;

@@ -11,7 +11,7 @@ const display = Plus_Jakarta_Sans({ subsets: ['latin'], variable: '--font-displa
 
 export const metadata: Metadata = {
   title: { default: `${BRAND.name} — ${BRAND.tagline}`, template: `%s · ${BRAND.name}` },
-  description: `${BRAND.name}: verified, broker-free homes to rent and buy in ${BRAND.city}. Pakka Proof listings, Zero-Spam Promise, True Price Engine, Home Truth Score and Deposit Safe.`,
+  description: `${BRAND.name}: verified, broker-free homes to rent and buy in ${BRAND.city}. Pakka Proof listings, Zero-Spam Promise, True Price Engine, Home Truth Score, optional Deposit Safe and Pakka NRI. Prototype with sample data.`,
 };
 export const viewport: Viewport = { themeColor: '#185944', width: 'device-width', initialScale: 1 };
 
@@ -19,6 +19,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en-IN" className={`${sans.variable} ${display.variable}`}>
       <body className="min-h-screen font-sans">
+        <div className="bg-ink-900 px-4 py-1.5 text-center text-[11px] font-medium text-ink-200 sm:text-xs">Prototype · <strong className="text-white">sample data</strong>: all listings, prices, scores, projects, builders and reviews are fictional and for demo only.</div>
         <Header />
         <main>{children}</main>
         <Footer />

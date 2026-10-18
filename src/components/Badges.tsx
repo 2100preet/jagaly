@@ -1,4 +1,4 @@
-import { ShieldCheck, Video, MapPin, User, Building2 } from 'lucide-react';
+import { ShieldCheck, Video, MapPin, User, Building2, Wallet, BadgeCheck } from 'lucide-react';
 import type { Listing } from '@/data/listings';
 import { FEATURES } from '@/config/brand';
 
@@ -30,4 +30,16 @@ export function PriceVerdictChip({ l }: { l: Listing }) {
   const v = priceVerdict(l);
   if (l.deal === 'rent' && v.d <= 0.06) return <span className={`chip border ${v.tone}`} title="True Price Engine: rent in line with market">✓ {FEATURES.fairRent}</span>;
   return <span className={`chip border ${v.tone}`}>{v.label}</span>;
+}
+
+/** Optional owner perk: owner accepts Deposit Safe (shown only on opted-in listings). */
+export function DepositSafeBadge({ l, size = 'sm' }: { l: Listing; size?: 'sm' | 'lg' }) {
+  if (!l.depositSafe) return null;
+  return <span className={`chip bg-saffron-500 text-white ${size === 'lg' ? 'px-3 py-1.5 text-sm' : ''}`} title="Owner opted in to Deposit Safe (optional)"><Wallet className="h-3.5 w-3.5" />{FEATURES.deposit} Owner</span>;
+}
+
+/** Optional Tier 2: owner name matched to a tax receipt / electricity bill (doc kept private). */
+export function VerifiedOwnerBadge({ l }: { l: Listing }) {
+  if (!l.verification.ownerDoc) return null;
+  return <span className="chip bg-white/95 text-brand-700 ring-1 ring-brand-200" title="Owner name matched to a property tax receipt or electricity bill (kept private)"><BadgeCheck className="h-3.5 w-3.5" />Verified Owner</span>;
 }

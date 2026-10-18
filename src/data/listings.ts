@@ -25,7 +25,12 @@ export interface Listing {
   tenantType: TenantType;
   pets: boolean;
   verified: boolean;
-  verification: { video: boolean; geotag: boolean; docs: boolean; verifiedOn?: string };
+  /** Pakka Proof tiers. T1 (required to list): phone OTP + live in-app video with GPS.
+   *  T2 (optional "Verified Owner"): tax receipt OR electricity bill, name-matched, kept private.
+   *  T3 (deal stage only): document check — by partner lawyers for sales. */
+  verification: { otp: boolean; video: boolean; geotag: boolean; ownerDoc: boolean; verifiedOn?: string };
+  /** Owner has opted in to Deposit Safe (optional; rentals only). */
+  depositSafe: boolean;
   floor: string;
   facing: string;
   ageYears: number;
@@ -57,33 +62,33 @@ type Seed = [
 ];
 
 const SEEDS: Seed[] = [
-  ['Whitefield', 'rent', 'owner', 2, 1150, 'semi', 'family', true, true, -4, 'Palm Meadows Residency'],
-  ['Whitefield', 'rent', 'owner', 3, 1650, 'full', 'any', false, true, 12, 'Brigadier Heights'],
-  ['Whitefield', 'buy', 'builder', 3, 1720, 'unfurnished', 'any', true, true, 3, 'Aranya Greens', 'Vasudha Developers', 'Dec 2027'],
-  ['Whitefield', 'buy', 'owner', 2, 1240, 'semi', 'any', false, false, 18, 'Hope Farm Enclave'],
+  ['Whitefield', 'rent', 'owner', 2, 1150, 'semi', 'family', true, true, -4, 'Ramagondanahalli Garden Flats'],
+  ['Whitefield', 'rent', 'owner', 3, 1650, 'full', 'any', false, true, 12, 'Kundalahalli Gate Residency'],
+  ['Whitefield', 'buy', 'builder', 3, 1720, 'unfurnished', 'any', true, true, 3, 'Demo Grove Whitefield', 'Sample Developers A', 'Dec 2027'],
+  ['Whitefield', 'buy', 'owner', 2, 1240, 'semi', 'any', false, false, 18, 'Hope Farm Lane Homes'],
   ['Sarjapur Road', 'rent', 'owner', 2, 1210, 'semi', 'bachelor', true, true, 2, 'Kaikondrahalli Lake View'],
-  ['Sarjapur Road', 'buy', 'builder', 2, 1180, 'unfurnished', 'any', true, true, -6, 'Neelgiri Skyline', 'Kaveri Habitat', 'Jun 2027'],
-  ['Sarjapur Road', 'buy', 'builder', 4, 2650, 'unfurnished', 'any', true, true, 8, 'The Banyan Estates', 'Sahyadri Constructions', 'Mar 2028'],
+  ['Sarjapur Road', 'buy', 'builder', 2, 1180, 'unfurnished', 'any', true, true, -6, 'Demo Skyline Sarjapur', 'Sample Developers B', 'Jun 2027'],
+  ['Sarjapur Road', 'buy', 'builder', 4, 2650, 'unfurnished', 'any', true, true, 8, 'Demo Banyan Court', 'Sample Developers C', 'Mar 2028'],
   ['Sarjapur Road', 'rent', 'owner', 3, 1580, 'full', 'family', false, true, -2, 'Dodsworth Layout Homes'],
   ['HSR Layout', 'rent', 'owner', 1, 650, 'full', 'bachelor', true, true, 5, 'Sector 2 Independent Floor'],
   ['HSR Layout', 'rent', 'owner', 2, 1100, 'semi', 'any', true, true, 0, '27th Main Residency'],
   ['HSR Layout', 'buy', 'owner', 3, 1600, 'semi', 'any', false, true, -9, 'Agara Lake Apartments'],
   ['HSR Layout', 'rent', 'owner', 3, 1750, 'full', 'family', false, false, 22, 'Sector 7 Villament'],
   ['Koramangala', 'rent', 'owner', 2, 1200, 'full', 'any', true, true, 6, '5th Block Garden Homes'],
-  ['Koramangala', 'buy', 'owner', 3, 1850, 'semi', 'family', false, true, 4, 'Jyoti Nivas Court'],
+  ['Koramangala', 'buy', 'owner', 3, 1850, 'semi', 'family', false, true, 4, '6th Block Corner House'],
   ['Koramangala', 'rent', 'owner', 1, 600, 'full', 'bachelor', true, true, -3, '8th Block Studio Suites'],
-  ['Koramangala', 'buy', 'builder', 4, 3100, 'unfurnished', 'any', true, true, 11, 'Raintree Signature', 'Vasudha Developers', 'Ready to move'],
-  ['Electronic City', 'rent', 'owner', 2, 1050, 'semi', 'bachelor', true, true, -5, 'Neeladri Nagar Towers'],
-  ['Electronic City', 'buy', 'builder', 2, 1090, 'unfurnished', 'any', true, true, -2, 'Tech Meadows Phase 2', 'Kaveri Habitat', 'Sep 2026 (delayed)'],
+  ['Koramangala', 'buy', 'builder', 4, 3100, 'unfurnished', 'any', true, true, 11, 'Demo Signature Koramangala', 'Sample Developers A', 'Ready to move'],
+  ['Electronic City', 'rent', 'owner', 2, 1050, 'semi', 'bachelor', true, true, -5, 'Neeladri Nagar Corner Flats'],
+  ['Electronic City', 'buy', 'builder', 2, 1090, 'unfurnished', 'any', true, true, -2, 'Demo Meadows E-City Ph 2', 'Sample Developers B', 'Sep 2026 (delayed)'],
   ['Electronic City', 'buy', 'owner', 3, 1450, 'semi', 'any', false, true, 1, 'Hosa Road Residency'],
   ['Electronic City', 'rent', 'owner', 1, 580, 'unfurnished', 'any', true, false, 9, 'Doddathogur PG-style Flat'],
-  ['Hebbal', 'rent', 'owner', 3, 1700, 'semi', 'family', false, true, 3, 'Lakefront Hebbal'],
-  ['Hebbal', 'buy', 'builder', 3, 1900, 'unfurnished', 'any', true, true, -4, 'Skyward Lake Towers', 'Nandi Infra', 'Dec 2026'],
-  ['Hebbal', 'buy', 'builder', 2, 1250, 'unfurnished', 'any', true, true, 14, 'Kempapura Central', 'Sahyadri Constructions', 'Jan 2028'],
+  ['Hebbal', 'rent', 'owner', 3, 1700, 'semi', 'family', false, true, 3, 'Hebbal Lake Road Flats'],
+  ['Hebbal', 'buy', 'builder', 3, 1900, 'unfurnished', 'any', true, true, -4, 'Demo Lake Towers Hebbal', 'Sample Developers D', 'Dec 2026'],
+  ['Hebbal', 'buy', 'builder', 2, 1250, 'unfurnished', 'any', true, true, 14, 'Demo Central Kempapura', 'Sample Developers C', 'Jan 2028'],
   ['Indiranagar', 'rent', 'owner', 2, 1150, 'full', 'any', true, true, 2, '12th Main Residences'],
   ['Indiranagar', 'buy', 'owner', 3, 1800, 'semi', 'family', false, true, -7, 'HAL 2nd Stage Villa Floor'],
   ['Indiranagar', 'rent', 'owner', 3, 1900, 'full', 'family', true, true, 15, 'Defence Colony Bungalow Floor'],
-  ['Yelahanka', 'buy', 'builder', 3, 1680, 'unfurnished', 'any', true, true, -3, 'Airport Greens', 'Nandi Infra', 'Ready to move'],
+  ['Yelahanka', 'buy', 'builder', 3, 1680, 'unfurnished', 'any', true, true, -3, 'Demo Greens Yelahanka', 'Sample Developers D', 'Ready to move'],
   ['Yelahanka', 'rent', 'owner', 2, 1150, 'semi', 'family', true, true, -8, 'New Town Residency'],
   ['Yelahanka', 'buy', 'owner', 2, 1100, 'unfurnished', 'any', false, false, 6, 'Jakkur Plantation Homes'],
   ['Whitefield', 'rent', 'owner', 1, 700, 'full', 'bachelor', true, true, 1, 'Kundalahalli Studio Lofts'],
@@ -99,6 +104,9 @@ const REVIEW_TEXT = [
   ['Power backup covers the full flat, no complaints.', 'Parking for guests is limited.'],
   ['Close to everything — groceries, hospitals, metro.', 'Some construction noise from the neighbouring plot.'],
 ];
+
+// 7 of 16 (~44%) sample rentals have opted in to (optional) Deposit Safe
+const DEPOSIT_SAFE_IDX = new Set([0, 4, 8, 12, 16, 20, 23]);
 
 const r = rng(42);
 const jitter = (n: number) => (r() - 0.5) * n;
@@ -151,13 +159,14 @@ export const LISTINGS: Listing[] = SEEDS.map((s, i) => {
     pets,
     verified,
     verification: verified
-      ? { video: true, geotag: true, docs: r() > 0.25, verifiedOn: `${1 + (i % 27)} Oct 2026` }
-      : { video: false, geotag: r() > 0.5, docs: false },
+      ? { otp: true, video: true, geotag: true, ownerDoc: kind === 'owner' && r() > 0.35, verifiedOn: `${1 + (i % 27)} Oct 2026` }
+      : { otp: true, video: false, geotag: false, ownerDoc: false },
+    depositSafe: deal === 'rent' && DEPOSIT_SAFE_IDX.has(i),
     floor: kind === 'builder' ? `${4 + (i % 14)} of 22` : `${1 + (i % 4)} of ${3 + (i % 5)}`,
     facing: FACINGS[i % FACINGS.length],
     ageYears,
     possession,
-    rera: kind === 'builder' ? `PRM/KA/RERA/1251/${300 + i}/PR/${String(200000 + i * 731).slice(0, 6)}/00${i % 9}` : undefined,
+    rera: kind === 'builder' ? `SAMPLE-PRM/KA/RERA/1251/${300 + i}/PR/${String(200000 + i * 731).slice(0, 6)}/00${i % 9}` : undefined,
     amenities: amen.length ? amen : AMENITIES.slice(0, 4),
     risk,
     khataType: risk.khata >= 8 ? (i % 2 ? 'e-Khata A' : 'A-Khata') : risk.khata >= 6 ? 'e-Khata A' : (i % 2 ? 'e-Khata B' : 'B-Khata'),

@@ -1,8 +1,8 @@
 'use client';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { Search, MapPin, Wallet, BedDouble } from 'lucide-react';
-import { LOCALITIES } from '@/data/geo';
+import { Search, Wallet, BedDouble } from 'lucide-react';
+import LocalityTypeahead from './LocalityTypeahead';
 import { cn } from '@/lib/format';
 
 const TABS = [
@@ -46,13 +46,9 @@ export default function SearchHero() {
         ))}
       </div>
       <form onSubmit={go} className="grid gap-2 rounded-2xl rounded-tl-none bg-white p-3 shadow-lift sm:grid-cols-[1.4fr_1fr_.8fr_auto]">
-        <label className="flex items-center gap-2 rounded-xl border border-ink-200 px-3 focus-within:border-brand-500">
-          <MapPin className="h-4 w-4 shrink-0 text-brand-600" />
-          <select value={locality} onChange={(e) => setLocality(e.target.value)} className="w-full bg-transparent py-3 text-sm outline-none" aria-label="Locality">
-            <option value="">All localities in Bangalore</option>
-            {LOCALITIES.map((l) => <option key={l.name}>{l.name}</option>)}
-          </select>
-        </label>
+        <div className="rounded-xl border border-ink-200 px-3 py-1.5 focus-within:border-brand-500">
+          <LocalityTypeahead value={locality} onChange={setLocality} allLabel="All of Bangalore — or type a locality" placeholder="Type a locality, e.g. Kora, BTM, E City" inputClassName="py-1.5" id="hero-locality" />
+        </div>
         <label className="flex items-center gap-2 rounded-xl border border-ink-200 px-3 focus-within:border-brand-500">
           <Wallet className="h-4 w-4 shrink-0 text-brand-600" />
           <select value={budget} onChange={(e) => setBudget(e.target.value)} className="w-full bg-transparent py-3 text-sm outline-none" aria-label="Budget">
@@ -66,7 +62,7 @@ export default function SearchHero() {
             {[1, 2, 3, 4].map((b) => <option key={b} value={b}>{b}{b === 4 ? '+' : ''} BHK</option>)}
           </select>
         </label>
-        <button className="btn-accent py-3 text-base"><Search className="h-5 w-5" />Search</button>
+        <button type="submit" className="btn-accent py-3 text-base"><Search className="h-5 w-5" />Search</button>
       </form>
     </div>
   );

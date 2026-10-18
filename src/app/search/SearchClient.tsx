@@ -2,9 +2,11 @@
 import { useEffect, useMemo, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { SlidersHorizontal, Map as MapIcon, List, X, ShieldCheck, User, PawPrint, RotateCcw } from 'lucide-react';
+import { SlidersHorizontal, Map as MapIcon, List, X, ShieldCheck, User, PawPrint, RotateCcw, Wallet, MapPinOff } from 'lucide-react';
 import { LISTINGS, type Listing } from '@/data/listings';
-import { LOCALITIES } from '@/data/geo';
+import { AREAS, areaByName } from '@/data/geo';
+import LocalityTypeahead from '@/components/LocalityTypeahead';
+import { distanceKm } from '@/lib/format';
 import ListingCard from '@/components/ListingCard';
 import { cn, formatINR } from '@/lib/format';
 import { FEATURES } from '@/config/brand';
@@ -13,7 +15,7 @@ const MapView = dynamic(() => import('@/components/MapView'), { ssr: false, load
 
 type F = {
   deal: 'buy' | 'rent'; kind: '' | 'builder' | 'owner'; locality: string; min: string; max: string; bhk: string;
-  furnishing: string; tenant: string; pets: boolean; owner: boolean; verified: boolean; sort: string;
+  furnishing: string; tenant: string; pets: boolean; owner: boolean; verified: boolean; ds: boolean; sort: string;
 };
 
 function fromParams(p: URLSearchParams): F {
@@ -23,7 +25,7 @@ function fromParams(p: URLSearchParams): F {
     locality: p.get('locality') || '',
     min: p.get('min') || '', max: p.get('max') || '', bhk: p.get('bhk') || '',
     furnishing: p.get('furnishing') || '', tenant: p.get('tenant') || '',
-    pets: p.get('pets') === '1', owner: p.get('owner') === '1', verified: p.get('verified') === '1',
+    pets: p.get('pets') === '1', owner: p.get('owner') === '1', verified: p.get('verified') === '1', ds: p.get('ds') === '1',
     sort: p.get('sort') || 'relevance',
   };
 }
@@ -49,12 +51,15 @@ function apply(f: F): Listing[] {
   if (f.pets) r = r.filter((l) => l.pets);
   if (f.owner) r = r.filter((l) => l.kind === 'owner');
   if (f.verified) r = r.filter((l) => l.verified);
+  if (f.ds && f.deal === 'rent') r = r.filter((l) => l.depositSafe);
   const s = [...r];
   if (f.sort === 'price-asc') s.sort((a, b) => a.price - b.price);
   if (f.sort === 'price-desc') s.sort((a, b) => b.price - a.price);
   if (f.sort === 'newest') s.sort((a, b) => a.postedDaysAgo - b.postedDaysAgo);
   if (f.sort === 'value') s.sort((a, b) => a.price / a.truePrice - b.price / b.truePrice);
-  if (f.sort === 'relevance') s.sort((a, b) => Number(b.verified) - Number(a.verified));
+  // relevance: Proof first, then optional owner perks (Verified Owner, Deposit Safe Owner) rank higher
+  const rank = (l: Listing) => Number(l.verified) * 4 + Number(l.verification.ownerDoc) * 2 + Number(l.depositSafe) * 2;
+  if (f.sort === 'relevance') s.sort((a, b) => rank(b) - rank(a));
   return s;
 }
 
@@ -88,6 +93,13 @@ export default function SearchClient() {
     router.replace(`/search/?${toParams(next)}`, { scroll: false });
   };
   const results = useMemo(() => apply(f), [f]);
+  // locality with no sample listings: suggest the nearest sample listings (same filters, any locality)
+  const area = f.locality ? areaByName(f.locality) : undefined;
+  const nearby = useMemo(() => {
+    if (results.length || !area) return [];
+    return apply({ ...f, locality: '' }).map((l) => ({ l, km: distanceKm(area.coord, l.coord) })).sort((a, b) => a.km - b.km).slice(0, 6);
+  }, [results.length, area, f]);
+  const shown = results.length ? results : nearby.map((n) => n.l);
   const prices = PRICE[f.deal];
 
   const filters = (
@@ -102,10 +114,8 @@ export default function SearchClient() {
       </div>
       <div>
         <label className="label" htmlFor="loc">Locality</label>
-        <select id="loc" className="input" value={f.locality} onChange={(e) => update({ locality: e.target.value })}>
-          <option value="">All Bangalore</option>
-          {LOCALITIES.map((l) => <option key={l.name}>{l.name}</option>)}
-        </select>
+        <div className="input py-1.5 focus-within:border-brand-500"><LocalityTypeahead id="loc" value={f.locality} onChange={(v) => update({ locality: v })} allLabel="All Bangalore" placeholder="Type a locality" showIcon={false} inputClassName="py-1" /></div>
+        <p className="mt-1 text-[11px] text-ink-400">{AREAS.length} localities · try “BTM”, “E City”, “ORR”</p>
       </div>
       <div>
         <span className="label">Budget {f.deal === 'rent' ? '(per month)' : ''}</span>
@@ -157,9 +167,10 @@ export default function SearchClient() {
       <div className="space-y-2">
         <Toggle on={f.verified} onClick={() => update({ verified: !f.verified })} icon={ShieldCheck}>{FEATURES.proof} only</Toggle>
         <Toggle on={f.owner} onClick={() => update({ owner: !f.owner })} icon={User}>Owner listings only</Toggle>
+        {f.deal === 'rent' && <Toggle on={f.ds} onClick={() => update({ ds: !f.ds })} icon={Wallet}>Deposit Safe owners</Toggle>}
         {f.deal === 'rent' && <Toggle on={f.pets} onClick={() => update({ pets: !f.pets })} icon={PawPrint}>Pets allowed</Toggle>}
       </div>
-      <button onClick={() => update({ kind: '', locality: '', min: '', max: '', bhk: '', furnishing: '', tenant: '', pets: false, owner: false, verified: false })} className="btn-ghost w-full"><RotateCcw className="h-4 w-4" />Reset filters</button>
+      <button onClick={() => update({ kind: '', locality: '', min: '', max: '', bhk: '', furnishing: '', tenant: '', pets: false, owner: false, verified: false, ds: false })} className="btn-ghost w-full"><RotateCcw className="h-4 w-4" />Reset filters</button>
     </div>
   );
 
@@ -170,7 +181,7 @@ export default function SearchClient() {
           <h1 className="font-display text-2xl font-bold">
             {results.length} {f.kind === 'builder' ? 'new projects' : f.deal === 'rent' ? 'homes for rent' : 'homes for sale'} {f.locality ? `in ${f.locality}` : 'in Bangalore'}
           </h1>
-          <p className="text-sm text-ink-500">Showing <strong>sample listings</strong> · prototype data</p>
+          <p className="text-sm text-ink-500">Showing <strong>sample listings</strong> · prototype data, not real homes or prices</p>
         </div>
         <div className="flex items-center gap-2">
           <select className="input w-auto py-2" value={f.sort} onChange={(e) => update({ sort: e.target.value })} aria-label="Sort">
@@ -192,21 +203,29 @@ export default function SearchClient() {
         <aside className="hidden lg:block"><div className="card sticky top-20 p-5">{filters}</div></aside>
 
         <section className={cn(view === 'map' && 'hidden xl:block')}>
-          {results.length === 0 ? (
-            <div className="card grid place-items-center p-12 text-center">
-              <p className="font-semibold">No sample listings match these filters.</p>
-              <p className="mt-1 text-sm text-ink-500">Try widening your budget or removing a filter.</p>
+          {results.length === 0 && (
+            <div className="card mb-5 p-6 text-center">
+              <MapPinOff className="mx-auto h-7 w-7 text-ink-400" />
+              <p className="mt-2 font-semibold">{area ? `No sample listings in ${area.name} yet` : 'No sample listings match these filters.'}</p>
+              <p className="mt-1 text-sm text-ink-500">{area ? 'This prototype has 30 sample homes across 8 localities. ' : 'Try widening your budget or removing a filter.'}{nearby.length > 0 && 'Here are the nearest sample listings (straight-line distance from the approximate locality centre).'}</p>
+              {area && <button onClick={() => update({ locality: '' })} className="btn-ghost mt-3">Search all of Bangalore</button>}
             </div>
-          ) : (
+          )}
+          {shown.length > 0 && (
             <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-1 2xl:grid-cols-2">
-              {results.map((l) => <ListingCard key={l.id} l={l} active={active === l.id} onHover={setActive} />)}
+              {shown.map((l) => (
+                <div key={l.id} className="relative">
+                  {!results.length && <span className="chip absolute -top-2 right-3 z-10 bg-ink-900 text-white">~{distanceKm(area!.coord, l.coord).toFixed(1)} km away · {l.locality}</span>}
+                  <ListingCard l={l} active={active === l.id} onHover={setActive} />
+                </div>
+              ))}
             </div>
           )}
         </section>
 
         <section className={cn('xl:block', view === 'list' && 'hidden')}>
           <div className="card sticky top-20 h-[70vh] overflow-hidden xl:h-[calc(100vh-7rem)]">
-            <MapView listings={results} activeId={active} onSelect={setActive} />
+            <MapView key={area && !results.length ? `c-${area.name}` : 'm'} listings={shown} activeId={active} onSelect={setActive} center={area && !results.length ? area.coord : undefined} zoom={12} />
           </div>
         </section>
       </div>

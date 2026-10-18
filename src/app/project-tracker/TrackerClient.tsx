@@ -33,6 +33,11 @@ export default function TrackerClient() {
 
   return (
     <div className="container-x py-10">
+      <div role="note" className="mb-8 flex items-start gap-3 rounded-2xl border-2 border-saffron-400 bg-saffron-50 p-4 text-saffron-900 sm:p-5">
+        <AlertTriangle className="mt-0.5 h-6 w-6 shrink-0 text-saffron-600" />
+        <div><div className="font-display text-lg font-extrabold">Sample data for demo.</div>
+          <p className="mt-0.5 text-sm sm:text-base">These are fictional projects, not real builders or RERA records. Live version will pull from RERA Karnataka filings.</p></div>
+      </div>
       <div className="max-w-3xl">
         <span className="chip bg-indigo-50 text-indigo-700"><Landmark className="h-3.5 w-3.5" />RERA-style tracker · sample data</span>
         <h1 className="mt-3 font-display text-3xl font-extrabold tracking-tight sm:text-4xl">Builder project delay tracker</h1>
@@ -59,7 +64,7 @@ export default function TrackerClient() {
           <tbody className="divide-y divide-ink-100">
             {rows.map((p) => { const S = STATUS[p.status]; return (
               <tr key={p.name} className="hover:bg-ink-50/60">
-                <td className="px-4 py-3"><div className="font-semibold">{p.name}</div><div className="text-xs text-ink-500">{p.builder} · {p.units} units</div><div className="mt-0.5 font-mono text-[10px] text-ink-400">{p.rera}</div></td>
+                <td className="px-4 py-3"><div className="font-semibold">{p.name} <span className="chip ml-1 bg-ink-100 text-[10px] text-ink-500">Fictional</span></div><div className="text-xs text-ink-500">{p.builder} · {p.units} units</div><div className="mt-0.5 font-mono text-[10px] text-ink-400">{p.rera}</div></td>
                 <td className="px-4 py-3">{p.locality}</td>
                 <td className="px-4 py-3">{p.promised}</td>
                 <td className="px-4 py-3">{p.revised}</td>
@@ -74,11 +79,11 @@ export default function TrackerClient() {
       </div>
 
       <h2 className="h-section mt-14">Builder scorecard</h2>
-      <p className="mt-1 text-sm text-ink-500">Average delay across all tracked projects (lower is better). Sample.</p>
+      <p className="mt-1 text-sm text-ink-500">Average delay across all tracked projects (lower is better). Fictional builders, sample grades.</p>
       <div className="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {builders.map((b, i) => (
           <div key={b.b} className="card p-5">
-            <div className="flex items-center justify-between"><div className="font-semibold">{b.b}</div><span className={cn('chip', b.avg < 6 ? 'bg-brand-600 text-white' : b.avg < 18 ? 'bg-saffron-500 text-white' : 'bg-red-600 text-white')}>Grade {['A', 'A', 'B', 'C', 'D'][Math.min(4, i)]}</span></div>
+            <div className="flex items-center justify-between"><div className="font-semibold">{b.b} <span className="text-xs font-normal text-ink-400">(fictional)</span></div><span className={cn('chip', b.avg < 6 ? 'bg-brand-600 text-white' : b.avg < 18 ? 'bg-saffron-500 text-white' : 'bg-red-600 text-white')}>Grade {['A', 'A', 'B', 'C', 'D'][Math.min(4, i)]}</span></div>
             <div className="mt-3 grid grid-cols-3 text-center text-sm">
               <div><div className="font-display text-xl font-extrabold">{b.n}</div><div className="text-[11px] text-ink-500">projects</div></div>
               <div><div className="font-display text-xl font-extrabold">{b.avg.toFixed(0)}<span className="text-xs">mo</span></div><div className="text-[11px] text-ink-500">avg delay</div></div>
@@ -87,7 +92,7 @@ export default function TrackerClient() {
           </div>
         ))}
       </div>
-      <p className="mt-6 text-xs text-ink-400">Data source in production: Karnataka RERA quarterly progress reports + verified buyer reports. This prototype uses fictional sample entries; RERA numbers are format examples only.</p>
+      <p className="mt-6 text-xs text-ink-400">Data source in production: Karnataka RERA quarterly progress reports + verified buyer reports. This prototype uses fictional sample entries; RERA numbers are format examples only (prefixed SAMPLE) and do not refer to any real registration.</p>
     </div>
   );
 }

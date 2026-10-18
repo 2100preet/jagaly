@@ -1,8 +1,10 @@
 'use client';
 import { useState } from 'react';
 import Link from 'next/link';
-import { Check, ChevronLeft, ChevronRight, Sparkles, Upload, Video, MapPin, ShieldCheck, Loader2, PartyPopper, Home, Building2 } from 'lucide-react';
-import { LOCALITIES } from '@/data/geo';
+import { Check, ChevronLeft, ChevronRight, Sparkles, Upload, Video, MapPin, ShieldCheck, Loader2, PartyPopper, Home, Building2, Wallet, BadgeCheck, Globe2, FileCheck2, EyeOff, Eye, Trash2, Lock, Smartphone } from 'lucide-react';
+import { areaRates } from '@/data/geo';
+import LocalityTypeahead from '@/components/LocalityTypeahead';
+import { NRI_ZONES } from '@/lib/tz';
 import { cn, formatINR, saveLocal } from '@/lib/format';
 import { BRAND } from '@/config/brand';
 
@@ -13,9 +15,10 @@ type Form = {
   deal: 'rent' | 'sell'; type: string; locality: string; society: string; bhk: string; area: string; floor: string; furnishing: string;
   tenant: string; pets: boolean; amenities: string[]; price: string; deposit: string; maintenance: string; available: string;
   description: string; video: string; name: string; phone: string; agree: boolean;
+  depositSafe: boolean; depositFree: boolean; verifiedOnly: boolean; nri: boolean; nriZone: string; ownerDoc: string; otp: string;
 };
 
-const init: Form = { deal: 'rent', type: 'Apartment', locality: '', society: '', bhk: '2', area: '', floor: '', furnishing: 'semi', tenant: 'any', pets: false, amenities: [], price: '', deposit: '', maintenance: '', available: '', description: '', video: '', name: '', phone: '', agree: false };
+const init: Form = { deal: 'rent', type: 'Apartment', locality: '', society: '', bhk: '2', area: '', floor: '', furnishing: 'semi', tenant: 'any', pets: false, amenities: [], price: '', deposit: '', maintenance: '', available: '', description: '', video: '', name: '', phone: '', agree: false, depositSafe: false, depositFree: false, verifiedOnly: false, nri: false, nriZone: NRI_ZONES[0].tz, ownerDoc: '', otp: '' };
 
 function generate(f: Form) {
   const furn = f.furnishing === 'full' ? 'fully furnished' : f.furnishing === 'semi' ? 'semi-furnished' : 'unfurnished';
@@ -32,14 +35,18 @@ export default function PostWizard() {
   const [upload, setUpload] = useState<'idle' | 'uploading' | 'checking' | 'done'>('idle');
   const [done, setDone] = useState(false);
   const set = (p: Partial<Form>) => setF((x) => ({ ...x, ...p }));
+  const [otpSent, setOtpSent] = useState(false);
+  const otpOk = /^\d{6}$/.test(f.otp);
+  const [wantDoc, setWantDoc] = useState(false);
+  const [blur, setBlur] = useState<Record<string, boolean>>({ account: true, amount: true, meter: true, date: true });
 
   const valid = [
     !!f.locality && !!f.society,
     !!f.area && +f.area > 100,
     !!f.price && +f.price > 0,
     f.description.length > 30,
-    true,
-    f.name.length > 1 && /^[6-9]\d{9}$/.test(f.phone) && f.agree,
+    upload === 'done',
+    f.name.length > 1 && /^[6-9]\d{9}$/.test(f.phone) && otpOk && f.agree,
   ][step];
 
   const runAI = () => {
@@ -72,7 +79,7 @@ export default function PostWizard() {
       <div className="card mx-auto max-w-lg p-8 text-center">
         <div className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-brand-100"><PartyPopper className="h-8 w-8 text-brand-600" /></div>
         <h1 className="mt-4 font-display text-2xl font-extrabold">Your listing is submitted!</h1>
-        <p className="mt-2 text-ink-600">{f.bhk} BHK in {f.society}, {f.locality}. {upload === 'done' ? 'Your video passed the auto-check — a reviewer will add the Verified badge within 4 hours.' : 'Upload a walk-through video anytime to get the Verified badge.'}</p>
+        <p className="mt-2 text-ink-600">{f.bhk} BHK in {f.society}, {f.locality}. Your video passed the auto-check — a reviewer will add the {BRAND.name} Proof badge within 4 hours.{f.ownerDoc ? ' Your Verified Owner name-match is in review (document kept private).' : ''}{f.depositSafe ? ' Deposit Safe Owner badge added.' : ''}</p>
         <p className="mt-2 text-xs text-ink-400">Prototype: saved to this browser’s localStorage (key <code>{BRAND.name.toLowerCase()}_listings</code>). Nothing was sent to a server.</p>
         <div className="mt-6 flex justify-center gap-2"><Link href="/" className="btn-ghost">Go home</Link><button className="btn-primary" onClick={() => { setF(init); setStep(0); setUpload('idle'); setDone(false); }}>Post another</button></div>
       </div>
@@ -110,9 +117,9 @@ export default function PostWizard() {
                 </div>
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div><label className="label">Property type</label><select className="input" value={f.type} onChange={(e) => set({ type: e.target.value })}>{['Apartment', 'Independent house', 'Villa', 'Builder floor', 'Studio'].map((x) => <option key={x}>{x}</option>)}</select></div>
-                  <div><label className="label">Locality *</label><select className="input" value={f.locality} onChange={(e) => set({ locality: e.target.value })}><option value="">Select locality</option>{LOCALITIES.map((l) => <option key={l.name}>{l.name}</option>)}</select></div>
+                  <div><label className="label" htmlFor="post-locality">Locality *</label><div className="input py-1.5 focus-within:border-brand-500"><LocalityTypeahead id="post-locality" value={f.locality} onChange={(v) => set({ locality: v })} placeholder="Type your area, e.g. BTM, Kora" showIcon={false} inputClassName="py-1" /></div><p className="mt-1 text-[11px] text-ink-400">Approximate location only; exact address is never shown publicly.</p></div>
                 </div>
-                <div><label className="label">Society / building name *</label><input className="input" value={f.society} onChange={(e) => set({ society: e.target.value })} placeholder="e.g. Sobha Lake View" /></div>
+                <div><label className="label">Society / building name *</label><input className="input" value={f.society} onChange={(e) => set({ society: e.target.value })} placeholder="e.g. Green Park Apartments" /></div>
               </div>
             )}
             {step === 1 && (
@@ -142,11 +149,19 @@ export default function PostWizard() {
                   <div><label className="label">Available from</label><input className="input" type="date" value={f.available} onChange={(e) => set({ available: e.target.value })} /></div>
                 </div>
                 {f.locality && f.area && f.price && (() => {
-                  const loc = LOCALITIES.find((l) => l.name === f.locality)!;
-                  const est = f.deal === 'rent' ? loc.rentPerSqft * +f.area : loc.buyPerSqft * +f.area;
+                  const rates = areaRates(f.locality);
+                  const est = f.deal === 'rent' ? rates.rent * +f.area : rates.buy * +f.area;
                   const d = (+f.price - est) / est;
                   return <div className={cn('rounded-xl border p-4 text-sm', Math.abs(d) <= 0.08 ? 'border-brand-200 bg-brand-50 text-brand-800' : 'border-saffron-200 bg-saffron-50 text-saffron-800')}><strong>True Price check (sample):</strong> similar homes in {f.locality} go for ~{formatINR(est)}{f.deal === 'rent' ? '/mo' : ''}. Your price is {Math.abs(d * 100).toFixed(0)}% {d >= 0 ? 'above' : 'below'} — {Math.abs(d) <= 0.08 ? 'buyers will see a “Fair price” tag.' : d > 0 ? 'you may get fewer enquiries.' : 'expect lots of interest!'}</div>;
                 })()}
+                {f.deal === 'rent' && (
+                  <div className="rounded-xl border border-ink-200 p-4">
+                    <label className="flex items-start gap-3 text-sm"><input type="checkbox" className="mt-1 h-4 w-4 accent-brand-600" checked={f.depositSafe} onChange={(e) => set({ depositSafe: e.target.checked, depositFree: e.target.checked ? f.depositFree : false })} />
+                      <span><span className="flex items-center gap-1.5 font-semibold"><Wallet className="h-4 w-4 text-saffron-500" />Accept Deposit Safe <span className="chip bg-ink-100 text-[10px] text-ink-500">Optional</span></span>
+                        <span className="mt-0.5 block text-ink-500">Not required to list. Opt in for a “Deposit Safe Owner” badge, higher ranking, faster tenant matching, a free rental agreement and damage released to you via move-in/move-out video comparison. You can also decide later, per tenant. <Link href="/deposit-safe/" className="text-brand-700 underline">Learn more</Link></span></span></label>
+                    {f.depositSafe && <label className="ml-7 mt-3 flex items-start gap-2 text-sm"><input type="checkbox" className="mt-1 accent-brand-600" checked={f.depositFree} onChange={(e) => set({ depositFree: e.target.checked })} /><span>Also offer the <strong>deposit-free plan</strong> to Verified Tenants (tenant pays a small monthly fee instead; you’re covered by the protection add-on — planned).</span></label>}
+                  </div>
+                )}
               </div>
             )}
             {step === 3 && (
@@ -161,14 +176,15 @@ export default function PostWizard() {
             )}
             {step === 4 && (
               <div className="space-y-5">
+                <div className="rounded-xl bg-brand-50 p-3 text-sm text-brand-800"><ShieldCheck className="mr-1 inline h-4 w-4" /><strong>No sale deed needed to list.</strong> Tier 1 is just a live video here + phone OTP in the next step. Documents are only checked at deal stage, when a serious tenant or buyer proceeds.</div>
                 <div className="rounded-2xl border-2 border-dashed border-brand-300 bg-brand-50/50 p-6 text-center">
                   {upload === 'idle' ? (
                     <>
                       <Video className="mx-auto h-10 w-10 text-brand-600" />
-                      <div className="mt-2 font-semibold">Upload a 60-second walk-through</div>
-                      <p className="mx-auto mt-1 max-w-sm text-sm text-ink-500">Walk through every room in one continuous take. We check location metadata and frames to award the <strong>Verified</strong> badge.</p>
-                      <label className="btn-primary mt-4 cursor-pointer"><Upload className="h-4 w-4" />Choose video<input type="file" accept="video/*" className="hidden" onChange={(e) => onVideo(e.target.files?.[0])} /></label>
-                      <button onClick={() => onVideo(new File([''], 'demo-walkthrough.mp4'))} className="mt-2 block w-full text-xs font-semibold text-brand-700 underline">No video handy? Simulate an upload</button>
+                      <div className="mt-2 font-semibold">Tier 1 · Record a 60-second live walk-through <span className="text-xs font-normal text-ink-500">(required)</span></div>
+                      <p className="mx-auto mt-1 max-w-sm text-sm text-ink-500">Walk through every room in one continuous take inside the {BRAND.name} app. We check GPS against your locality and frame continuity to award {BRAND.name} Proof.</p>
+                      <label className="btn-primary mt-4 cursor-pointer"><Upload className="h-4 w-4" />Record / choose video<input type="file" accept="video/*" capture="environment" className="hidden" onChange={(e) => onVideo(e.target.files?.[0])} /></label>
+                      <button onClick={() => onVideo(new File([''], 'demo-walkthrough.mp4'))} className="mt-2 block w-full text-xs font-semibold text-brand-700 underline">No video handy? Simulate a recording</button>
                     </>
                   ) : (
                     <div className="space-y-3 text-left">
@@ -183,7 +199,42 @@ export default function PostWizard() {
                     </div>
                   )}
                 </div>
-                <p className="text-xs text-ink-500">Optional, but verified listings get ~3× more genuine enquiries (target metric). Prototype: the file never leaves your browser.</p>
+
+                <div className="rounded-2xl border border-ink-200 p-5">
+                  <label className="flex items-start gap-3 text-sm"><input type="checkbox" className="mt-1 h-4 w-4 accent-brand-600" checked={wantDoc} onChange={(e) => { setWantDoc(e.target.checked); if (!e.target.checked) set({ ownerDoc: '' }); }} />
+                    <span><span className="flex items-center gap-1.5 font-semibold"><BadgeCheck className="h-4 w-4 text-brand-600" />Tier 2 · Get the “Verified Owner” badge <span className="chip bg-ink-100 text-[10px] text-ink-500">Optional · skip anytime</span></span>
+                      <span className="mt-0.5 block text-ink-500">Upload a recent <strong>property tax receipt OR electricity bill</strong>. Verified Owner listings rank higher. The document stays private, is used only to match your name, and you can delete it anytime.</span></span></label>
+                  {wantDoc && (
+                    <div className="mt-4 space-y-3">
+                      {!f.ownerDoc ? (
+                        <div className="flex flex-wrap gap-2">
+                          <label className="btn-ghost cursor-pointer"><Upload className="h-4 w-4" />Choose tax receipt / bill<input type="file" accept="image/*,application/pdf" className="hidden" onChange={(e) => e.target.files?.[0] && set({ ownerDoc: e.target.files[0].name })} /></label>
+                          <button onClick={() => set({ ownerDoc: 'demo-electricity-bill.jpg' })} className="text-xs font-semibold text-brand-700 underline">Simulate a bill</button>
+                        </div>
+                      ) : (
+                        <>
+                          <div className="flex items-center justify-between text-sm"><span className="flex items-center gap-2 font-semibold"><FileCheck2 className="h-4 w-4 text-brand-600" />{f.ownerDoc}</span>
+                            <button onClick={() => set({ ownerDoc: '' })} className="flex items-center gap-1 text-xs font-semibold text-red-600"><Trash2 className="h-3.5 w-3.5" />Delete document</button></div>
+                          <div className="rounded-xl border border-ink-200 bg-ink-50 p-4 text-sm">
+                            <div className="mb-2 flex items-center justify-between text-xs font-semibold uppercase tracking-wide text-ink-500"><span>Blur tool (preview)</span><span>Only name + address need to stay visible</span></div>
+                            {[['name', 'Name', f.name || 'R. Owner (your name)'], ['address', 'Address', `${f.society || 'Your society'}, ${f.locality || 'Locality'}, Bengaluru`], ['account', 'Account / RR no.', 'XXXX-4471-2290'], ['meter', 'Meter / PID no.', 'M-88213-07'], ['amount', 'Amount', '₹2,814.00'], ['date', 'Bill date', '02-Oct-2026']].map(([k, label, val]) => {
+                              const locked = k === 'name' || k === 'address';
+                              const b = !locked && blur[k];
+                              return <div key={k} className="flex items-center justify-between gap-2 border-b border-ink-200/70 py-1.5 last:border-0">
+                                <span className="w-32 shrink-0 text-xs text-ink-500">{label}</span>
+                                <span className={cn('flex-1 font-mono text-xs transition', b && 'select-none blur-sm')}>{val}</span>
+                                {locked ? <span className="chip bg-brand-50 text-[10px] text-brand-700"><Eye className="h-3 w-3" />visible</span>
+                                  : <button onClick={() => setBlur((x) => ({ ...x, [k]: !x[k] }))} className="chip bg-white text-[10px] text-ink-600 ring-1 ring-ink-200">{b ? <><EyeOff className="h-3 w-3" />blurred</> : <><Eye className="h-3 w-3" />blur</>}</button>}
+                              </div>;
+                            })}
+                          </div>
+                          <p className="flex gap-1.5 text-xs text-ink-500"><Lock className="h-3.5 w-3.5 shrink-0" />Private: never shown to tenants or buyers. Used only for a name match with your account. Prototype: the file never leaves your browser.</p>
+                        </>
+                      )}
+                    </div>
+                  )}
+                </div>
+                <p className="text-xs text-ink-500">Tier 3 happens only at deal stage: when a serious tenant or buyer proceeds, ownership documents are checked (for sales, by partner lawyers).</p>
               </div>
             )}
             {step === 5 && (
@@ -191,6 +242,24 @@ export default function PostWizard() {
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div><label className="label">Your name *</label><input className="input" value={f.name} onChange={(e) => set({ name: e.target.value })} /></div>
                   <div><label className="label">Mobile *</label><div className="flex"><span className="grid place-items-center rounded-l-xl border border-r-0 border-ink-200 bg-ink-50 px-3 text-sm text-ink-500">+91</span><input className="input rounded-l-none" inputMode="numeric" value={f.phone} onChange={(e) => set({ phone: e.target.value.replace(/\D/g, '').slice(0, 10) })} placeholder="98xxxxxxxx" /></div></div>
+                </div>
+                <div className="flex flex-wrap items-end gap-2">
+                  <div className="min-w-[160px] flex-1"><label className="label"><Smartphone className="mr-1 inline h-4 w-4" />Phone OTP * <span className="font-normal text-ink-400">(Tier 1)</span></label><input className="input" inputMode="numeric" value={f.otp} onChange={(e) => set({ otp: e.target.value.replace(/\D/g, '').slice(0, 6) })} placeholder={otpSent ? 'Enter 6-digit code' : 'Send code first'} disabled={!otpSent} /></div>
+                  <button type="button" onClick={() => setOtpSent(true)} disabled={!/^[6-9]\d{9}$/.test(f.phone)} className="btn-ghost">{otpSent ? 'Resend' : 'Send OTP'}</button>
+                </div>
+                {otpSent && <p className="-mt-2 text-xs text-brand-700">Demo: no SMS is sent — enter any 6 digits.</p>}
+                {f.deal === 'rent' && (
+                  <label className="flex items-start justify-between gap-3 rounded-xl border border-ink-200 p-4 text-sm">
+                    <span><span className="flex items-center gap-1.5 font-semibold"><BadgeCheck className="h-4 w-4 text-indigo-600" />Only Verified Tenants can contact me</span><span className="mt-0.5 block text-ink-500">Off by default. Verified Tenants have checked their ID with a licensed KYC partner; you’ll see “ID verified”, their name and employer if shared — never the document.</span></span>
+                    <input type="checkbox" className="mt-1 h-4 w-4 shrink-0 accent-brand-600" checked={f.verifiedOnly} onChange={(e) => set({ verifiedOnly: e.target.checked })} aria-label="Only Verified Tenants can contact me" />
+                  </label>
+                )}
+                <div className="rounded-xl border border-ink-200 p-4 text-sm">
+                  <label className="flex items-start justify-between gap-3">
+                    <span><span className="flex items-center gap-1.5 font-semibold"><Globe2 className="h-4 w-4 text-indigo-600" />I’m an NRI</span><span className="mt-0.5 block text-ink-500">We’ll schedule calls and visits in your time zone and can manage the property for you ({BRAND.name} NRI, planned).</span></span>
+                    <input type="checkbox" className="mt-1 h-4 w-4 shrink-0 accent-brand-600" checked={f.nri} onChange={(e) => set({ nri: e.target.checked })} aria-label="I'm an NRI" />
+                  </label>
+                  {f.nri && <div className="mt-3 flex flex-wrap items-center gap-2"><span className="text-ink-600">I live in</span><select className="input w-auto py-2" value={f.nriZone} onChange={(e) => set({ nriZone: e.target.value })}>{NRI_ZONES.map((z) => <option key={z.tz} value={z.tz}>{z.label}</option>)}</select><Link href="/nri/" className="text-xs text-brand-700 underline">What {BRAND.name} NRI includes</Link></div>}
                 </div>
                 <div className="rounded-xl bg-ink-50 p-4 text-sm text-ink-600"><ShieldCheck className="mr-1 inline h-4 w-4 text-brand-600" />Your number is <strong>never shown</strong>. Tenants/buyers call a masked {BRAND.name} number; you can pause calls anytime.</div>
                 <label className="flex items-start gap-2 text-sm"><input type="checkbox" className="mt-1 accent-brand-600" checked={f.agree} onChange={(e) => set({ agree: e.target.checked })} />I confirm I am the owner (not a broker) and agree to the <Link href="/legal/#terms" className="text-brand-700 underline">Terms</Link>.</label>
@@ -200,7 +269,7 @@ export default function PostWizard() {
             <div className="mt-8 flex items-center justify-between border-t border-ink-100 pt-5">
               <button onClick={() => setStep((s) => s - 1)} disabled={step === 0} className="btn-ghost"><ChevronLeft className="h-4 w-4" />Back</button>
               {step < STEPS.length - 1
-                ? <button onClick={() => setStep((s) => s + 1)} disabled={!valid} className="btn-primary">{step === 4 && upload === 'idle' ? 'Skip for now' : 'Continue'}<ChevronRight className="h-4 w-4" /></button>
+                ? <button onClick={() => setStep((s) => s + 1)} disabled={!valid} className="btn-primary">Continue<ChevronRight className="h-4 w-4" /></button>
                 : <button onClick={submit} disabled={!valid} className="btn-accent">Publish free listing<Check className="h-4 w-4" /></button>}
             </div>
           </div>
@@ -213,7 +282,8 @@ export default function PostWizard() {
             <div className="space-y-2 p-4 text-sm">
               <div className="flex justify-between"><span className="text-ink-500">Price</span><span className="font-semibold">{f.price ? formatINR(+f.price) + (f.deal === 'rent' ? '/mo' : '') : '—'}</span></div>
               <div className="flex justify-between"><span className="text-ink-500">Area</span><span className="font-semibold">{f.area ? `${f.area} sqft` : '—'}</span></div>
-              <div className="flex justify-between"><span className="text-ink-500">Verification</span><span className={cn('font-semibold', upload === 'done' ? 'text-brand-700' : 'text-ink-400')}>{upload === 'done' ? 'Video ✓' : 'Pending'}</span></div>
+              <div className="flex justify-between"><span className="text-ink-500">Verification</span><span className={cn('font-semibold', upload === 'done' ? 'text-brand-700' : 'text-ink-400')}>{upload === 'done' ? 'Video ✓' : 'Pending'}{f.ownerDoc ? ' · Owner doc' : ''}</span></div>
+              {f.deal === 'rent' && <div className="flex justify-between"><span className="text-ink-500">Deposit Safe</span><span className="font-semibold">{f.depositSafe ? 'Opted in' : 'Not opted in (fine)'}</span></div>}
               {f.description && <p className="line-clamp-4 border-t border-ink-100 pt-2 text-xs text-ink-600">{f.description}</p>}
             </div>
           </div>

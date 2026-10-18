@@ -7,7 +7,10 @@ type Msg = { from: 'bot' | 'me'; text: string };
 
 function reply(q: string): string {
   const s = q.toLowerCase();
-  if (/deposit|escrow|safe/.test(s)) return `With ${FEATURES.deposit} your security deposit sits in a bank escrow account with a regulated partner — ${BRAND.name} never holds your money, and neither does the owner until move-out. Refunds follow the digital checklist; disputes go to a neutral mediator within 7 days.`;
+  if (/nri|abroad|overseas|poa|power of attorney|nre|nro|fema/.test(s)) return `${BRAND.name} NRI (planned) offers live video visits across time zones, remote buying with partner-lawyer title checks, PoA guidance, and property management for NRI owners. See the ${BRAND.name} NRI page — general info, not legal or tax advice.`;
+  if (/verified tenant|kyc|aadhaar|digilocker/.test(s)) return `Verified Tenant is optional: verify your ID via DigiLocker or Aadhaar offline e-KYC through a licensed partner. ${BRAND.name} never stores your Aadhaar number; owners see only “ID verified”, your name and employer if you share it.`;
+  if (/sale deed|document|docs|verify my listing|proof/.test(s)) return `Owners never need a sale deed to list. Tier 1 (required): phone OTP + live in-app video with GPS. Tier 2 (optional Verified Owner): a tax receipt or electricity bill, blurred to name + address, kept private. Tier 3 happens only at deal stage.`;
+  if (/deposit|escrow|safe/.test(s)) return `${FEATURES.deposit} is optional. Owners can list normally; if an owner opts in (or accepts your request), the deposit sits with a regulated escrow partner — ${BRAND.name} never holds the money. Move-in and move-out videos decide any deductions. Look for the “${FEATURES.deposit} Owner” badge.`;
   if (/broker|spam|number|call|masked/.test(s)) return `That’s our ${FEATURES.spam}: your number is never shown and never resold. Owners reach you through a masked ${BRAND.name} line, and listings flagged as brokers are removed within 24h.`;
   if (/emi|loan|interest/.test(s)) return 'Open any buy listing and scroll to the EMI calculator. At 8.5% for 20 years, every ₹10 L of loan is roughly ₹8,678/month.';
   if (/flood|water|power|khata|risk/.test(s)) return `Every listing has a ${FEATURES.truth} (sample): commute, water & tanker dependence, flooding, power cuts, e-Khata A/B, RERA delays and title flags. Higher = safer.`;
