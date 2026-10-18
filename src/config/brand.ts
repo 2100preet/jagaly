@@ -3,14 +3,14 @@
  * Change BRAND.name here and the whole site updates (feature names derive from it where branded).
  */
 export const BRAND = {
-  name: 'Pakka',
-  tagline: 'Every home proven, every price true, deposits protected by choice. Zero brokerage, zero spam, no surprises.',
-  shortTagline: 'Every home proven. Every price true. Deposits protected, by choice.',
+  name: 'Jagaly',
+  tagline: 'Every home proven, every price true, your deposit protected if you choose. No brokers, no spam, no surprises.',
+  shortTagline: 'Every home proven. Every price true. Your deposit protected, if you choose.',
   city: 'Bangalore',
-  domain: 'pakka.example',
-  supportEmail: 'hello@pakka.example',
+  domain: 'jagaly.example',
+  supportEmail: 'hello@jagaly.example',
   supportPhone: '+91 80 0000 0000',
-  legalEntity: 'Pakka Technologies Pvt. Ltd. (placeholder)',
+  legalEntity: 'Jagaly Technologies Pvt. Ltd. (placeholder)',
 } as const;
 
 /** Product feature names (one place to rename). */

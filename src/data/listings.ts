@@ -30,7 +30,7 @@ export interface Listing {
   tenantType: TenantType;
   pets: boolean;
   verified: boolean;
-  /** Pakka Proof tiers. T1 (required to list): phone OTP + live in-app video with GPS.
+  /** Jagaly Proof tiers. T1 (required to list): phone OTP + live in-app video with GPS.
    *  T2 (optional "Verified Owner"): tax receipt OR electricity bill, name-matched, kept private.
    *  T3 (deal stage only): document check — by partner lawyers for sales. */
   verification: { otp: boolean; video: boolean; geotag: boolean; ownerDoc: boolean; verifiedOn?: string };
@@ -183,7 +183,7 @@ const RESIDENTIAL: Listing[] = SEEDS.map((s, i) => {
     reviews,
     postedDaysAgo: 1 + ((i * 7) % 20),
     hue: (i * 47) % 360,
-    description: `Sample ${kindLabel}: a ${furnishing === 'full' ? 'fully furnished' : furnishing === 'semi' ? 'semi-furnished' : 'bare-shell'} ${bhk} BHK of ${areaSqft.toLocaleString('en-IN')} sqft in ${society}, ${locality}. ${loc.blurb} ${deal === 'rent' ? `Preferred tenants: ${tenantType === 'any' ? 'families or working professionals' : tenantType === 'family' ? 'families' : 'bachelors / working professionals'}.${pets ? ' Pet-friendly.' : ''}` : kind === 'builder' ? `Possession: ${possession}. RERA registered.` : 'Title documents shared with Pakka (sample).'}`,
+    description: `Sample ${kindLabel}: a ${furnishing === 'full' ? 'fully furnished' : furnishing === 'semi' ? 'semi-furnished' : 'bare-shell'} ${bhk} BHK of ${areaSqft.toLocaleString('en-IN')} sqft in ${society}, ${locality}. ${loc.blurb} ${deal === 'rent' ? `Preferred tenants: ${tenantType === 'any' ? 'families or working professionals' : tenantType === 'family' ? 'families' : 'bachelors / working professionals'}.${pets ? ' Pet-friendly.' : ''}` : kind === 'builder' ? `Possession: ${possession}. RERA registered.` : 'Title documents shared with Jagaly (sample).'}`,
   };
 });
 

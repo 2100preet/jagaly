@@ -4,7 +4,7 @@ import { Globe2, Video, FileSearch, Scale, FileSignature, Landmark, Banknote, Bu
 import { BRAND, FEATURES } from '@/config/brand';
 import NriClock from './NriClock';
 
-export const metadata: Metadata = { title: 'Pakka NRI — buy, rent out and manage your Bangalore home from abroad (planned)' };
+export const metadata: Metadata = { title: 'Jagaly NRI — buy, rent out and manage your Bangalore home from abroad (planned)' };
 
 const SERVICES = [
   { i: Video, t: 'Live video site visits', d: `A verified ${BRAND.name} agent walks the home live on video at a time that suits you, with a recording and checklist afterwards.` },

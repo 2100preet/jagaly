@@ -1,4 +1,4 @@
-/* Sample commercial spaces + land for the Pakka prototype.
+/* Sample commercial spaces + land for the Jagaly prototype.
  * Every listing here is FICTIONAL sample data: building names, prices, scores and specs are illustrative only.
  * Coordinates are approximate neighbourhood points for the map. */
 import type { Listing } from './listings';

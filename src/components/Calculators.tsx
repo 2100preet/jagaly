@@ -134,7 +134,7 @@ export function LeaseCalculator({ rent: rent0, areaSqft, escalation: esc0 = 5, d
             <tbody>{rows.map((r) => <tr key={r.y} className="border-t border-ink-100"><td className="px-3 py-1.5">{r.y}</td><td className="px-3 py-1.5 text-right">{fullINR(r.monthly)}</td><td className="px-3 py-1.5 text-right font-semibold">{formatINR(r.rentY + r.camY + r.gstY)}</td></tr>)}</tbody>
           </table>
         </div>
-        <p className="mt-3 text-[11px] text-ink-500">Sample calculator. Excludes stamp duty and registration, fit-out, electricity and brokerage (none on Pakka owner listings). Escalation compounds yearly.</p>
+        <p className="mt-3 text-[11px] text-ink-500">Sample calculator. Excludes stamp duty and registration, fit-out, electricity and brokerage (none on Jagaly owner listings). Escalation compounds yearly.</p>
       </div>
     </div>
   );

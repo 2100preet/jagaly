@@ -16,10 +16,10 @@ function reply(q: string): string {
   if (/emi|loan|interest/.test(s)) return 'Open any buy listing and scroll to the EMI calculator. At 8.5% for 20 years, every ₹10 L of loan is roughly ₹8,678/month.';
   if (/flood|water|power|khata|risk/.test(s)) return `Every listing has a ${FEATURES.truth} (sample): commute, water & tanker dependence, flooding, power cuts, e-Khata A/B, RERA delays and title flags. Higher = safer.`;
   if (/whitefield|itpl/.test(s)) return 'Whitefield has 5 sample listings right now — 2 BHKs from ₹37K/mo. Want me to filter by commute to ITPL under 5 km?';
-  if (/hsr|koramangala/.test(s)) return 'HSR & Koramangala are pricier (₹42–48/sqft rent, sample) but have great Khata scores. Try the “Pakka Proof only” filter to see video + GPS verified homes.';
+  if (/hsr|koramangala/.test(s)) return 'HSR & Koramangala are pricier (₹42–48/sqft rent, sample) but have great Khata scores. Try the “Jagaly Proof only” filter to see video + GPS verified homes.';
   if (/pet|dog|cat/.test(s)) return 'Toggle “Pets allowed” in search filters — about half of our sample rentals are pet-friendly.';
   if (/price|fair|overpriced|true price/.test(s)) return `The ${FEATURES.price} estimates value from locality rates, size, furnishing and age (sample model). Rentals in line with the market get a ${FEATURES.fairRent} badge; red means asking >12% above estimate.`;
-  return `I’m the ${BRAND.name} assistant (demo). Ask me about localities, commute, True Price, Deposit Safe, EMI or how Pakka Proof works!`;
+  return `I’m the ${BRAND.name} assistant (demo). Ask me about localities, commute, True Price, Deposit Safe, EMI or how Jagaly Proof works!`;
 }
 
 export default function ChatWidget() {

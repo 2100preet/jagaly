@@ -4,7 +4,7 @@ Refresh the real RERA Karnataka sample used by /project-tracker/.
 
 Source: RERA Karnataka public project records, via the open dataset
 github.com/Vonter/karnataka-rera-projects (ODbL 1.0), which is built from the
-official portal's public pages (rera.karnataka.gov.in). Pakka is not affiliated
+official portal's public pages (rera.karnataka.gov.in). Jagaly is not affiliated
 with RERA Karnataka or the dataset maintainer.
 
 Usage:
@@ -31,7 +31,7 @@ API_COMMITS = f"https://api.github.com/repos/{DATASET_REPO}/commits?path=data/re
 RAW_URL = "https://raw.githubusercontent.com/{repo}/{sha}/data/rera-projects.csv.zip"
 CERT_URL = "https://rera.karnataka.gov.in/certificate?CER_NO={reg}"
 PORTAL_SEARCH = "https://rera.karnataka.gov.in/viewAllProjects?language=en"
-UA = "PakkaPrototype/1.0 (research; polite fetch)"
+UA = "JagalyPrototype/1.0 (research; polite fetch)"
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 

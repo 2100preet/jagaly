@@ -12,7 +12,7 @@ const NAV = [
   { href: '/search/?deal=buy&kind=builder', label: 'New projects', match: '/search' },
   { href: '/search/?seg=com&deal=rent', label: 'Commercial', match: '/search' },
   { href: '/deposit-safe/', label: 'Deposit Safe', match: '/deposit-safe' },
-  { href: '/nri/', label: 'Pakka NRI', match: '/nri' },
+  { href: '/nri/', label: 'Jagaly NRI', match: '/nri' },
   { href: '/project-tracker/', label: 'RERA Tracker', match: '/project-tracker' },
   { href: '/pricing/', label: 'Pricing', match: '/pricing' },
   { href: '/about/', label: 'How it works', match: '/about' },

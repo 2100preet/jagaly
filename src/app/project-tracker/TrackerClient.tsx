@@ -61,7 +61,7 @@ export default function TrackerClient() {
       <div role="note" className="mb-8 flex items-start gap-3 rounded-2xl border-2 border-indigo-300 bg-indigo-50 p-4 text-indigo-950 sm:p-5">
         <Info className="mt-0.5 h-6 w-6 shrink-0 text-indigo-600" />
         <div>
-          <p className="font-semibold sm:text-base">Data from RERA Karnataka public records, fetched {snapshot}. {'Pakka'} is not affiliated with RERA Karnataka. Verify on the official site before decisions.</p>
+          <p className="font-semibold sm:text-base">Data from RERA Karnataka public records, fetched {snapshot}. {'Jagaly'} is not affiliated with RERA Karnataka. Verify on the official site before decisions.</p>
           <p className="mt-1 text-xs text-indigo-800">Records via the open <a className="underline" href="https://github.com/Vonter/karnataka-rera-projects" target="_blank" rel="noopener noreferrer">karnataka-rera-projects</a> dataset (ODbL 1.0; some contents © Karnataka RERA), built from <a className="underline" href="https://rera.karnataka.gov.in/viewAllProjects?language=en" target="_blank" rel="noopener noreferrer">rera.karnataka.gov.in</a>; downloaded {downloaded}. Each project links to its official registration certificate.</p>
         </div>
       </div>
@@ -130,7 +130,7 @@ export default function TrackerClient() {
             <li>Quarterly progress reports are filed as documents and aren’t available as structured data, so construction progress isn’t shown.</li>
             <li>Records reflect the portal on {snapshot}; anything filed later (extensions, completion applications, OCs) won’t appear until the next refresh.</li>
             <li>Five records were spot-checked against the official certificate pages (registration number, approval date and original completion date all matched).</li>
-            <li>Always confirm on <a className="text-indigo-700 underline" href="https://rera.karnataka.gov.in/viewAllProjects?language=en" target="_blank" rel="noopener noreferrer">rera.karnataka.gov.in</a> before any decision. Corrections: {`hello@pakka.example`}.</li>
+            <li>Always confirm on <a className="text-indigo-700 underline" href="https://rera.karnataka.gov.in/viewAllProjects?language=en" target="_blank" rel="noopener noreferrer">rera.karnataka.gov.in</a> before any decision. Corrections: {`hello@jagaly.example`}.</li>
           </ul>
         </div>
       </section>
