@@ -7,7 +7,7 @@ export const metadata: Metadata = { title: 'About & how it works' };
 
 export default function Page() {
   const steps = [
-    { i: Search, t: 'Search smarter', d: 'Filter by commute, Home Truth Scores, pets, tenant type and True Price — not just BHK and budget.' },
+    { i: Search, t: 'Search smarter', d: 'Filter by commute, Home Truth Scores, pets, tenant type and True Price, not just BHK and budget. For commercial: seats, power load, frontage, lock-in and zoning.' },
     { i: Video, t: 'Trust what you see', d: 'Every Proof listing has a phone-verified owner and a live in-app video walk-through with GPS. Fake? We refund your fee plus credit.' },
     { i: PhoneOff, t: 'Talk privately', d: 'Your number is masked. Owners and builders can’t share it, brokers get blocked automatically.' },
     { i: CalendarCheck, t: 'Book a slot', d: 'Pick an in-person or live-video slot (time-zone aware for NRIs). Optional Verified Tenant puts you first in the owner’s inbox.' },
@@ -19,11 +19,11 @@ export default function Page() {
       <section className="container-x py-14">
         <div className="max-w-3xl">
           <p className="eyebrow">About {BRAND.name}</p>
-          <h1 className="mt-2 font-display text-4xl font-extrabold tracking-tight sm:text-5xl">We’re building the property platform Bangalore deserves.</h1>
+          <h1 className="mt-2 font-display text-4xl font-extrabold tracking-tight sm:text-5xl">We’re building the property platform Bangalore deserves, for homes and businesses.</h1>
           <p className="mt-5 text-lg text-ink-600">Every Bangalorean has a story: the ₹38K flat that turned out to be a 1RK, the 40 broker calls after filling one form, the deposit that came back three months late minus “painting”. {BRAND.name} exists to end those stories — starting with Bangalore and a promise: if it’s on {BRAND.name} and it’s verified, it’s real.</p>
         </div>
         <div className="mt-10 grid gap-5 md:grid-cols-3">
-          {[[Target, 'Mission', 'Make renting and buying a home in India as transparent as booking a flight.'], [Eye, 'Radical transparency', 'True Price, Home Truth Scores and RERA completion records are shown to everyone, free.'], [HeartHandshake, 'Fair to both sides', 'Owners list free; tenants and buyers never pay brokerage.']].map(([I, t, d]: any) => (
+          {[[Target, 'Mission', 'Make renting, leasing and buying a home or a workspace in India as transparent as booking a flight.'], [Eye, 'Radical transparency', 'True Price, Home Truth Scores and RERA completion records are shown to everyone, free.'], [HeartHandshake, 'Fair to both sides', 'Owners list homes and commercial spaces free; tenants, buyers and businesses never pay brokerage.']].map(([I, t, d]: any) => (
             <div key={t} className="card p-6"><I className="h-6 w-6 text-saffron-500" /><h3 className="mt-3 font-display text-lg font-bold">{t}</h3><p className="mt-1 text-sm text-ink-500">{d}</p></div>
           ))}
         </div>
@@ -59,6 +59,7 @@ export default function Page() {
             ['What is the “Verified Owner” badge?', 'An optional Tier 2 badge. Upload a recent property tax receipt or electricity bill, use the in-app blur tool so only your name and address are visible, and we match the name to your account. The document is kept private, never shown to tenants or buyers, and you can delete it anytime. Verified Owner listings rank higher.'],
             ['What happens at deal stage?', 'Tier 3: when a tenant or buyer is ready to proceed, ownership documents are checked before money changes hands. For sales, this is done by partner lawyers.'],
             ['Is Deposit Safe required?', 'No. Deposit Safe is optional for owners and tenants. Owners who opt in get a badge and ranking boost; listings without it are never hidden.'],
+            ['Can I list or find commercial property?', 'Yes. Offices, co-working, shops, showrooms, F&B spaces, warehouses, industrial sheds, commercial land and residential plots. The same Pakka Proof tiers apply: phone OTP + live video to list, no sale deed needed. Title, OC/CC and zoning are checked only at deal stage. Commercial listings get True Price per sq ft, a Property Truth Score and a lease cost calculator.'],
             ['Is Verified Tenant required?', 'No. It’s an optional, free ID check through a licensed KYC partner. Owners can choose to accept only Verified Tenants (off by default).'],
           ].map(([q, a]) => (
             <details key={q} className="card group p-5"><summary className="cursor-pointer list-none font-semibold marker:hidden">{q}<span className="float-right text-ink-400 transition group-open:rotate-45">+</span></summary><p className="mt-2 text-sm text-ink-600">{a}</p></details>

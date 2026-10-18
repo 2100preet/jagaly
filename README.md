@@ -2,7 +2,7 @@
 
 **Live demo:** https://2100preet.github.io/pakka-realestate/
 
-A clickable prototype of a Bangalore property platform: locality typeahead search with map, property pages with a "truth score", an owner posting wizard, a RERA project tracker (real RERA Karnataka public records, see below) and draft pricing.
+A clickable prototype of a Bangalore property platform for homes and commercial spaces (offices, co-working, shops, showrooms, F&B, warehouses, industrial sheds, land and residential plots): locality typeahead search with map, property pages with a "truth score", an owner posting wizard, a RERA project tracker (real RERA Karnataka public records, see below) and draft pricing.
 
 Highlights:
 - **Pakka Proof (tiered, owner-friendly):** Tier 1 to list = phone OTP + live in-app video with GPS (no sale deed). Tier 2 optional "Verified Owner" = tax receipt or electricity bill with an in-app blur tool, kept private. Tier 3 = document check at deal stage only (partner lawyers for sales).
@@ -37,6 +37,12 @@ touch out/.nojekyll
 ```
 
 A ready-made GitHub Actions workflow is in `ci/deploy.yml`. To switch to automatic deploys on every push, move it to `.github/workflows/deploy.yml` (pushing it needs a token with the `workflow` scope) and set Pages → Source to "GitHub Actions".
+
+## Commercial spaces
+
+- Search with `seg=com` (Residential | Commercial, Lease/Rent | Buy) and commercial filters: type, area, price or rent per sq ft, seats, condition, power load, lock-in, suitable for, parking, zoning.
+- 20 sample commercial listings plus 3 residential plots in `src/data/commercial.ts` (all fictional). Detail pages (`CommercialDetail.tsx`) show True Price per sq ft, a Property Truth Score (power backup, flooding, access road, zoning/conversion, OC/CC) and a lease calculator with escalation, deposit months and CAM.
+- Post property supports Residential or Commercial with the relevant fields (`/post/#commercial`). Pakka Proof tiers are the same: no sale deed needed to list.
 
 ## RERA project tracker data
 

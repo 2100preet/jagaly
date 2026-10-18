@@ -15,7 +15,7 @@ export function VerifiedBadge({ l, size = 'sm' }: { l: Listing; size?: 'sm' | 'l
 export function KindBadge({ l }: { l: Listing }) {
   return l.kind === 'owner'
     ? <span className="chip bg-saffron-100 text-saffron-700"><User className="h-3 w-3" />Owner · no brokerage</span>
-    : <span className="chip bg-indigo-50 text-indigo-700"><Building2 className="h-3 w-3" />Builder project</span>;
+    : <span className="chip bg-indigo-50 text-indigo-700"><Building2 className="h-3 w-3" />{l.segment === 'commercial' || l.space ? 'Developer' : 'Builder project'}</span>;
 }
 
 export function priceVerdict(l: Listing) {
@@ -28,7 +28,7 @@ export function priceVerdict(l: Listing) {
 
 export function PriceVerdictChip({ l }: { l: Listing }) {
   const v = priceVerdict(l);
-  if (l.deal === 'rent' && v.d <= 0.06) return <span className={`chip border ${v.tone}`} title="True Price Engine: rent in line with market">✓ {FEATURES.fairRent}</span>;
+  if (l.deal === 'rent' && l.segment === 'residential' && v.d <= 0.06) return <span className={`chip border ${v.tone}`} title="True Price Engine: rent in line with market">✓ {FEATURES.fairRent}</span>;
   return <span className={`chip border ${v.tone}`}>{v.label}</span>;
 }
 

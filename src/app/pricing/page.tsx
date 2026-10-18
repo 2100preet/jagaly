@@ -6,7 +6,7 @@ import { BRAND } from '@/config/brand';
 export const metadata: Metadata = { title: 'Pricing (draft)' };
 
 type Plan = { name: string; price: string; note?: string; cta: string; features: string[]; hot?: boolean };
-const GROUPS: { who: string; blurb: string; plans: Plan[]; href?: string }[] = [
+const GROUPS: { who: string; blurb: string; plans: Plan[]; href?: string; id?: string }[] = [
   { who: 'Tenants', blurb: 'Find a verified rental without paying brokerage.', plans: [
     { name: 'Free', price: '₹0', cta: 'Start searching', features: ['Browse all listings & Home Truth Scores', '15 masked owner contacts / month', 'True Price on every listing', 'Verified Tenant ID check (optional, free)', 'AI assistant'] },
     { name: 'Tenant Plus', price: '₹499', note: 'one-time, 60 days', hot: true, cta: 'Get Tenant Plus', features: ['Unlimited masked contacts', 'Priority visit slots', 'Digital rental agreement included', 'Request Deposit Safe on any rental (owner may accept)', 'Support on WhatsApp'] },
@@ -26,6 +26,11 @@ const GROUPS: { who: string; blurb: string; plans: Plan[]; href?: string }[] = [
     { name: 'Buyer Pro', price: '₹1,499', note: 'one-time', hot: true, cta: 'Get Buyer Pro', features: ['Detailed True Price report with comps', 'Khata & EC pre-check', 'Free cab for 3 site visits', 'Negotiation brief'] },
     { name: 'Legal Check', price: '₹4,999', note: 'per property', cta: 'Get Legal Check', features: ['Partner-lawyer title search (30 yrs) at deal stage', 'Sale agreement review', 'RERA & approval verification', 'Home loan assistance'] },
   ] },
+  { who: 'Commercial owners & businesses (draft)', id: 'commercial', href: '/post/#commercial', blurb: 'Offices, shops, showrooms, F&B, warehouses, industrial sheds and land. Same Pakka Proof tiers, no sale deed needed to list.', plans: [
+    { name: 'Free commercial listing', price: '₹0', cta: 'List a commercial space', features: ['Unlimited listing duration', 'Pakka Proof: phone OTP + live video walk-through', 'True Price per sq ft and Property Truth Score', 'Lease cost calculator on your listing', 'Masked calls, brokers filtered'] },
+    { name: 'Commercial Boost', price: '₹2,499', note: 'one-time, 30 days (draft)', cta: 'Boost a space', features: ['Top of commercial search for 30 days', 'Pro photos + measured floor plan (Bangalore)', 'Featured in business-tenant alerts by locality and use', 'Optional Verified Owner badge (tax receipt or electricity bill, kept private)'] },
+    { name: 'Business Assured', price: '₹9,999', note: 'per lease or sale (draft)', hot: true, cta: 'Get Business Assured', features: ['Partner-lawyer title, OC/CC and zoning check at deal stage', 'Lease deed drafting, e-stamp and registration support', 'Escalation, lock-in and CAM schedule in the agreement', 'Move-in condition report (video)', 'Available to the owner or the business (whoever buys it)'] },
+  ] },
   { who: 'Pakka NRI (planned)', blurb: 'For Bangalore homes bought or owned from abroad. Planned services; draft pricing.', href: '/nri/', plans: [
     { name: 'NRI Visit', price: '₹999', note: 'per live video visit (draft)', cta: 'See Pakka NRI', features: ['Verified Pakka agent on-site', 'Scheduled in your time zone', 'Recording + Home Truth Score report'] },
     { name: 'NRI Buy', price: '₹14,999', note: 'per property (draft)', hot: true, cta: 'See Pakka NRI', features: ['Remote buying flow + digital document review', 'Partner-lawyer title/legal check', 'e-Khata, RERA & encumbrance verification', 'PoA guidance & drafting support', 'Dedicated WhatsApp concierge'] },
@@ -39,11 +44,11 @@ export default function Page() {
       <div className="mx-auto max-w-2xl text-center">
         <span className="chip bg-saffron-100 text-saffron-700">Draft pricing · subject to change</span>
         <h1 className="mt-4 font-display text-4xl font-extrabold tracking-tight">Free to start. Pay only for extras.</h1>
-        <p className="mt-3 text-ink-600">Core features are free for tenants, owners and buyers. Everything else is optional. All prices are drafts for this prototype.</p>
+        <p className="mt-3 text-ink-600">Core features are free for tenants, owners, buyers and businesses. Everything else is optional. All prices are drafts for this prototype.</p>
       </div>
       <div className="mt-12 space-y-14">
         {GROUPS.map((g) => (
-          <section key={g.who}>
+          <section key={g.who} id={g.id} className="scroll-mt-24">
             <div className="mb-5"><h2 className="h-section">{g.who}</h2><p className="text-ink-500">{g.blurb}</p></div>
             <div className={`grid gap-5 ${g.plans.length === 2 ? 'md:grid-cols-2 lg:max-w-4xl' : 'md:grid-cols-3'}`}>
               {g.plans.map((p) => (

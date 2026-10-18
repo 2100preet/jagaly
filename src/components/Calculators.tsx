@@ -2,7 +2,7 @@
 import { useMemo, useState } from 'react';
 import { emi, formatINR, fullINR } from '@/lib/format';
 
-function Slider({ label, value, min, max, step, onChange, fmt }: { label: string; value: number; min: number; max: number; step: number; onChange: (n: number) => void; fmt: (n: number) => string }) {
+export function Slider({ label, value, min, max, step, onChange, fmt }: { label: string; value: number; min: number; max: number; step: number; onChange: (n: number) => void; fmt: (n: number) => string }) {
   return (
     <label className="block">
       <div className="mb-1 flex justify-between text-sm"><span className="text-ink-600">{label}</span><span className="font-semibold text-ink-900">{fmt(value)}</span></div>
@@ -84,6 +84,57 @@ export function RentVsBuy({ price, monthlyRent }: { price: number; monthlyRent: 
         ))}
         <p className="mt-4 text-sm text-ink-600">Difference: <strong>{formatINR(Math.abs(r.rentTotal - r.buyCost))}</strong> in favour of {buyWins ? 'buying' : 'renting'}.</p>
         <p className="mt-2 text-[11px] text-ink-400">Simplified estimate, not financial advice.</p>
+      </div>
+    </div>
+  );
+}
+
+/** Commercial lease cost: rent with yearly escalation + CAM + refundable deposit (sample calculator). */
+export function LeaseCalculator({ rent: rent0, areaSqft, escalation: esc0 = 5, depositMonths: dep0 = 6, camPsf: cam0 = 0, lockInMonths = 36 }: { rent: number; areaSqft: number; escalation?: number; depositMonths?: number; camPsf?: number; lockInMonths?: number }) {
+  const [rent, setRent] = useState(rent0);
+  const [esc, setEsc] = useState(esc0);
+  const [years, setYears] = useState(Math.max(3, Math.ceil(lockInMonths / 12)));
+  const [dep, setDep] = useState(dep0);
+  const [cam, setCam] = useState(cam0);
+  const [gst, setGst] = useState(false);
+  const rows = useMemo(() => Array.from({ length: years }, (_, i) => {
+    const monthly = rent * Math.pow(1 + esc / 100, i);
+    const camM = cam * areaSqft;
+    const base = (monthly + camM) * 12;
+    return { y: i + 1, monthly, rentY: monthly * 12, camY: camM * 12, gstY: gst ? base * 0.18 : 0 };
+  }), [rent, esc, years, cam, areaSqft, gst]);
+  const totRent = rows.reduce((a, r) => a + r.rentY, 0);
+  const totCam = rows.reduce((a, r) => a + r.camY, 0);
+  const totGst = rows.reduce((a, r) => a + r.gstY, 0);
+  const total = totRent + totCam + totGst;
+  const deposit = rent * dep;
+  return (
+    <div className="grid gap-6 md:grid-cols-2" data-testid="lease-calculator">
+      <div className="space-y-4">
+        <Slider label="Starting rent" value={rent} min={Math.round(rent0 * 0.5)} max={Math.round(rent0 * 1.5)} step={Math.max(500, Math.round(rent0 / 200) * 10)} onChange={setRent} fmt={(n) => `${fullINR(n)}/mo · ₹${(n / areaSqft).toFixed(1)}/sqft`} />
+        <Slider label="Yearly escalation" value={esc} min={0} max={15} step={0.5} onChange={setEsc} fmt={(n) => `${n}%`} />
+        <Slider label="Lease term" value={years} min={1} max={15} step={1} onChange={setYears} fmt={(n) => `${n} year${n > 1 ? 's' : ''}`} />
+        <Slider label="Security deposit" value={dep} min={0} max={12} step={1} onChange={setDep} fmt={(n) => `${n} months · ${formatINR(rent * n)}`} />
+        <Slider label="CAM / maintenance" value={cam} min={0} max={40} step={0.5} onChange={setCam} fmt={(n) => (n ? `₹${n}/sqft/mo · ${formatINR(n * areaSqft)}/mo` : 'Included in rent')} />
+        <label className="flex items-center gap-2 text-sm text-ink-600"><input type="checkbox" className="accent-brand-600" checked={gst} onChange={(e) => setGst(e.target.checked)} />Add 18% GST on rent + CAM (if you can’t claim input credit)</label>
+      </div>
+      <div className="rounded-2xl bg-brand-50 p-5">
+        <div className="text-sm text-ink-600">Total occupancy cost over {years} year{years > 1 ? 's' : ''}</div>
+        <div className="font-display text-3xl font-extrabold text-brand-800" data-testid="lease-total">{formatINR(total)}</div>
+        <div className="mt-1 text-xs text-ink-500">≈ {fullINR(total / (years * 12))}/mo effective · plus {formatINR(deposit)} refundable deposit</div>
+        <dl className="mt-4 grid grid-cols-2 gap-2 text-sm">
+          <div><dt className="text-ink-500">Rent</dt><dd className="font-semibold">{formatINR(totRent)}</dd></div>
+          <div><dt className="text-ink-500">CAM</dt><dd className="font-semibold">{totCam ? formatINR(totCam) : 'Included'}</dd></div>
+          {gst && <div><dt className="text-ink-500">GST (18%)</dt><dd className="font-semibold">{formatINR(totGst)}</dd></div>}
+          <div><dt className="text-ink-500">Deposit (refundable)</dt><dd className="font-semibold">{formatINR(deposit)}</dd></div>
+        </dl>
+        <div className="mt-4 max-h-48 overflow-y-auto rounded-xl bg-white">
+          <table className="w-full text-xs">
+            <thead className="sticky top-0 bg-white text-ink-500"><tr><th className="px-3 py-2 text-left font-medium">Year</th><th className="px-3 py-2 text-right font-medium">Rent / mo</th><th className="px-3 py-2 text-right font-medium">Year total</th></tr></thead>
+            <tbody>{rows.map((r) => <tr key={r.y} className="border-t border-ink-100"><td className="px-3 py-1.5">{r.y}</td><td className="px-3 py-1.5 text-right">{fullINR(r.monthly)}</td><td className="px-3 py-1.5 text-right font-semibold">{formatINR(r.rentY + r.camY + r.gstY)}</td></tr>)}</tbody>
+          </table>
+        </div>
+        <p className="mt-3 text-[11px] text-ink-500">Sample calculator. Excludes stamp duty and registration, fit-out, electricity and brokerage (none on Pakka owner listings). Escalation compounds yearly.</p>
       </div>
     </div>
   );

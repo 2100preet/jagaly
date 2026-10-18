@@ -1,11 +1,12 @@
 import Link from 'next/link';
-import { ShieldCheck, PhoneOff, BadgeIndianRupee, Video, Gauge, Landmark, Timer, Wallet, MapPinned, Sparkles, ArrowRight, Star, CheckCircle2, BadgeCheck, Globe2, Smartphone, FileCheck2, Scale, Lock } from 'lucide-react';
+import { Building2, ShieldCheck, PhoneOff, BadgeIndianRupee, Video, Gauge, Landmark, Timer, Wallet, MapPinned, Sparkles, ArrowRight, Star, CheckCircle2, BadgeCheck, Globe2, Smartphone, FileCheck2, Scale, Lock } from 'lucide-react';
 import SearchHero from '@/components/SearchHero';
 import ListingCard from '@/components/ListingCard';
 import { LISTINGS } from '@/data/listings';
 import { LOCALITIES, AREAS } from '@/data/geo';
 import { BRAND, FEATURES } from '@/config/brand';
 import { formatINR } from '@/lib/format';
+import { COMMERCIAL_TYPES, PROPERTY_TYPES } from '@/data/commercial';
 
 const DIFFS = [
   { icon: Video, title: FEATURES.proof, text: `Every Proof listing has a phone-verified owner and a live in-app video walk-through with GPS. No sale deed needed to list. If it’s fake, you get your fee back plus ${FEATURES.proofCredit} credit.` },
@@ -17,7 +18,9 @@ const DIFFS = [
 ];
 
 export default function Home() {
-  const featured = LISTINGS.filter((l) => l.verified).slice(0, 6);
+  const featured = LISTINGS.filter((l) => l.verified && l.segment === 'residential' && !l.space).slice(0, 6);
+  const commercial = LISTINGS.filter((l) => l.segment === 'commercial');
+  const comPicks = ['blr-c01', 'blr-c08', 'blr-c17', 'blr-c02'].map((id) => commercial.find((l) => l.id === id)!).filter(Boolean);
   return (
     <>
       {/* HERO */}
@@ -30,7 +33,7 @@ export default function Home() {
           <h1 className="mt-5 max-w-3xl font-display text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-6xl">
             Every home proven. Every price true. <span className="bg-gradient-to-r from-saffron-300 to-saffron-500 bg-clip-text text-transparent">Deposits protected, by choice.</span>
           </h1>
-          <p className="mt-5 max-w-2xl text-lg text-brand-100/90">Rent or buy in {BRAND.city} with zero brokerage, zero spam and no surprises.</p>
+          <p className="mt-5 max-w-2xl text-lg text-brand-100/90">Rent, lease or buy homes and commercial spaces in {BRAND.city} with zero brokerage, zero spam and no surprises.</p>
           <div className="mt-8"><SearchHero /></div>
           <div className="mt-8 grid max-w-4xl gap-3 sm:grid-cols-2">
             <div className="flex items-start gap-3 rounded-2xl border border-white/15 bg-white/10 p-4 backdrop-blur">
@@ -48,7 +51,7 @@ export default function Home() {
       {/* STATS */}
       <section className="container-x -mt-8 relative z-10">
         <div className="card grid grid-cols-2 divide-ink-100 p-2 sm:grid-cols-4 sm:divide-x">
-          {[['100%', `${FEATURES.proof} homes video + GPS checked`], ['₹0', 'brokerage for tenants & owners'], [FEATURES.proofCredit, 'credit + fee back if a Proof listing is fake'], ['30', 'sample listings in this demo (fictional)']].map(([a, b]) => (
+          {[['100%', `${FEATURES.proof} homes video + GPS checked`], ['₹0', 'brokerage for tenants & owners'], [FEATURES.proofCredit, 'credit + fee back if a Proof listing is fake'], [String(LISTINGS.length), 'sample listings in this demo (fictional)']].map(([a, b]) => (
             <div key={b} className="p-4 text-center"><div className="font-display text-2xl font-extrabold text-brand-700 sm:text-3xl">{a}</div><div className="mt-1 text-xs text-ink-500">{b}</div></div>
           ))}
         </div>
@@ -80,6 +83,30 @@ export default function Home() {
         </div>
       </section>
 
+      {/* COMMERCIAL */}
+      <section className="container-x mt-20" id="commercial">
+        <div className="card overflow-hidden">
+          <div className="grid lg:grid-cols-[1fr_1.6fr]">
+            <div className="bg-gradient-to-br from-indigo-700 to-indigo-900 p-8 text-white sm:p-10">
+              <span className="chip bg-white/10 text-indigo-100"><Building2 className="h-3.5 w-3.5" />New · Commercial</span>
+              <h2 className="mt-3 font-display text-3xl font-extrabold">Commercial spaces</h2>
+              <p className="mt-3 text-indigo-100">Offices, co-working, shops, showrooms, F&B, warehouses, industrial sheds and land. Filter by seats, power load, frontage, lock-in and zoning. See True Price per sq ft, a Property Truth Score (power backup, flooding, access road, zoning, OC/CC) and the full lease cost with escalation.</p>
+              <div className="mt-5 flex flex-wrap gap-2">
+                {COMMERCIAL_TYPES.map((t) => <Link key={t} href={`/search/?seg=com&deal=${t === 'comm-land' ? 'buy' : 'rent'}&ptype=${t}`} className="chip bg-white/10 text-white hover:bg-white/20">{PROPERTY_TYPES[t].label}</Link>)}
+              </div>
+              <div className="mt-6 flex flex-wrap gap-2">
+                <Link href="/search/?seg=com&deal=rent" className="btn bg-white text-indigo-800 hover:bg-indigo-50">Browse {commercial.length} sample spaces <ArrowRight className="h-4 w-4" /></Link>
+                <Link href="/post/#commercial" className="btn border border-white/30 text-white hover:bg-white/10">List a commercial space</Link>
+              </div>
+            </div>
+            <div className="grid gap-4 p-4 sm:grid-cols-2 sm:p-6">
+              {comPicks.map((l) => <ListingCard key={l.id} l={l} />)}
+            </div>
+          </div>
+        </div>
+        <p className="mt-3 text-xs text-ink-400">Sample commercial listings: fictional buildings, prices and scores across ORR, Whitefield, Koramangala, Indiranagar, MG Road, Hebbal, Electronic City, Peenya, Hoskote, Bommasandra and HSR.</p>
+      </section>
+
       {/* LOCALITIES */}
       <section className="container-x mt-20">
         <p className="eyebrow">Explore Bangalore</p><h2 className="h-section mt-2">Popular localities</h2>
@@ -106,7 +133,7 @@ export default function Home() {
           <div className="grid lg:grid-cols-[1fr_1.4fr]">
             <div className="bg-gradient-to-br from-saffron-500 to-saffron-700 p-8 text-white sm:p-10">
               <h2 className="font-display text-3xl font-extrabold">What you get with {BRAND.name}</h2>
-              <p className="mt-3 text-saffron-50">Core features are free for tenants, owners and buyers. Optional extras are clearly priced (draft).</p>
+              <p className="mt-3 text-saffron-50">Core features are free for tenants, owners, buyers and businesses. Optional extras are clearly priced (draft).</p>
               <Link href="/pricing/" className="btn mt-6 bg-white text-saffron-700 hover:bg-saffron-50">See draft pricing <ArrowRight className="h-4 w-4" /></Link>
             </div>
             <div className="p-4 sm:p-6">
@@ -120,6 +147,7 @@ export default function Home() {
                   [`${FEATURES.tenant}`, 'Optional ID check via licensed KYC partner', 'Free, optional'],
                   [`${FEATURES.deposit}`, 'Escrow-held deposit when the owner opts in', 'Optional'],
                   [FEATURES.nri, 'Video visits, remote buying, property management', 'Planned · draft'],
+                  ['Commercial spaces', 'True Price per sq ft, Property Truth Score, lease cost calculator', 'Free to list'],
                 ].map(([t, d, p]) => (
                   <li key={t} className="flex items-start justify-between gap-4 py-3"><div className="flex gap-2"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-brand-600" /><div><div className="font-semibold text-ink-800">{t}</div><div className="text-xs text-ink-500">{d}</div></div></div><span className="shrink-0 text-xs font-semibold text-brand-700">{p}</span></li>
                 ))}
@@ -184,7 +212,7 @@ export default function Home() {
           <div className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full bg-brand-500/30 blur-3xl" />
           <div className="relative grid items-center gap-8 md:grid-cols-[1.5fr_1fr]">
             <div>
-              <h2 className="font-display text-3xl font-extrabold sm:text-4xl">Own a flat in Bangalore? List it free.</h2>
+              <h2 className="font-display text-3xl font-extrabold sm:text-4xl">Own a flat, shop or office in Bangalore? List it free.</h2>
               <ul className="mt-5 grid gap-2 text-ink-300 sm:grid-cols-2">
                 {['No sale deed needed: phone OTP + 60-sec video', 'AI writes your description', 'Only genuine, masked enquiries', 'Deposit Safe optional, never required'].map((x) => (
                   <li key={x} className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-brand-400" />{x}</li>

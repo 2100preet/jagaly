@@ -68,7 +68,7 @@ export default function PropertyDetail({ id }: { id: string }) {
   ];
   const truthScore = risks.reduce((a, r) => a + r.s, 0) / risks.length;
   const avgRating = l.reviews.reduce((a, r) => a + r.rating, 0) / l.reviews.length;
-  const similar = LISTINGS.filter((x) => x.id !== l.id && x.deal === l.deal && (x.locality === l.locality || x.bhk === l.bhk)).slice(0, 3);
+  const similar = LISTINGS.filter((x) => x.id !== l.id && !x.space && x.deal === l.deal && (x.locality === l.locality || x.bhk === l.bhk)).slice(0, 3);
   const equivBuy = l.deal === 'buy' ? l.price : Math.round((loc.buyPerSqft * l.areaSqft) / 100000) * 100000;
   const equivRent = l.deal === 'rent' ? l.price : Math.round((loc.rentPerSqft * l.areaSqft) / 500) * 500;
 

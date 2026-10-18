@@ -11,7 +11,7 @@ const display = Plus_Jakarta_Sans({ subsets: ['latin'], variable: '--font-displa
 
 export const metadata: Metadata = {
   title: { default: `${BRAND.name} — ${BRAND.tagline}`, template: `%s · ${BRAND.name}` },
-  description: `${BRAND.name}: verified, broker-free homes to rent and buy in ${BRAND.city}. Pakka Proof listings, Zero-Spam Promise, True Price Engine, Home Truth Score, optional Deposit Safe and Pakka NRI. Prototype with sample data.`,
+  description: `${BRAND.name}: verified, broker-free homes and commercial spaces to rent, lease and buy in ${BRAND.city}. Pakka Proof listings, Zero-Spam Promise, True Price Engine, Home Truth Score, optional Deposit Safe and Pakka NRI. Prototype with sample data.`,
 };
 export const viewport: Viewport = { themeColor: '#185944', width: 'device-width', initialScale: 1 };
 

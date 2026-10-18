@@ -109,6 +109,8 @@ export const AREAS: Area[] = [
   { name: 'Begur Road', coord: [12.8800, 77.6290], zone: 'South-East', tier: 4, aliases: ['Begur'] },
   { name: 'Chandapura', coord: [12.8000, 77.7050], zone: 'South-East', tier: 4 },
   { name: 'Attibele', coord: [12.7790, 77.7700], zone: 'South-East', tier: 4 },
+  { name: 'Bommasandra', coord: [12.8170, 77.6950], zone: 'South-East', tier: 4, aliases: ['Bommasandra Industrial Area', 'Hosur Road'] },
+  { name: 'Hoskote', coord: [13.0707, 77.7982], zone: 'East', tier: 4, aliases: ['Hosakote', 'Old Madras Road', 'NH-75'] },
   // South
   { name: 'Jayanagar', coord: [12.9299, 77.5826], zone: 'South', tier: 1, aliases: ['Jaya Nagar', '4th Block Jayanagar'] },
   { name: 'JP Nagar', coord: [12.9063, 77.5857], zone: 'South', tier: 2, aliases: ['J P Nagar', 'Jayaprakash Nagar'] },

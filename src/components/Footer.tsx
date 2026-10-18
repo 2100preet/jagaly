@@ -24,6 +24,7 @@ export default function Footer() {
           <h4 className="mb-3 text-sm font-semibold text-white">Product</h4>
           <ul className="space-y-2 text-sm">
             <li><Link className="hover:text-white" href="/post/">Post property free</Link></li>
+            <li><Link className="hover:text-white" href="/search/?seg=com&deal=rent">Commercial spaces</Link></li>
             <li><Link className="hover:text-white" href="/deposit-safe/">Deposit Safe (optional)</Link></li>
             <li><Link className="hover:text-white" href="/verified-tenant/">Verified Tenant</Link></li>
             <li><Link className="hover:text-white" href="/nri/">Pakka NRI</Link></li>

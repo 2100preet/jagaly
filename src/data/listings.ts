@@ -1,4 +1,5 @@
 import { LOCALITIES, LocalityName, localityByName } from './geo';
+import { COMMERCIAL_LISTINGS, type Segment, type PropertyType, type SpaceInfo } from './commercial';
 
 export type Deal = 'buy' | 'rent';
 export type Furnishing = 'unfurnished' | 'semi' | 'full';
@@ -9,13 +10,17 @@ export interface Review { name: string; rating: number; text: string; tenure: st
 export interface Listing {
   id: string;
   title: string;
-  deal: Deal;
+  deal: Deal; // 'rent' = rent (homes) or lease (commercial)
+  segment: Segment;
+  propertyType: PropertyType;
+  /** Present for non-BHK listings (commercial spaces, plots). */
+  space?: SpaceInfo;
   kind: 'owner' | 'builder';
   society: string;
   builder?: string;
-  locality: LocalityName;
+  locality: string;
   coord: [number, number];
-  bhk: number;
+  bhk: number; // 0 when not applicable (commercial, plots)
   areaSqft: number;
   price: number; // asking: ₹ total (buy) or ₹/month (rent)
   truePrice: number; // sample model estimate
@@ -111,7 +116,7 @@ const DEPOSIT_SAFE_IDX = new Set([0, 4, 8, 12, 16, 20, 23]);
 const r = rng(42);
 const jitter = (n: number) => (r() - 0.5) * n;
 
-export const LISTINGS: Listing[] = SEEDS.map((s, i) => {
+const RESIDENTIAL: Listing[] = SEEDS.map((s, i) => {
   const [locality, deal, kind, bhk, areaSqft, furnishing, tenantType, pets, verified, delta, society, builder, possession] = s;
   const loc = localityByName(locality);
   const furnAdj = furnishing === 'full' ? 1.12 : furnishing === 'semi' ? 1.04 : 1;
@@ -143,6 +148,8 @@ export const LISTINGS: Listing[] = SEEDS.map((s, i) => {
     id,
     title,
     deal,
+    segment: 'residential',
+    propertyType: 'apartment',
     kind,
     society,
     builder,
@@ -179,6 +186,8 @@ export const LISTINGS: Listing[] = SEEDS.map((s, i) => {
     description: `Sample ${kindLabel}: a ${furnishing === 'full' ? 'fully furnished' : furnishing === 'semi' ? 'semi-furnished' : 'bare-shell'} ${bhk} BHK of ${areaSqft.toLocaleString('en-IN')} sqft in ${society}, ${locality}. ${loc.blurb} ${deal === 'rent' ? `Preferred tenants: ${tenantType === 'any' ? 'families or working professionals' : tenantType === 'family' ? 'families' : 'bachelors / working professionals'}.${pets ? ' Pet-friendly.' : ''}` : kind === 'builder' ? `Possession: ${possession}. RERA registered.` : 'Title documents shared with Pakka (sample).'}`,
   };
 });
+
+export const LISTINGS: Listing[] = [...RESIDENTIAL, ...COMMERCIAL_LISTINGS];
 
 export const getListing = (id: string) => LISTINGS.find((l) => l.id === id);
 export { LOCALITIES };
