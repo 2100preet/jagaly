@@ -22,7 +22,7 @@ const GROUPS: { who: string; blurb: string; plans: Plan[]; href?: string }[] = [
     { name: 'Deposit-free plan', price: '~3–4%', note: 'of rent / month, paid by tenant (draft)', cta: 'Learn more', features: ['Tenant pays a small fee instead of a large deposit', 'Only where the owner offers it', 'Verified Tenants eligible', 'Owner covered by the protection add-on'] },
   ] },
   { who: 'Buyers', blurb: 'Make a big decision with real data, not brochures.', plans: [
-    { name: 'Free', price: '₹0', cta: 'Explore homes', features: ['True Price & Home Truth Scores', 'Builder delay tracker', 'EMI & rent-vs-buy calculators'] },
+    { name: 'Free', price: '₹0', cta: 'Explore homes', features: ['True Price & Home Truth Scores', 'RERA project tracker', 'EMI & rent-vs-buy calculators'] },
     { name: 'Buyer Pro', price: '₹1,499', note: 'one-time', hot: true, cta: 'Get Buyer Pro', features: ['Detailed True Price report with comps', 'Khata & EC pre-check', 'Free cab for 3 site visits', 'Negotiation brief'] },
     { name: 'Legal Check', price: '₹4,999', note: 'per property', cta: 'Get Legal Check', features: ['Partner-lawyer title search (30 yrs) at deal stage', 'Sale agreement review', 'RERA & approval verification', 'Home loan assistance'] },
   ] },

@@ -19,7 +19,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en-IN" className={`${sans.variable} ${display.variable}`}>
       <body className="min-h-screen font-sans">
-        <div className="bg-ink-900 px-4 py-1.5 text-center text-[11px] font-medium text-ink-200 sm:text-xs">Prototype · <strong className="text-white">sample data</strong>: all listings, prices, scores, projects, builders and reviews are fictional and for demo only.</div>
+        <div className="bg-ink-900 px-4 py-1.5 text-center text-[11px] font-medium text-ink-200 sm:text-xs">Prototype · <strong className="text-white">sample data</strong>: listings, prices, scores and reviews are fictional. The RERA tracker uses real public records.</div>
         <Header />
         <main>{children}</main>
         <Footer />

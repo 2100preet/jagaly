@@ -23,7 +23,7 @@ export default function Page() {
           <p className="mt-5 text-lg text-ink-600">Every Bangalorean has a story: the ₹38K flat that turned out to be a 1RK, the 40 broker calls after filling one form, the deposit that came back three months late minus “painting”. {BRAND.name} exists to end those stories — starting with Bangalore and a promise: if it’s on {BRAND.name} and it’s verified, it’s real.</p>
         </div>
         <div className="mt-10 grid gap-5 md:grid-cols-3">
-          {[[Target, 'Mission', 'Make renting and buying a home in India as transparent as booking a flight.'], [Eye, 'Radical transparency', 'True Price, Home Truth Scores and builder delays are shown to everyone, free.'], [HeartHandshake, 'Fair to both sides', 'Owners list free; tenants and buyers never pay brokerage.']].map(([I, t, d]: any) => (
+          {[[Target, 'Mission', 'Make renting and buying a home in India as transparent as booking a flight.'], [Eye, 'Radical transparency', 'True Price, Home Truth Scores and RERA completion records are shown to everyone, free.'], [HeartHandshake, 'Fair to both sides', 'Owners list free; tenants and buyers never pay brokerage.']].map(([I, t, d]: any) => (
             <div key={t} className="card p-6"><I className="h-6 w-6 text-saffron-500" /><h3 className="mt-3 font-display text-lg font-bold">{t}</h3><p className="mt-1 text-sm text-ink-500">{d}</p></div>
           ))}
         </div>

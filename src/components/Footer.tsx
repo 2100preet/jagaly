@@ -27,7 +27,7 @@ export default function Footer() {
             <li><Link className="hover:text-white" href="/deposit-safe/">Deposit Safe (optional)</Link></li>
             <li><Link className="hover:text-white" href="/verified-tenant/">Verified Tenant</Link></li>
             <li><Link className="hover:text-white" href="/nri/">Pakka NRI</Link></li>
-            <li><Link className="hover:text-white" href="/project-tracker/">Builder delay tracker</Link></li>
+            <li><Link className="hover:text-white" href="/project-tracker/">RERA project tracker</Link></li>
             <li><Link className="hover:text-white" href="/pricing/">Pricing</Link></li>
             <li><Link className="hover:text-white" href="/about/">How it works</Link></li>
           </ul>

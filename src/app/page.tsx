@@ -13,7 +13,7 @@ const DIFFS = [
   { icon: Gauge, title: FEATURES.truth, text: 'Commute, water & tanker dependence, flooding, power cuts, e-Khata A/B, RERA delays and title flags — in one score.' },
   { icon: PhoneOff, title: FEATURES.spam, text: 'Your number stays masked behind a private line and is never resold. Brokers get banned, not your inbox.' },
   { icon: Wallet, title: `${FEATURES.deposit} (optional)`, text: `Owners list with zero obligation. Those who opt in get a badge, higher ranking and damage protection; tenants get escrow-held deposits or a deposit-free plan.` },
-  { icon: Landmark, title: 'Builder delay tracker', text: 'RERA-style timelines and delay history for every project — before you pay a single rupee of booking amount.' },
+  { icon: Landmark, title: 'RERA project tracker', text: 'Registered completion dates, extensions and completion applications from RERA Karnataka public records — check before you pay a booking amount.' },
 ];
 
 export default function Home() {
@@ -116,7 +116,7 @@ export default function Home() {
                   [FEATURES.spam, 'Masked number, never resold', 'Free'],
                   [`${FEATURES.price} + ${FEATURES.fairRent} badge`, 'Model estimate vs asking price (sample model)', 'Free'],
                   [FEATURES.truth, 'Water, flooding, power, e-Khata, RERA, commute (sample scores)', 'Free'],
-                  ['Builder delay tracker', 'Promised vs revised possession dates (fictional demo data)', 'Free'],
+                  ['RERA project tracker', 'Original vs current completion dates from RERA Karnataka public records', 'Free'],
                   [`${FEATURES.tenant}`, 'Optional ID check via licensed KYC partner', 'Free, optional'],
                   [`${FEATURES.deposit}`, 'Escrow-held deposit when the owner opts in', 'Optional'],
                   [FEATURES.nri, 'Video visits, remote buying, property management', 'Planned · draft'],
@@ -166,7 +166,7 @@ export default function Home() {
         <div className="mt-8 grid gap-5 md:grid-cols-3">
           {[
             ['Shruti, product designer', 'Moved to HSR in 9 days. Every flat I visited actually matched the video. No surprises at the door.'],
-            ['Aakash & Neha, first-time buyers', 'The delay tracker stopped us from booking in a project that had slipped 3 years. Saved our down payment.'],
+            ['Aakash & Neha, first-time buyers', 'The RERA tracker showed us the project’s completion date had already been extended twice. We asked better questions before booking.'],
             ['Mr. Ramesh, owner in Indiranagar', 'Listed free, got 6 genuine tenant enquiries in two days, zero brokers. The agreement was signed online.'],
           ].map(([n, t]) => (
             <figure key={n} className="card p-6">

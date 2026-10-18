@@ -2,7 +2,7 @@
 
 **Live demo:** https://2100preet.github.io/pakka-realestate/
 
-A clickable prototype of a Bangalore property platform: locality typeahead search with map, property pages with a "truth score", an owner posting wizard, a builder delay tracker and draft pricing.
+A clickable prototype of a Bangalore property platform: locality typeahead search with map, property pages with a "truth score", an owner posting wizard, a RERA project tracker (real RERA Karnataka public records, see below) and draft pricing.
 
 Highlights:
 - **Pakka Proof (tiered, owner-friendly):** Tier 1 to list = phone OTP + live in-app video with GPS (no sale deed). Tier 2 optional "Verified Owner" = tax receipt or electricity bill with an in-app blur tool, kept private. Tier 3 = document check at deal stage only (partner lawyers for sales).
@@ -37,6 +37,14 @@ touch out/.nojekyll
 ```
 
 A ready-made GitHub Actions workflow is in `ci/deploy.yml`. To switch to automatic deploys on every push, move it to `.github/workflows/deploy.yml` (pushing it needs a token with the `workflow` scope) and set Pages → Source to "GitHub Actions".
+
+## RERA project tracker data
+
+`/project-tracker/` shows a random sample of 60 Bengaluru Urban residential projects from **RERA Karnataka public records**, via the open dataset [Vonter/karnataka-rera-projects](https://github.com/Vonter/karnataka-rera-projects) (ODbL 1.0; some contents © Karnataka RERA), which is built from [rera.karnataka.gov.in](https://rera.karnataka.gov.in/viewAllProjects?language=en). Pakka is not affiliated with RERA Karnataka. Each row links to the project's official registration certificate.
+
+- Refresh: `python3 scripts/fetch-rera.py` (stdlib only). This writes `src/data/rera-projects.json` and `data/rera/projects.csv`.
+- Extension months = current completion date minus original completion date at registration, taken straight from the record. Nothing is estimated, and promoters are not graded.
+- The derived sample in `data/rera/` is published under ODbL 1.0 (share-alike), with attribution as above.
 
 ## Where things live
 
