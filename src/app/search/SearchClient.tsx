@@ -171,7 +171,7 @@ export default function SearchClient() {
       </div>
       <div>
         <label className="label" htmlFor="loc">Locality</label>
-        <div className="input py-1.5 focus-within:border-brand-500"><LocalityTypeahead id="loc" value={f.locality} onChange={(v) => update({ locality: v })} allLabel="All Bangalore" placeholder="Type a locality" showIcon={false} inputClassName="py-1" /></div>
+        <div className="input py-1.5 focus-within:border-brand-500"><LocalityTypeahead id="loc" value={f.locality} onChange={(v) => update({ locality: v })} allLabel="All Bengaluru" placeholder="Type a locality" showIcon={false} inputClassName="py-1" /></div>
         <p className="mt-1 text-[11px] text-ink-400">{AREAS.length} localities · try “ORR”, “E City”, “Peenya”</p>
       </div>
       {com ? (
@@ -297,7 +297,7 @@ export default function SearchClient() {
     <div className="container-x py-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="font-display text-2xl font-bold">{heading} {f.locality ? `in ${f.locality}` : 'in Bangalore'}</h1>
+          <h1 className="font-display text-2xl font-bold">{heading} {f.locality ? `in ${f.locality}` : 'in Bengaluru'}</h1>
           <p className="text-sm text-ink-500">Showing <strong>sample listings</strong> · prototype data, not real {com ? 'spaces' : 'homes'} or prices</p>
         </div>
         <div className="flex items-center gap-2">
@@ -327,7 +327,7 @@ export default function SearchClient() {
               <MapPinOff className="mx-auto h-7 w-7 text-ink-400" />
               <p className="mt-2 font-semibold">{area ? `No sample listings in ${area.name} yet` : 'No sample listings match these filters.'}</p>
               <p className="mt-1 text-sm text-ink-500">{area ? `This prototype has ${segCount} sample ${com ? 'commercial listings' : 'residential listings'} across ${segLocalities} localities. ` : 'Try widening your budget or removing a filter.'}{nearby.length > 0 && 'Here are the nearest sample listings (straight-line distance from the approximate locality centre).'}</p>
-              {area && <button onClick={() => update({ locality: '' })} className="btn-ghost mt-3">Search all of Bangalore</button>}
+              {area && <button onClick={() => update({ locality: '' })} className="btn-ghost mt-3">Search all of Bengaluru</button>}
             </div>
           )}
           {shown.length > 0 && (

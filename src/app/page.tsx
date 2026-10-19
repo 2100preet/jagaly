@@ -59,7 +59,7 @@ export default function Home() {
 
       {/* DIFFERENTIATORS */}
       <section className="container-x mt-20">
-        <div className="max-w-2xl"><p className="eyebrow">Why {BRAND.name}</p><h2 className="h-section mt-2">Built for how Bangalore actually rents and buys.</h2>
+        <div className="max-w-2xl"><p className="eyebrow">Why {BRAND.name}</p><h2 className="h-section mt-2">Built for how Bengaluru actually rents and buys.</h2>
           <p className="mt-3 text-ink-500">We verify the home, show you the real numbers, keep your phone number private, and get out of the way. Every score and listing on this prototype is sample data.</p></div>
         <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {DIFFS.map((d) => (
@@ -109,7 +109,7 @@ export default function Home() {
 
       {/* LOCALITIES */}
       <section className="container-x mt-20">
-        <p className="eyebrow">Explore Bangalore</p><h2 className="h-section mt-2">Popular localities</h2>
+        <p className="eyebrow">Explore Bengaluru</p><h2 className="h-section mt-2">Popular localities</h2>
         <div className="mt-8 grid grid-cols-2 gap-3 md:grid-cols-4">
           {LOCALITIES.map((l, i) => {
             const count = LISTINGS.filter((x) => x.locality === l.name).length;
@@ -183,7 +183,7 @@ export default function Home() {
         <div className="card flex flex-col bg-gradient-to-br from-indigo-700 to-indigo-900 p-8 text-white">
           <span className="chip w-fit bg-white/10 text-indigo-100"><Globe2 className="h-3.5 w-3.5" />Planned add-on</span>
           <h2 className="mt-3 font-display text-2xl font-extrabold">{FEATURES.nri}</h2>
-          <p className="mt-2 text-sm text-indigo-100">Living in the US, UK, UAE, Singapore or Australia? Live video site visits with a verified agent at a time that suits you, remote buying with partner-lawyer checks, Power of Attorney guidance, and full property management for your Bangalore home.</p>
+          <p className="mt-2 text-sm text-indigo-100">Living in the US, UK, UAE, Singapore or Australia? Live video site visits with a verified agent at a time that suits you, remote buying with partner-lawyer checks, Power of Attorney guidance, and full property management for your Bengaluru home.</p>
           <Link href="/nri/" className="btn mt-5 w-fit bg-white text-indigo-800 hover:bg-indigo-50">Explore {FEATURES.nri} <ArrowRight className="h-4 w-4" /></Link>
         </div>
       </section>
@@ -212,7 +212,7 @@ export default function Home() {
           <div className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full bg-brand-500/30 blur-3xl" />
           <div className="relative grid items-center gap-8 md:grid-cols-[1.5fr_1fr]">
             <div>
-              <h2 className="font-display text-3xl font-extrabold sm:text-4xl">Own a flat, shop or office in Bangalore? List it free.</h2>
+              <h2 className="font-display text-3xl font-extrabold sm:text-4xl">Own a flat, shop or office in Bengaluru? List it free.</h2>
               <ul className="mt-5 grid gap-2 text-ink-300 sm:grid-cols-2">
                 {['No sale deed needed: phone OTP + 60-sec video', 'AI writes your description', 'Only genuine, masked enquiries', 'Deposit Safe optional, never required'].map((x) => (
                   <li key={x} className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-brand-400" />{x}</li>

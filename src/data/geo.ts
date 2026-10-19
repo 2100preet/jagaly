@@ -17,7 +17,7 @@ export const LOCALITIES: LocalityInfo[] = [
   { name: 'HSR Layout', center: [12.9116, 77.6474], buyPerSqft: 12800, rentPerSqft: 42, blurb: 'Planned BDA layout, startup hub, great food and parks.', risk: { water: 6, flooding: 5, power: 8, khata: 9 } },
   { name: 'Koramangala', center: [12.9352, 77.6245], buyPerSqft: 15200, rentPerSqft: 48, blurb: 'Premium central neighbourhood with cafés and offices.', risk: { water: 7, flooding: 5, power: 8, khata: 9 } },
   { name: 'Electronic City', center: [12.8452, 77.6602], buyPerSqft: 5900, rentPerSqft: 22, blurb: 'Affordable homes next to Infosys, Wipro and the elevated expressway.', risk: { water: 5, flooding: 7, power: 7, khata: 6 } },
-  { name: 'Hebbal', center: [13.0358, 77.597], buyPerSqft: 11200, rentPerSqft: 36, blurb: 'North Bangalore gateway, close to the Nagawara tech corridor and the airport road.', risk: { water: 7, flooding: 6, power: 8, khata: 8 } },
+  { name: 'Hebbal', center: [13.0358, 77.597], buyPerSqft: 11200, rentPerSqft: 36, blurb: 'North Bengaluru gateway, close to the Nagawara tech corridor and the airport road.', risk: { water: 7, flooding: 6, power: 8, khata: 8 } },
   { name: 'Indiranagar', center: [12.9784, 77.6408], buyPerSqft: 17500, rentPerSqft: 55, blurb: 'Leafy, upscale and on the metro. 100 Ft Road nightlife.', risk: { water: 7, flooding: 7, power: 8, khata: 9 } },
   { name: 'Yelahanka', center: [13.1007, 77.5963], buyPerSqft: 7300, rentPerSqft: 26, blurb: 'Calm, green and airport-adjacent with large plots.', risk: { water: 6, flooding: 8, power: 7, khata: 7 } },
 ];

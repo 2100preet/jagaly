@@ -6,7 +6,7 @@ export const BRAND = {
   name: 'Jagaly',
   tagline: 'Every home proven, every price true, your deposit protected if you choose. No brokers, no spam, no surprises.',
   shortTagline: 'Every home proven. Every price true. Your deposit protected, if you choose.',
-  city: 'Bangalore',
+  city: 'Bengaluru',
   domain: 'jagaly.example',
   supportEmail: 'hello@jagaly.example',
   supportPhone: '+91 80 0000 0000',

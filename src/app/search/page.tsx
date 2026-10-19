@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 import type { Metadata } from 'next';
 import SearchClient from './SearchClient';
 
-export const metadata: Metadata = { title: 'Search homes in Bangalore' };
+export const metadata: Metadata = { title: 'Search homes in Bengaluru' };
 
 export default function SearchPage() {
   return (

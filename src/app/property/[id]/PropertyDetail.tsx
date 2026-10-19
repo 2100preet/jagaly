@@ -52,7 +52,7 @@ export default function PropertyDetail({ id }: { id: string }) {
   const commute = TECH_PARKS.map((p) => {
     const km = distanceKm(l.coord, p.coord);
     const road = km * 1.35; // straight-line → road factor estimate
-    const speed = mode === 'car' ? 18 : 26; // Bangalore peak-hour avg km/h (estimate)
+    const speed = mode === 'car' ? 18 : 26; // Bengaluru peak-hour avg km/h (estimate)
     const mins = Math.round((road / speed) * 60 + (mode === 'metro' ? 12 : 5));
     return { ...p, km, mins };
   }).sort((a, b) => a.km - b.km);
@@ -109,7 +109,7 @@ export default function PropertyDetail({ id }: { id: string }) {
           <div>
             <div className="flex flex-wrap items-center gap-2"><KindBadge l={l} /><span className="chip bg-ink-100 text-ink-600">{l.deal === 'rent' ? 'For rent' : 'For sale'}</span>{l.possession && <span className="chip bg-indigo-50 text-indigo-700">Possession: {l.possession}</span>}</div>
             <h1 className="mt-3 font-display text-2xl font-extrabold tracking-tight sm:text-3xl">{l.title}</h1>
-            <p className="mt-1 flex items-center gap-1 text-ink-500"><MapPin className="h-4 w-4" />{l.society}, {l.locality}, Bangalore{l.builder && ` · by ${l.builder}`}</p>
+            <p className="mt-1 flex items-center gap-1 text-ink-500"><MapPin className="h-4 w-4" />{l.society}, {l.locality}, Bengaluru{l.builder && ` · by ${l.builder}`}</p>
             <div className="mt-4 flex flex-wrap items-end gap-x-6 gap-y-2">
               <div className="font-display text-3xl font-extrabold text-ink-900">{formatPrice(l.price, l.deal)}</div>
               <div className="text-sm text-ink-500">

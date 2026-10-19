@@ -70,7 +70,7 @@ export default function SearchHero() {
       </div>
       <form onSubmit={go} className="grid gap-2 rounded-2xl rounded-tl-none bg-white p-3 shadow-lift sm:grid-cols-[1.4fr_1fr_.9fr_auto]">
         <div className="rounded-xl border border-ink-200 px-3 py-1.5 focus-within:border-brand-500">
-          <LocalityTypeahead value={locality} onChange={setLocality} allLabel="All of Bangalore — or type a locality" placeholder={com ? 'Type a locality, e.g. ORR, Peenya, MG Road' : 'Type a locality, e.g. Kora, BTM, E City'} inputClassName="py-1.5" id="hero-locality" />
+          <LocalityTypeahead value={locality} onChange={setLocality} allLabel="All of Bengaluru — or type a locality" placeholder={com ? 'Type a locality, e.g. ORR, Peenya, MG Road' : 'Type a locality, e.g. Kora, BTM, E City'} inputClassName="py-1.5" id="hero-locality" />
         </div>
         <label className="flex items-center gap-2 rounded-xl border border-ink-200 px-3 focus-within:border-brand-500">
           <Wallet className="h-4 w-4 shrink-0 text-brand-600" />

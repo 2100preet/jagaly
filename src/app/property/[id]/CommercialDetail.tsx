@@ -132,7 +132,7 @@ export default function CommercialDetail({ id }: { id: string }) {
           <div>
             <div className="flex flex-wrap items-center gap-2"><KindBadge l={l} /><span className="chip bg-indigo-50 text-indigo-700">{l.segment === 'commercial' ? 'Commercial' : 'Residential plot'}</span><span className="chip bg-ink-100 text-ink-600">{dealLabel(l)}</span>{sp.condition && <span className="chip bg-ink-100 text-ink-600">{CONDITIONS[sp.condition]}</span>}</div>
             <h1 className="mt-3 font-display text-2xl font-extrabold tracking-tight sm:text-3xl">{l.title}</h1>
-            <p className="mt-1 flex items-center gap-1 text-ink-500"><MapPin className="h-4 w-4" />{l.locality}, Bangalore{l.builder && ` · by ${l.builder}`}</p>
+            <p className="mt-1 flex items-center gap-1 text-ink-500"><MapPin className="h-4 w-4" />{l.locality}, Bengaluru{l.builder && ` · by ${l.builder}`}</p>
             <div className="mt-4 flex flex-wrap items-end gap-x-6 gap-y-2">
               <div className="font-display text-3xl font-extrabold text-ink-900">{formatPrice(l.price, l.deal)}</div>
               <div className="text-sm text-ink-500">{fmtPsf(sp.ratePsf)} on {sp.superBuiltUpSqft.toLocaleString('en-IN')} sq ft{lease && sp.depositMonths ? ` · ${sp.depositMonths} months’ deposit` : ''}{sp.camPsf ? ` · CAM ₹${sp.camPsf}/sqft/mo` : ''}</div>

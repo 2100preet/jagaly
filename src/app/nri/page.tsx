@@ -4,7 +4,7 @@ import { Globe2, Video, FileSearch, Scale, FileSignature, Landmark, Banknote, Bu
 import { BRAND, FEATURES } from '@/config/brand';
 import NriClock from './NriClock';
 
-export const metadata: Metadata = { title: 'Jagaly NRI — buy, rent out and manage your Bangalore home from abroad (planned)' };
+export const metadata: Metadata = { title: 'Jagaly NRI — buy, rent out and manage your Bengaluru home from abroad (planned)' };
 
 const SERVICES = [
   { i: Video, t: 'Live video site visits', d: `A verified ${BRAND.name} agent walks the home live on video at a time that suits you, with a recording and checklist afterwards.` },
@@ -35,7 +35,7 @@ export default function Page() {
         <div className="container-x grid items-center gap-10 py-16 lg:grid-cols-[1.2fr_1fr]">
           <div>
             <span className="chip bg-white/10 text-indigo-100"><Globe2 className="h-4 w-4" />{FEATURES.nri} · planned add-on</span>
-            <h1 className="mt-4 font-display text-4xl font-extrabold leading-tight sm:text-5xl">Your Bangalore home, handled from anywhere.</h1>
+            <h1 className="mt-4 font-display text-4xl font-extrabold leading-tight sm:text-5xl">Your Bengaluru home, handled from anywhere.</h1>
             <p className="mt-4 text-lg text-indigo-100">For NRIs in the US, UK, UAE, Singapore, Australia and beyond: video site visits in your time zone, a remote buying flow with partner-lawyer checks, and full management of the home you own back in Bengaluru.</p>
             <div className="mt-6 flex flex-wrap gap-3">
               <Link href="/search/?deal=buy" className="btn-accent px-5 py-3">Browse homes & book a video visit <ArrowRight className="h-4 w-4" /></Link>

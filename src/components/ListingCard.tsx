@@ -31,7 +31,7 @@ export default function ListingCard({ l, active, onHover }: { l: Listing; active
           <PriceVerdictChip l={l} />
         </div>
         <h3 className="mt-2 line-clamp-1 font-semibold text-ink-800">{l.title}</h3>
-        <p className="mt-0.5 flex items-center gap-1 text-sm text-ink-500"><MapPin className="h-3.5 w-3.5" />{l.locality}, Bangalore</p>
+        <p className="mt-0.5 flex items-center gap-1 text-sm text-ink-500"><MapPin className="h-3.5 w-3.5" />{l.locality}, Bengaluru</p>
         <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-xs text-ink-600">
           {sp ? (
             <>

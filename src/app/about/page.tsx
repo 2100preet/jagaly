@@ -19,8 +19,8 @@ export default function Page() {
       <section className="container-x py-14">
         <div className="max-w-3xl">
           <p className="eyebrow">About {BRAND.name}</p>
-          <h1 className="mt-2 font-display text-4xl font-extrabold tracking-tight sm:text-5xl">We’re building the property platform Bangalore deserves, for homes and businesses.</h1>
-          <p className="mt-5 text-lg text-ink-600">Every Bangalorean has a story: the ₹38K flat that turned out to be a 1RK, the 40 broker calls after filling one form, the deposit that came back three months late minus “painting”. {BRAND.name} exists to end those stories — starting with Bangalore and a promise: if it’s on {BRAND.name} and it’s verified, it’s real.</p>
+          <h1 className="mt-2 font-display text-4xl font-extrabold tracking-tight sm:text-5xl">We’re building the property platform Bengaluru deserves, for homes and businesses.</h1>
+          <p className="mt-5 text-lg text-ink-600">Every Bengaluruan has a story: the ₹38K flat that turned out to be a 1RK, the 40 broker calls after filling one form, the deposit that came back three months late minus “painting”. {BRAND.name} exists to end those stories — starting with Bengaluru and a promise: if it’s on {BRAND.name} and it’s verified, it’s real.</p>
         </div>
         <div className="mt-10 grid gap-5 md:grid-cols-3">
           {[[Target, 'Mission', 'Make renting, leasing and buying a home or a workspace in India as transparent as booking a flight.'], [Eye, 'Radical transparency', 'True Price, Home Truth Scores and RERA completion records are shown to everyone, free.'], [HeartHandshake, 'Fair to both sides', 'Owners list homes and commercial spaces free; tenants, buyers and businesses never pay brokerage.']].map(([I, t, d]: any) => (
