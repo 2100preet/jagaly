@@ -1,0 +1,15 @@
+{
+  "name": "Jagaly",
+  "short_name": "Jagaly",
+  "description": "Verified, broker-free homes in Bengaluru (prototype, sample data).",
+  "start_url": "/jagaly/",
+  "scope": "/jagaly/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#7b2ff7",
+  "icons": [
+    { "src": "/jagaly/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/jagaly/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/jagaly/brand/jagaly-icon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}
