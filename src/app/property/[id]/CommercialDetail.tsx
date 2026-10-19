@@ -16,6 +16,7 @@ import { EmiCalculator, LeaseCalculator } from '@/components/Calculators';
 import VisitPicker from '@/components/VisitPicker';
 import ListingCard from '@/components/ListingCard';
 import { BRAND, FEATURES } from '@/config/brand';
+import FloodCard from '@/components/reality/FloodCard';
 
 const MapView = dynamic(() => import('@/components/MapView'), { ssr: false, loading: () => <div className="h-full bg-ink-100" /> });
 
@@ -202,6 +203,10 @@ export default function CommercialDetail({ id }: { id: string }) {
               ))}
             </div>
             <p className="mt-3 flex items-start gap-1.5 text-xs text-ink-500"><Info className="mt-0.5 h-3.5 w-3.5 shrink-0" />{logisticsMode ? 'Truck speeds assumed ~28 km/h; city entry restrictions for heavy vehicles may apply.' : 'Car / cab speeds assumed ~18 km/h at peak.'} Points are approximate. Not live traffic.</p>
+          </Section>
+
+          <Section id="flood" title="Flood & Monsoon Check" subtitle="BBMP-listed flood-prone, vulnerable and low-lying spots near this pin" tag="Real public data">
+            <FloodCard coord={l.coord} place={`${l.society}, ${l.locality}`} />
           </Section>
 
           <Section id="truth" title="Property Truth Score" subtitle="Power backup, flooding, access road, zoning/conversion, OC/CC: higher = safer (out of 10)" tag="Sample scores">

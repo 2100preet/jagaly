@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic';
 import { useState } from 'react';
 import {
   ArrowLeft, Heart, Share2, MapPin, BedDouble, Maximize2, Sofa, Compass, Building, CalendarDays, PawPrint, Users, ShieldCheck, Video, FileCheck2,
-  Droplets, CloudRain, Zap, Landmark, FileBadge, Star, Car, Train, Info, PlayCircle, Phone, Sparkles, Check, Smartphone, Lock, Scale, Wallet, Globe2,
+  Droplets, CloudRain, Zap, Landmark, FileBadge, Star, Car, PlayCircle, Phone, Sparkles, Check, Smartphone, Lock, Scale, Wallet, Globe2,
 } from 'lucide-react';
 import { getListing, LISTINGS } from '@/data/listings';
 import { TECH_PARKS, localityByName } from '@/data/geo';
@@ -15,6 +15,12 @@ import { EmiCalculator, RentVsBuy } from '@/components/Calculators';
 import VisitPicker from '@/components/VisitPicker';
 import ListingCard from '@/components/ListingCard';
 import { BRAND, FEATURES } from '@/config/brand';
+import { floodCheck, peakCommute } from '@/lib/reality';
+import FloodCard from '@/components/reality/FloodCard';
+import { WaterCard, PowerNetCard } from '@/components/reality/WaterPower';
+import PeakCommute from '@/components/reality/PeakCommute';
+import TrueCost from '@/components/reality/TrueCost';
+import DepositFairness from '@/components/reality/DepositFairness';
 
 const MapView = dynamic(() => import('@/components/MapView'), { ssr: false, loading: () => <div className="h-full bg-ink-100" /> });
 
@@ -43,7 +49,6 @@ export default function PropertyDetail({ id }: { id: string }) {
   const v = priceVerdict(l);
   const [saved, setSaved] = useState(false);
   const [revealed, setRevealed] = useState(false);
-  const [mode, setMode] = useState<'car' | 'metro'>('car');
   const [tab, setTab] = useState<'emi' | 'rvb'>(l.deal === 'buy' ? 'emi' : 'rvb');
   const [showVideo, setShowVideo] = useState(false);
   const [dsRequested, setDsRequested] = useState(false);
@@ -51,17 +56,16 @@ export default function PropertyDetail({ id }: { id: string }) {
 
   const commute = TECH_PARKS.map((p) => {
     const km = distanceKm(l.coord, p.coord);
-    const road = km * 1.35; // straight-line → road factor estimate
-    const speed = mode === 'car' ? 18 : 26; // Bengaluru peak-hour avg km/h (estimate)
-    const mins = Math.round((road / speed) * 60 + (mode === 'metro' ? 12 : 5));
-    return { ...p, km, mins };
+    const pc = peakCommute(l.coord, p.coord);
+    return { ...p, km, mins: pc.slots[0].mins };
   }).sort((a, b) => a.km - b.km);
+  const flood = floodCheck(l.coord);
   const commuteScore = Math.max(1, Math.min(10, Math.round(11 - commute[0].mins / 8)));
 
   const risks = [
-    { k: 'Commute', s: commuteScore, i: Car, d: `Nearest: ${commute[0].short} ~${commute[0].mins} min (estimate)` },
+    { k: 'Commute', s: commuteScore, i: Car, d: `Nearest: ${commute[0].short} ~${commute[0].mins} min at 9 AM (estimate)` },
     { k: 'Water & tankers', s: l.risk.water, i: Droplets, d: 'Cauvery connection, borewell depth & tanker dependence' },
-    { k: 'Flooding', s: l.risk.flooding, i: CloudRain, d: 'Proximity to lakes / storm drains, past monsoon reports' },
+    { k: 'Flooding', s: Math.round(flood.score), i: CloudRain, d: flood.limitedData ? 'Outside BBMP flood-spot coverage · limited data' : `${flood.within1k} BBMP flood spot${flood.within1k === 1 ? '' : 's'} within 1 km (real public data)` },
     { k: 'Power cuts', s: l.risk.power, i: Zap, d: 'BESCOM outage frequency & society backup' },
     { k: 'e-Khata & title', s: l.risk.khata, i: FileBadge, d: `${l.khataType} · ${l.titleFlags.length ? `${l.titleFlags.length} title flag(s)` : 'no title flags'}` },
     ...(l.risk.rera !== undefined ? [{ k: 'RERA & delays', s: l.risk.rera, i: Landmark, d: `Registration, quarterly updates · delay ${l.reraDelayMonths ? `+${l.reraDelayMonths} mo` : 'none'}` }] : []),
@@ -174,24 +178,32 @@ export default function PropertyDetail({ id }: { id: string }) {
             </div>
           </Section>
 
-          {/* Commute */}
-          <Section title="Commute to tech parks" subtitle="Peak-hour estimate from straight-line distance" tag="Estimate">
-            <div className="mb-4 inline-flex rounded-xl bg-ink-100 p-1">
-              {([['car', 'Car / cab', Car], ['metro', 'Metro + walk', Train]] as const).map(([k, t, I]) => (
-                <button key={k} onClick={() => setMode(k)} className={cn('flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-semibold', mode === k ? 'bg-white text-brand-700 shadow-sm' : 'text-ink-500')}><I className="h-4 w-4" />{t}</button>
-              ))}
+          {/* Bengaluru reality check */}
+          <Section id="reality" title="Bengaluru Reality Check" subtitle="Floods, water and power: what residents usually find out after moving in" tag="Flood: real data · rest: sample">
+            <div className="grid gap-4 md:grid-cols-2">
+              <div className="md:col-span-2"><FloodCard coord={l.coord} place={`${l.society}, ${l.locality}`} /></div>
+              <WaterCard l={l} />
+              <PowerNetCard l={l} />
             </div>
-            <div className="space-y-2.5">
-              {commute.map((c) => (
-                <div key={c.name} className="flex items-center gap-3">
-                  <div className="w-32 shrink-0 text-sm font-medium sm:w-48">{c.name}</div>
-                  <div className="h-2 flex-1 rounded-full bg-ink-100"><div className={cn('h-full rounded-full', c.mins <= 30 ? 'bg-brand-500' : c.mins <= 60 ? 'bg-coral-400' : 'bg-red-400')} style={{ width: `${Math.min(100, (c.mins / 120) * 100)}%` }} /></div>
-                  <div className="w-36 shrink-0 whitespace-nowrap text-right text-sm"><span className="font-semibold">~{c.mins} min</span> <span className="text-ink-400">· {c.km.toFixed(1)} km</span></div>
-                </div>
-              ))}
-            </div>
-            <p className="mt-3 flex items-start gap-1.5 text-xs text-ink-500"><Info className="mt-0.5 h-3.5 w-3.5 shrink-0" />Straight-line (as-the-crow-flies) distance × 1.35 road factor, at assumed average peak speeds. Real travel times vary — this is an estimate, not live traffic.</p>
+            <Link href="/features/" className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-brand-700 hover:underline">How these checks work →</Link>
           </Section>
+
+          {/* Peak-hour commute */}
+          <Section id="commute" title="Peak-Hour Commute" subtitle="9 AM and 6 PM door-to-office estimates, with known bottlenecks" tag="Estimate">
+            <PeakCommute from={l.coord} fromLabel={`${l.society}, ${l.locality}`} />
+          </Section>
+
+          {/* True monthly cost */}
+          <Section id="true-cost" title="True Monthly Cost" subtitle={`${l.deal === 'rent' ? 'Rent' : 'EMI'} plus everything else this home really costs each month. Edit any line.`} tag="Sample estimate">
+            <TrueCost l={l} />
+          </Section>
+
+          {l.deal === 'rent' && l.deposit ? (
+            <Section id="deposit-fairness" title="Deposit Fairness Meter" subtitle={`Is ${fullINR(l.deposit)} fair for ${l.locality}? Draft a polite counter-offer.`} tag="Sample norms">
+              <DepositFairness rent={l.price} deposit={l.deposit} locality={l.locality} />
+              <Link href="/features/#agreement" className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-brand-700 hover:underline">Got the draft agreement? Scan it for red flags before you sign →</Link>
+            </Section>
+          ) : null}
 
           {/* Risk */}
           <Section id="truth" title={FEATURES.truth} subtitle="Commute, water, flooding, power, e-Khata, RERA & title — higher = safer (out of 10)" tag="Sample scores">
@@ -227,7 +239,7 @@ export default function PropertyDetail({ id }: { id: string }) {
               <div className="mt-3 rounded-xl border border-coral-200 bg-coral-50 p-3 text-sm text-coral-800"><strong>Title flags:</strong> {l.titleFlags.join(' · ')}</div>
             )}
             {l.rera && <p className="mt-3 text-xs text-ink-500">RERA No. (sample format): <span className="font-mono">{l.rera}</span></p>}
-            <p className="mt-2 text-xs text-ink-400">Commute component is shown in detail above (estimate). All scores are sample data for the prototype.</p>
+            <p className="mt-2 text-xs text-ink-400">Flooding uses real BBMP flood-spot data; commute is a model estimate; other scores are sample data for the prototype.</p>
           </Section>
 
           {/* Description + amenities */}

@@ -7,6 +7,8 @@ import { LOCALITIES, AREAS } from '@/data/geo';
 import { BRAND, FEATURES } from '@/config/brand';
 import { formatINR } from '@/lib/format';
 import { COMMERCIAL_TYPES, PROPERTY_TYPES } from '@/data/commercial';
+import { DIFFERENTIATORS } from '@/config/differentiators';
+import { DIFF_ICONS } from '@/components/reality/icons';
 
 const DIFFS = [
   { icon: Video, title: FEATURES.proof, text: `Every Proof listing has a phone-verified owner and a live in-app video walk-through with GPS. No sale deed needed to list. If it’s fake, you get your fee back plus ${FEATURES.proofCredit} credit.` },
@@ -69,6 +71,27 @@ export default function Home() {
               <p className="mt-1.5 text-sm leading-relaxed text-ink-500">{d.text}</p>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* BENGALURU REALITY FEATURES */}
+      <section className="container-x mt-20" id="reality">
+        <div className="overflow-hidden rounded-3xl bg-gradient-to-br from-brand-950 via-brand-900 to-brand-800 p-6 text-white sm:p-10">
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <div className="max-w-2xl"><p className="text-xs font-bold uppercase tracking-[0.18em] text-coral-300">Bengaluru reality checks</p>
+              <h2 className="mt-2 font-display text-3xl font-extrabold tracking-tight sm:text-4xl">Know the floods, tankers and traffic before you sign.</h2>
+              <p className="mt-3 text-brand-100">AI agents check what usually surprises people after moving in, and put it on every listing. Flood data is real (BBMP public records); other reports in this prototype are sample data.</p></div>
+            <Link href="/features/" className="btn bg-white text-brand-800 hover:bg-brand-50">See all 8 <ArrowRight className="h-4 w-4" /></Link>
+          </div>
+          <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {DIFFERENTIATORS.map((d) => { const I = DIFF_ICONS[d.id]; return (
+              <Link key={d.id} href={`/features/#${d.id}`} className="group rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:bg-white/10">
+                <div className="flex items-center justify-between"><span className="grid h-9 w-9 place-items-center rounded-lg bg-gradient-to-br from-brand-500 to-coral-500"><I className="h-4 w-4" /></span><span className="text-[10px] font-semibold uppercase tracking-wide text-brand-200">{d.data}</span></div>
+                <h3 className="mt-3 font-semibold">{d.title}</h3>
+                <p className="mt-1 text-xs leading-relaxed text-brand-100/90">{d.line}</p>
+              </Link>
+            ); })}
+          </div>
         </div>
       </section>
 

@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Inter, Plus_Jakarta_Sans } from 'next/font/google';
+import { Inter, Plus_Jakarta_Sans, Noto_Sans_Kannada, Noto_Sans_Devanagari } from 'next/font/google';
 import './globals.css';
 import { BRAND } from '@/config/brand';
 import Header from '@/components/Header';
@@ -7,6 +7,8 @@ import Footer from '@/components/Footer';
 import ChatWidget from '@/components/ChatWidget';
 
 const sans = Inter({ subsets: ['latin'], variable: '--font-sans', display: 'swap' });
+const kannada = Noto_Sans_Kannada({ subsets: ['kannada'], variable: '--font-kn', display: 'swap', weight: ['400', '600'], preload: false });
+const devanagari = Noto_Sans_Devanagari({ subsets: ['devanagari'], variable: '--font-dev', display: 'swap', weight: ['400', '600'], preload: false });
 const display = Plus_Jakarta_Sans({ subsets: ['latin'], variable: '--font-display', display: 'swap', weight: ['500', '600', '700', '800'] });
 
 const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || '';
@@ -39,7 +41,7 @@ export const viewport: Viewport = { themeColor: '#7b2ff7', width: 'device-width'
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en-IN" className={`${sans.variable} ${display.variable}`}>
+    <html lang="en-IN" className={`${sans.variable} ${display.variable} ${kannada.variable} ${devanagari.variable}`}>
       <body className="min-h-screen font-sans">
         <div className="bg-ink-900 px-4 py-1.5 text-center text-[11px] font-medium text-ink-200 sm:text-xs">Prototype · <strong className="text-white">sample data</strong>: listings, prices, scores and reviews are fictional. The RERA tracker uses real public records.</div>
         <Header />

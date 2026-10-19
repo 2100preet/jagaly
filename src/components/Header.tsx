@@ -11,10 +11,11 @@ const NAV = [
   { href: '/search/?deal=rent', label: 'Rent', match: '/search' },
   { href: '/search/?deal=buy&kind=builder', label: 'New projects', match: '/search' },
   { href: '/search/?seg=com&deal=rent', label: 'Commercial', match: '/search' },
+  { href: '/features/', label: 'Why Jagaly', match: '/features', hot: true },
   { href: '/deposit-safe/', label: 'Deposit Safe', match: '/deposit-safe' },
   { href: '/nri/', label: 'Jagaly NRI', match: '/nri' },
   { href: '/project-tracker/', label: 'RERA Tracker', match: '/project-tracker' },
-  { href: '/pricing/', label: 'Pricing', match: '/pricing' },
+  { href: '/pricing/', label: 'Pricing', match: '/pricing', wide: true },
   { href: '/about/', label: 'How it works', match: '/about' },
 ];
 
@@ -25,10 +26,11 @@ export default function Header() {
     <header className="sticky top-0 z-40 border-b border-ink-200/60 bg-white/85 backdrop-blur-lg">
       <div className="container-x flex h-16 items-center justify-between gap-4">
         <Logo />
-        <nav className="hidden items-center gap-1 lg:flex">
+        <nav className="hidden items-center gap-0.5 xl:flex">
           {NAV.map((n) => (
             <Link key={n.label} href={n.href}
-              className={cn('rounded-lg px-3 py-2 text-sm font-medium text-ink-600 transition hover:bg-ink-100 hover:text-ink-900',
+              className={cn('whitespace-nowrap rounded-lg px-2.5 py-2 text-sm font-medium text-ink-600 transition hover:bg-ink-100 hover:text-ink-900',
+                'hot' in n && n.hot && 'text-coral-700', 'wide' in n && n.wide && 'hidden 2xl:block',
                 n.match !== '/search' && path?.startsWith(n.match) && 'bg-brand-50 text-brand-700')}>
               {n.label}
             </Link>
@@ -36,13 +38,13 @@ export default function Header() {
         </nav>
         <div className="flex items-center gap-2">
           <Link href="/post/" className="btn-accent hidden sm:inline-flex"><Plus className="h-4 w-4" />Post property <span className="rounded bg-white/25 px-1.5 text-[10px] font-bold">FREE</span></Link>
-          <button className="btn-ghost px-3 lg:hidden" onClick={() => setOpen(!open)} aria-label="Menu">
+          <button className="btn-ghost px-3 xl:hidden" onClick={() => setOpen(!open)} aria-label="Menu">
             {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
         </div>
       </div>
       {open && (
-        <div className="border-t border-ink-200 bg-white lg:hidden">
+        <div className="border-t border-ink-200 bg-white xl:hidden">
           <nav className="container-x grid gap-1 py-3">
             {NAV.map((n) => (
               <Link key={n.label} href={n.href} onClick={() => setOpen(false)} className="rounded-lg px-3 py-2.5 font-medium text-ink-700 hover:bg-ink-100">{n.label}</Link>

@@ -14,6 +14,7 @@ export default {
       fontFamily: {
         sans: ['var(--font-sans)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
         display: ['var(--font-display)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        kannada: ['var(--font-kn)', 'var(--font-dev)', 'var(--font-sans)', 'sans-serif'],
       },
       boxShadow: {
         card: '0 1px 2px rgba(11,18,32,.04), 0 8px 24px -8px rgba(11,18,32,.10)',

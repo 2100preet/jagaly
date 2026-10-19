@@ -2,12 +2,13 @@
 import { useEffect, useMemo, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { SlidersHorizontal, Map as MapIcon, List, X, ShieldCheck, User, PawPrint, RotateCcw, Wallet, MapPinOff, Car, BadgeCheck, Home, Building2 } from 'lucide-react';
+import { SlidersHorizontal, Map as MapIcon, List, X, ShieldCheck, User, PawPrint, RotateCcw, Wallet, MapPinOff, Car, BadgeCheck, Home, Building2, CloudRain, Droplets, Wifi } from 'lucide-react';
 import { LISTINGS, type Listing } from '@/data/listings';
 import { COMMERCIAL_TYPES, PROPERTY_TYPES, CONDITIONS, SUITABLE, type PropertyType } from '@/data/commercial';
 import { AREAS, areaByName } from '@/data/geo';
 import LocalityTypeahead from '@/components/LocalityTypeahead';
 import { distanceKm } from '@/lib/format';
+import { floodCheck, powerNet } from '@/lib/reality';
 import ListingCard from '@/components/ListingCard';
 import { cn, formatINR } from '@/lib/format';
 import { FEATURES } from '@/config/brand';
@@ -17,10 +18,11 @@ const MapView = dynamic(() => import('@/components/MapView'), { ssr: false, load
 type F = {
   seg: 'res' | 'com'; deal: 'buy' | 'rent'; kind: '' | 'builder' | 'owner'; ptype: string; locality: string; min: string; max: string; bhk: string;
   furnishing: string; tenant: string; pets: boolean; owner: boolean; verified: boolean; ds: boolean; sort: string;
+  flood: boolean; water: boolean; wfh: boolean; // Bengaluru reality filters
   // commercial / plot filters
   amin: string; amax: string; psf: string; seats: string; cond: string; kva: string; suit: string; lockin: string; parking: boolean; zoned: boolean;
 };
-const EMPTY_EXTRA = { kind: '', ptype: '', min: '', max: '', bhk: '', furnishing: '', tenant: '', pets: false, ds: false, amin: '', amax: '', psf: '', seats: '', cond: '', kva: '', suit: '', lockin: '', parking: false, zoned: false } as const;
+const EMPTY_EXTRA = { flood: false, water: false, wfh: false, kind: '', ptype: '', min: '', max: '', bhk: '', furnishing: '', tenant: '', pets: false, ds: false, amin: '', amax: '', psf: '', seats: '', cond: '', kva: '', suit: '', lockin: '', parking: false, zoned: false } as const;
 
 function fromParams(p: URLSearchParams): F {
   const g = (k: string) => p.get(k) || '';
@@ -33,6 +35,7 @@ function fromParams(p: URLSearchParams): F {
     sort: g('sort') || 'relevance',
     amin: g('amin'), amax: g('amax'), psf: g('psf'), seats: g('seats'), cond: g('cond'), kva: g('kva'), suit: g('suit'), lockin: g('lockin'),
     parking: p.get('parking') === '1', zoned: p.get('zoned') === '1',
+    flood: p.get('flood') === '1', water: p.get('water') === '1', wfh: p.get('wfh') === '1',
   };
 }
 
@@ -62,6 +65,9 @@ function apply(f: F): Listing[] {
   if (f.owner) r = r.filter((l) => l.kind === 'owner');
   if (f.verified) r = r.filter((l) => l.verified);
   if (f.ds && f.deal === 'rent') r = r.filter((l) => l.depositSafe);
+  if (f.flood) r = r.filter((l) => { const fc = floodCheck(l.coord); return !fc.limitedData && fc.score >= 7; });
+  if (f.water) r = r.filter((l) => l.tankerPerMonth <= 2);
+  if (f.wfh) r = r.filter((l) => powerNet(l).wfhReady);
   if (f.amin) r = r.filter((l) => l.areaSqft >= +f.amin);
   if (f.amax) r = r.filter((l) => l.areaSqft <= +f.amax);
   if (f.psf) r = r.filter((l) => psf(l) <= +f.psf);
@@ -284,6 +290,10 @@ export default function SearchClient() {
       <div className="space-y-2">
         <Toggle on={f.verified} onClick={() => update({ verified: !f.verified })} icon={ShieldCheck}>{FEATURES.proof} only</Toggle>
         <Toggle on={f.owner} onClick={() => update({ owner: !f.owner })} icon={User}>Owner listings only</Toggle>
+        <div className="pt-2 text-[11px] font-bold uppercase tracking-wide text-ink-400">Bengaluru reality</div>
+        <Toggle on={f.flood} onClick={() => update({ flood: !f.flood })} icon={CloudRain}>Low flood risk (BBMP data)</Toggle>
+        <Toggle on={f.water} onClick={() => update({ water: !f.water })} icon={Droplets}>Few or no summer tankers</Toggle>
+        <Toggle on={f.wfh} onClick={() => update({ wfh: !f.wfh })} icon={Wifi}>Work-from-home ready</Toggle>
         {com && <Toggle on={f.parking} onClick={() => update({ parking: !f.parking })} icon={Car}>Car parking included</Toggle>}
         {(com || plot) && <Toggle on={f.zoned} onClick={() => update({ zoned: !f.zoned })} icon={BadgeCheck}>Zoning / conversion in place</Toggle>}
         {!com && f.deal === 'rent' && <Toggle on={f.ds} onClick={() => update({ ds: !f.ds })} icon={Wallet}>Deposit Safe owners</Toggle>}
