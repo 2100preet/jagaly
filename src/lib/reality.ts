@@ -46,7 +46,7 @@ export function waterReality(l: Pick<Listing, 'risk' | 'tankerPerMonth' | 'ameni
   const cauvery = l.risk.water >= 6 || l.amenities.includes('Borewell + Cauvery');
   const borewell = l.amenities.includes('Borewell + Cauvery') || l.risk.water < 7;
   const trips = l.tankerPerMonth;
-  const perTrip = 900 + (l.hue % 5) * 100; // ₹ per ~6,000 L load in peak summer (sample assumption)
+  const perTrip = 600 + (l.hue % 5) * 100; // ₹600–1,000 per ~6,000 L load (sample; Mar 2024 district caps were ₹600 ≤5 km / ₹750 5–10 km)
   const summer = trips * perTrip;
   const year = Math.round((summer * 4) / 12 / 50) * 50; // ~4 dry months a year
   const label = trips === 0 ? 'No tankers reported' : trips <= 3 ? 'Occasional summer tankers' : trips <= 7 ? 'Regular summer tankers' : 'Heavy tanker dependency';
