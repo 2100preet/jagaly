@@ -16,7 +16,7 @@ export default function DepositEstimator() {
         <input type="range" min={2} max={10} value={months} onChange={(e) => setMonths(+e.target.value)} className="mt-1 w-full accent-brand-600" /></label>
       <div className="mt-5 grid grid-cols-2 gap-3">
         <div className="rounded-2xl bg-ink-50 p-4"><div className="text-xs text-ink-500">Your deposit</div><div className="font-display text-2xl font-extrabold">{formatINR(dep)}</div></div>
-        <div className="rounded-2xl bg-saffron-50 p-4"><div className="text-xs text-saffron-700">Common “painting” deduction (1 mo)</div><div className="font-display text-2xl font-extrabold text-saffron-700">{formatINR(rent)}</div></div>
+        <div className="rounded-2xl bg-coral-50 p-4"><div className="text-xs text-coral-700">Common “painting” deduction (1 mo)</div><div className="font-display text-2xl font-extrabold text-coral-700">{formatINR(rent)}</div></div>
       </div>
       <div className="mt-3 rounded-2xl bg-brand-50 p-4 text-sm text-brand-800">If the owner opts in to Deposit Safe, deductions need video evidence and the {formatINR(dep)} sits in escrow. With the deposit-free plan (where offered) you’d keep it invested — worth ~{formatINR(lostInterest)}/yr at 7%.</div>
     </div>

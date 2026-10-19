@@ -12,7 +12,7 @@ export default function ListingCard({ l, active, onHover }: { l: Listing; active
   const meta = typeMeta(l);
   return (
     <Link href={`/property/${l.id}/`} onMouseEnter={() => onHover?.(l.id)} onMouseLeave={() => onHover?.(null)}
-      className={`card group block overflow-hidden transition hover:-translate-y-0.5 hover:shadow-lift ${active ? 'ring-2 ring-saffron-400' : ''}`}>
+      className={`card group block overflow-hidden transition hover:-translate-y-0.5 hover:shadow-lift ${active ? 'ring-2 ring-coral-400' : ''}`}>
       <div className="relative aspect-[16/10] overflow-hidden">
         <PropertyArt hue={l.hue} kind={l.kind} bhk={l.bhk} variant={meta.art} className="h-full w-full transition duration-500 group-hover:scale-105" />
         <div className="absolute left-3 top-3 flex max-w-[75%] flex-wrap gap-1.5"><VerifiedBadge l={l} /><VerifiedOwnerBadge l={l} /><DepositSafeBadge l={l} /></div>

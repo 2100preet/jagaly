@@ -10,7 +10,7 @@ body { @apply bg-ink-50 text-ink-900 antialiased; }
   .container-x { @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8; }
   .btn { @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition active:scale-[.98] disabled:opacity-50 disabled:pointer-events-none; }
   .btn-primary { @apply btn bg-brand-600 text-white shadow-sm hover:bg-brand-700; }
-  .btn-accent { @apply btn bg-saffron-500 text-white shadow-sm hover:bg-saffron-600; }
+  .btn-accent { @apply btn bg-gradient-to-r from-brand-600 to-coral-600 text-white shadow-sm hover:from-brand-700 hover:to-coral-700; }
   .btn-ghost { @apply btn border border-ink-200 bg-white text-ink-800 hover:border-ink-300 hover:bg-ink-50; }
   .card { @apply rounded-2xl border border-ink-200/70 bg-white shadow-card; }
   .chip { @apply inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium; }
@@ -22,7 +22,7 @@ body { @apply bg-ink-50 text-ink-900 antialiased; }
 
 .leaflet-container { font-family: inherit; z-index: 0; }
 .gk-pin { background: transparent; border: 0; }
-.gk-pin span { display:inline-block; white-space:nowrap; transform: translate(-50%, -100%); background:#185944; color:#fff; font-weight:700; font-size:11px; padding:3px 7px; border-radius:999px; box-shadow:0 4px 10px rgba(0,0,0,.25); border:2px solid #fff; }
-.gk-pin.active span { background:#fe7f0b; transform: translate(-50%, -100%) scale(1.12); }
+.gk-pin span { display:inline-block; white-space:nowrap; transform: translate(-50%, -100%); background:#6522d8; color:#fff; font-weight:700; font-size:11px; padding:3px 7px; border-radius:999px; box-shadow:0 4px 10px rgba(0,0,0,.25); border:2px solid #fff; }
+.gk-pin.active span { background:#e0294f; transform: translate(-50%, -100%) scale(1.12); }
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { scrollbar-width: none; }

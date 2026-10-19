@@ -33,7 +33,7 @@ function Section({ id, title, subtitle, children, tag }: { id?: string; title: s
 function scoreTone(s: number) {
   if (s >= 8) return { t: 'Low risk', c: 'bg-brand-500', tx: 'text-brand-700' };
   if (s >= 6) return { t: 'Moderate', c: 'bg-brand-300', tx: 'text-brand-700' };
-  if (s >= 4) return { t: 'Watch out', c: 'bg-saffron-400', tx: 'text-saffron-700' };
+  if (s >= 4) return { t: 'Watch out', c: 'bg-coral-400', tx: 'text-coral-700' };
   return { t: 'High risk', c: 'bg-red-500', tx: 'text-red-700' };
 }
 
@@ -118,7 +118,7 @@ export default function CommercialDetail({ id }: { id: string }) {
             <PropertyArt hue={l.hue} kind={l.kind} bhk={0} variant={meta.art} className="absolute inset-0 h-full w-full" />
             <div className="absolute left-4 top-4 flex flex-wrap gap-2"><VerifiedBadge l={l} size="lg" /><VerifiedOwnerBadge l={l} /></div>
             <div className="absolute bottom-4 left-4 rounded-lg bg-black/50 px-2 py-1 text-xs text-white">Sample listing · illustration</div>
-            {l.verified && <button onClick={() => setShowVideo(true)} className="absolute bottom-4 right-4 btn bg-white/95 text-ink-900 shadow-lift hover:bg-white"><PlayCircle className="h-5 w-5 text-saffron-600" />Watch verified walk-through</button>}
+            {l.verified && <button onClick={() => setShowVideo(true)} className="absolute bottom-4 right-4 btn bg-white/95 text-ink-900 shadow-lift hover:bg-white"><PlayCircle className="h-5 w-5 text-coral-600" />Watch verified walk-through</button>}
           </div>
           <div className="hidden min-h-0 grid-rows-2 gap-2 md:grid">
             <div className="relative overflow-hidden"><PropertyArt hue={(l.hue + 30) % 360} kind={l.kind} bhk={0} variant={meta.art} className="absolute inset-0 h-full w-full" /></div>
@@ -186,17 +186,17 @@ export default function CommercialDetail({ id }: { id: string }) {
 
           <Section title={logisticsMode ? 'Logistics access' : meta.art === 'shop' ? 'Footfall & catchment' : 'Commute & talent catchment'} subtitle="Straight-line distance × 1.35 road factor at assumed peak speeds" tag="Estimate">
             {meta.art === 'shop' && sp.footfall && (
-              <div className="mb-4 flex flex-wrap items-center gap-4 rounded-xl bg-saffron-50 p-4">
-                <Footprints className="h-6 w-6 text-saffron-600" />
-                <div><div className="text-xs uppercase tracking-wide text-saffron-700">Footfall index (sample)</div><div className="font-display text-2xl font-extrabold text-saffron-800">{sp.footfall}<span className="text-sm text-saffron-600">/10</span></div></div>
-                <div className="text-sm text-saffron-800">{within3} searchable localities within 3 km · evening and weekend peaks typical for {l.locality} (sample).</div>
+              <div className="mb-4 flex flex-wrap items-center gap-4 rounded-xl bg-coral-50 p-4">
+                <Footprints className="h-6 w-6 text-coral-600" />
+                <div><div className="text-xs uppercase tracking-wide text-coral-700">Footfall index (sample)</div><div className="font-display text-2xl font-extrabold text-coral-800">{sp.footfall}<span className="text-sm text-coral-600">/10</span></div></div>
+                <div className="text-sm text-coral-800">{within3} searchable localities within 3 km · evening and weekend peaks typical for {l.locality} (sample).</div>
               </div>
             )}
             <div className="space-y-2.5">
               {access.slice(0, 6).map((c) => (
                 <div key={c.name} className="flex items-center gap-3">
                   <div className="w-36 shrink-0 text-sm font-medium sm:w-60">{c.name}</div>
-                  <div className="h-2 flex-1 rounded-full bg-ink-100"><div className={cn('h-full rounded-full', c.mins <= 30 ? 'bg-brand-500' : c.mins <= 60 ? 'bg-saffron-400' : 'bg-red-400')} style={{ width: `${Math.min(100, (c.mins / 120) * 100)}%` }} /></div>
+                  <div className="h-2 flex-1 rounded-full bg-ink-100"><div className={cn('h-full rounded-full', c.mins <= 30 ? 'bg-brand-500' : c.mins <= 60 ? 'bg-coral-400' : 'bg-red-400')} style={{ width: `${Math.min(100, (c.mins / 120) * 100)}%` }} /></div>
                   <div className="w-32 shrink-0 whitespace-nowrap text-right text-sm"><span className="font-semibold">~{c.mins} min</span> <span className="text-ink-400">· {c.km.toFixed(1)} km</span></div>
                 </div>
               ))}
@@ -206,12 +206,12 @@ export default function CommercialDetail({ id }: { id: string }) {
 
           <Section id="truth" title="Property Truth Score" subtitle="Power backup, flooding, access road, zoning/conversion, OC/CC: higher = safer (out of 10)" tag="Sample scores">
             <div className="mb-5 flex flex-wrap items-center gap-5 rounded-2xl bg-gradient-to-r from-brand-700 to-brand-900 p-5 text-white">
-              <div className="grid h-20 w-20 place-items-center rounded-full border-4 border-saffron-400 bg-white/10"><div className="text-center"><div className="font-display text-2xl font-extrabold leading-none">{truthScore.toFixed(1)}</div><div className="text-[10px] text-brand-100">/ 10</div></div></div>
+              <div className="grid h-20 w-20 place-items-center rounded-full border-4 border-coral-400 bg-white/10"><div className="text-center"><div className="font-display text-2xl font-extrabold leading-none">{truthScore.toFixed(1)}</div><div className="text-[10px] text-brand-100">/ 10</div></div></div>
               <div className="flex-1">
                 <div className="font-display text-lg font-bold">{truthScore >= 7.5 ? 'Strong property' : truthScore >= 6 ? 'Good, with a few watch-outs' : 'Do your homework'}</div>
                 <div className="mt-1 flex flex-wrap gap-2 text-xs">
-                  <span className={cn('chip', sp.zoningOk ? 'bg-white/15' : 'bg-saffron-500')}>{sp.zoningOk ? 'Zoning / conversion in place' : 'Conversion pending'}</span>
-                  {!isLand && <span className={cn('chip', sp.ocStatus === 'OC received' ? 'bg-white/15' : 'bg-saffron-500')}>{sp.ocStatus}</span>}
+                  <span className={cn('chip', sp.zoningOk ? 'bg-white/15' : 'bg-coral-600')}>{sp.zoningOk ? 'Zoning / conversion in place' : 'Conversion pending'}</span>
+                  {!isLand && <span className={cn('chip', sp.ocStatus === 'OC received' ? 'bg-white/15' : 'bg-coral-600')}>{sp.ocStatus}</span>}
                   {sp.powerKva && <span className="chip bg-white/15">{sp.powerKva} kVA</span>}
                 </div>
               </div>
@@ -225,7 +225,7 @@ export default function CommercialDetail({ id }: { id: string }) {
                 </div>
               ); })}
             </div>
-            {l.titleFlags.length > 0 && <div className="mt-3 rounded-xl border border-saffron-200 bg-saffron-50 p-3 text-sm text-saffron-800"><strong>Flags:</strong> {l.titleFlags.join(' · ')}</div>}
+            {l.titleFlags.length > 0 && <div className="mt-3 rounded-xl border border-coral-200 bg-coral-50 p-3 text-sm text-coral-800"><strong>Flags:</strong> {l.titleFlags.join(' · ')}</div>}
             <p className="mt-2 text-xs text-ink-400">All scores are sample data for the prototype. OC/CC, zoning and title are verified by partner lawyers at deal stage (Tier 3).</p>
           </Section>
 
@@ -246,7 +246,7 @@ export default function CommercialDetail({ id }: { id: string }) {
         <aside className="space-y-4 lg:sticky lg:top-20 lg:self-start">
           <div className="card p-5">
             <div className="flex items-center gap-3">
-              <span className="grid h-11 w-11 place-items-center rounded-full bg-saffron-100 font-bold text-saffron-700">{l.kind === 'owner' ? 'O' : 'D'}</span>
+              <span className="grid h-11 w-11 place-items-center rounded-full bg-coral-100 font-bold text-coral-700">{l.kind === 'owner' ? 'O' : 'D'}</span>
               <div><div className="font-semibold">{l.kind === 'owner' ? 'Owner (name hidden)' : l.builder}</div><div className="text-xs text-ink-500">{l.kind === 'owner' ? 'Responds in ~4 hrs · No brokerage' : 'Developer (sample)'}</div></div>
             </div>
             <button onClick={() => setRevealed(true)} className="btn-ghost mt-4 w-full"><Phone className="h-4 w-4" />{revealed ? '+91 80 4718 •••• (masked line)' : 'Call via masked number'}</button>
@@ -260,7 +260,7 @@ export default function CommercialDetail({ id }: { id: string }) {
             <Scale className="h-5 w-5 text-brand-600" /><div><div className="text-sm font-semibold">Leasing or buying for your business?</div><div className="text-xs text-ink-500">Lease deed, OC/CC and zoning checks at deal stage (draft plan)</div></div>
           </Link>
           <button onClick={() => window.dispatchEvent(new Event('gk-open-chat'))} className="card flex w-full items-center gap-3 p-4 text-left hover:shadow-lift">
-            <Sparkles className="h-5 w-5 text-saffron-500" /><div><div className="text-sm font-semibold">Ask AI about this space</div><div className="text-xs text-ink-500">“What will this cost over 5 years?” “Is the zoning OK for a clinic?”</div></div>
+            <Sparkles className="h-5 w-5 text-coral-500" /><div><div className="text-sm font-semibold">Ask AI about this space</div><div className="text-xs text-ink-500">“What will this cost over 5 years?” “Is the zoning OK for a clinic?”</div></div>
           </button>
         </aside>
       </div>

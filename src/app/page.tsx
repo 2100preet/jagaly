@@ -26,22 +26,22 @@ export default function Home() {
       {/* HERO */}
       <section className="relative overflow-hidden bg-gradient-to-br from-brand-900 via-brand-800 to-brand-950 text-white">
         <div className="pointer-events-none absolute inset-0 opacity-[.07]" style={{ backgroundImage: 'radial-gradient(#fff 1px, transparent 1px)', backgroundSize: '22px 22px' }} />
-        <div className="pointer-events-none absolute -right-40 -top-40 h-[520px] w-[520px] rounded-full bg-saffron-500/20 blur-3xl" />
+        <div className="pointer-events-none absolute -right-40 -top-40 h-[520px] w-[520px] rounded-full bg-coral-500/20 blur-3xl" />
         <div className="pointer-events-none absolute -bottom-48 -left-24 h-[420px] w-[420px] rounded-full bg-brand-400/20 blur-3xl" />
         <div className="container-x relative pb-20 pt-14 sm:pt-20">
-          <span className="chip border border-white/20 bg-white/10 text-brand-50"><Sparkles className="h-3.5 w-3.5 text-saffron-300" />Prototype · {BRAND.city} · {AREAS.length} localities searchable</span>
+          <span className="chip border border-white/20 bg-white/10 text-brand-50"><Sparkles className="h-3.5 w-3.5 text-coral-300" />Prototype · {BRAND.city} · {AREAS.length} localities searchable</span>
           <h1 className="mt-5 max-w-3xl font-display text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-6xl">
-            Every home proven. Every price true. <span className="bg-gradient-to-r from-saffron-300 to-saffron-500 bg-clip-text text-transparent">Deposits protected, by choice.</span>
+            Every home proven. Every price true. <span className="bg-gradient-to-r from-brand-200 via-coral-300 to-coral-400 bg-clip-text text-transparent">Your deposit protected, if you choose.</span>
           </h1>
           <p className="mt-5 max-w-2xl text-lg text-brand-100/90">Rent, lease or buy homes and commercial spaces in {BRAND.city} with zero brokerage, zero spam and no surprises.</p>
           <div className="mt-8"><SearchHero /></div>
           <div className="mt-8 grid max-w-4xl gap-3 sm:grid-cols-2">
             <div className="flex items-start gap-3 rounded-2xl border border-white/15 bg-white/10 p-4 backdrop-blur">
-              <ShieldCheck className="mt-0.5 h-6 w-6 shrink-0 text-saffron-300" />
+              <ShieldCheck className="mt-0.5 h-6 w-6 shrink-0 text-coral-300" />
               <div><div className="font-semibold">{FEATURES.proof}: every home proven</div><div className="text-sm text-brand-100/80">Phone OTP + live video with GPS. If a Proof listing is fake, your fee back plus {FEATURES.proofCredit} credit.</div></div>
             </div>
             <div className="flex items-start gap-3 rounded-2xl border border-white/15 bg-white/10 p-4 backdrop-blur">
-              <PhoneOff className="mt-0.5 h-6 w-6 shrink-0 text-saffron-300" />
+              <PhoneOff className="mt-0.5 h-6 w-6 shrink-0 text-coral-300" />
               <div><div className="font-semibold">{FEATURES.spam}</div><div className="text-sm text-brand-100/80">Zero spam calls. Your number stays masked behind a private {BRAND.name} line and is never resold.</div></div>
             </div>
           </div>
@@ -131,10 +131,10 @@ export default function Home() {
       <section className="container-x mt-20">
         <div className="card overflow-hidden">
           <div className="grid lg:grid-cols-[1fr_1.4fr]">
-            <div className="bg-gradient-to-br from-saffron-500 to-saffron-700 p-8 text-white sm:p-10">
+            <div className="bg-gradient-to-br from-coral-500 to-coral-700 p-8 text-white sm:p-10">
               <h2 className="font-display text-3xl font-extrabold">What you get with {BRAND.name}</h2>
-              <p className="mt-3 text-saffron-50">Core features are free for tenants, owners, buyers and businesses. Optional extras are clearly priced (draft).</p>
-              <Link href="/pricing/" className="btn mt-6 bg-white text-saffron-700 hover:bg-saffron-50">See draft pricing <ArrowRight className="h-4 w-4" /></Link>
+              <p className="mt-3 text-coral-50">Core features are free for tenants, owners, buyers and businesses. Optional extras are clearly priced (draft).</p>
+              <Link href="/pricing/" className="btn mt-6 bg-white text-coral-700 hover:bg-coral-50">See draft pricing <ArrowRight className="h-4 w-4" /></Link>
             </div>
             <div className="p-4 sm:p-6">
               <ul className="divide-y divide-ink-100 text-sm">
@@ -198,7 +198,7 @@ export default function Home() {
             ['Mr. Ramesh, owner in Indiranagar', 'Listed free, got 6 genuine tenant enquiries in two days, zero brokers. The agreement was signed online.'],
           ].map(([n, t]) => (
             <figure key={n} className="card p-6">
-              <div className="flex gap-0.5 text-saffron-500">{Array.from({ length: 5 }).map((_, i) => <Star key={i} className="h-4 w-4 fill-current" />)}</div>
+              <div className="flex gap-0.5 text-coral-500">{Array.from({ length: 5 }).map((_, i) => <Star key={i} className="h-4 w-4 fill-current" />)}</div>
               <blockquote className="mt-3 text-ink-700">“{t}”</blockquote>
               <figcaption className="mt-4 text-sm font-semibold text-ink-900">{n}</figcaption>
             </figure>

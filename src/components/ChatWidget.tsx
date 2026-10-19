@@ -48,7 +48,7 @@ export default function ChatWidget() {
       <button onClick={() => setOpen(!open)} aria-label="Open assistant"
         className="fixed bottom-5 right-5 z-50 grid h-14 w-14 place-items-center rounded-full bg-gradient-to-br from-brand-500 to-brand-800 text-white shadow-lift transition hover:scale-105">
         {open ? <X className="h-6 w-6" /> : <MessageCircle className="h-6 w-6" />}
-        {!open && <span className="absolute -top-1 -right-1 grid h-5 w-5 place-items-center rounded-full bg-saffron-500 text-[10px] font-bold">AI</span>}
+        {!open && <span className="absolute -top-1 -right-1 grid h-5 w-5 place-items-center rounded-full bg-coral-600 text-[10px] font-bold">AI</span>}
       </button>
       {open && (
         <div className="fixed bottom-24 right-4 z-50 flex h-[480px] w-[calc(100vw-2rem)] max-w-sm flex-col overflow-hidden rounded-2xl border border-ink-200 bg-white shadow-lift">

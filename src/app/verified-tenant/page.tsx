@@ -44,7 +44,7 @@ export default function Page() {
           <ul className="mt-4 space-y-2 text-sm text-ink-600">
             <li className="flex gap-2"><EyeOff className="h-4 w-4 shrink-0 text-ink-400" />Never the document, Aadhaar number, date of birth or address.</li>
             <li className="flex gap-2"><ShieldCheck className="h-4 w-4 shrink-0 text-brand-600" />Owners can choose “Only Verified Tenants can contact me” (off by default).</li>
-            <li className="flex gap-2"><Siren className="h-4 w-4 shrink-0 text-saffron-500" />Later add-on: assistance with Bengaluru police tenant verification (planned).</li>
+            <li className="flex gap-2"><Siren className="h-4 w-4 shrink-0 text-coral-500" />Later add-on: assistance with Bengaluru police tenant verification (planned).</li>
           </ul>
         </div>
       </section>

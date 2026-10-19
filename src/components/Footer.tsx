@@ -8,7 +8,7 @@ export default function Footer() {
     <footer className="mt-24 bg-ink-900 text-ink-300">
       <div className="container-x grid gap-10 py-14 md:grid-cols-5">
         <div className="md:col-span-2">
-          <Logo light />
+          <Logo light className="h-10" />
           <p className="mt-4 max-w-sm text-sm leading-relaxed text-ink-400">{BRAND.tagline} Built in {BRAND.city} for people who are tired of fake listings, broker spam and lost deposits. Prototype: all data is sample data.</p>
           <p className="mt-4 text-xs text-ink-500">Prototype · All listings, scores and prices shown are <strong className="text-ink-300">sample data</strong> for demonstration only.</p>
         </div>

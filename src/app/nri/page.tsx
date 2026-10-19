@@ -46,7 +46,7 @@ export default function Page() {
           <div className="rounded-3xl bg-white/10 p-6 backdrop-blur">
             <div className="text-sm font-semibold text-indigo-100">Who it’s for</div>
             <ul className="mt-3 space-y-3 text-sm">
-              {['Buying a flat in Bengaluru while living abroad', 'Renting out a home you already own', 'Parents in Bengaluru, you abroad — sharing the decisions', 'Selling a property as an NRI (TDS & repatriation questions)'].map((x) => <li key={x} className="flex gap-2"><ShieldCheck className="h-5 w-5 shrink-0 text-saffron-300" />{x}</li>)}
+              {['Buying a flat in Bengaluru while living abroad', 'Renting out a home you already own', 'Parents in Bengaluru, you abroad — sharing the decisions', 'Selling a property as an NRI (TDS & repatriation questions)'].map((x) => <li key={x} className="flex gap-2"><ShieldCheck className="h-5 w-5 shrink-0 text-coral-300" />{x}</li>)}
             </ul>
           </div>
         </div>
@@ -89,7 +89,7 @@ export default function Page() {
             <li>Once it reaches India it generally needs to be adjudicated and stamped in Karnataka within the prescribed time, and a PoA used to sell or transfer property is typically registered at the Sub-Registrar’s office.</li>
             <li>{BRAND.name} NRI would help draft the PoA with partner lawyers and coordinate stamping and registration.</li>
           </ul>
-          <p className="mt-4 flex gap-2 rounded-xl bg-saffron-50 p-3 text-xs text-saffron-800"><Info className="h-4 w-4 shrink-0" />Guidance only, not legal advice. Requirements vary by country and transaction; confirm with a qualified lawyer.</p>
+          <p className="mt-4 flex gap-2 rounded-xl bg-coral-50 p-3 text-xs text-coral-800"><Info className="h-4 w-4 shrink-0" />Guidance only, not legal advice. Requirements vary by country and transaction; confirm with a qualified lawyer.</p>
         </div>
         <div className="card p-6">
           <h2 className="font-display text-xl font-bold">NRE/NRO, FEMA & TDS — the basics</h2>
@@ -100,7 +100,7 @@ export default function Page() {
             <li><strong>Selling:</strong> the buyer generally deducts TDS on the NRI seller’s capital gains (Section 195). A lower-deduction certificate can be applied for in some cases.</li>
             <li><strong>Repatriation:</strong> sale proceeds may be repatriated subject to limits and conditions (for example, the annual limit on NRO remittances and Form 15CA/15CB requirements).</li>
           </ul>
-          <p className="mt-4 flex gap-2 rounded-xl bg-saffron-50 p-3 text-xs text-saffron-800"><Info className="h-4 w-4 shrink-0" />General information only, not tax or legal advice. Rates, limits and rules change; check current RBI/FEMA and Income Tax rules with a chartered accountant.</p>
+          <p className="mt-4 flex gap-2 rounded-xl bg-coral-50 p-3 text-xs text-coral-800"><Info className="h-4 w-4 shrink-0" />General information only, not tax or legal advice. Rates, limits and rules change; check current RBI/FEMA and Income Tax rules with a chartered accountant.</p>
         </div>
       </section>
 

@@ -41,7 +41,7 @@ export default function MapView({ listings, activeId, onSelect, center, zoom = 1
       const label = (l.deal === 'rent' && l.price < 100000 ? `₹${Math.round(l.price / 1000)}K` : formatINR(l.price).replace(' ', '')) + (l.deal === 'rent' && l.segment === 'commercial' ? '/mo' : '');
       const icon = L.current.divIcon({ className: `gk-pin ${activeId === l.id ? 'active' : ''}`, html: `<span>${label}</span>`, iconSize: [0, 0] });
       const m = L.current.marker(l.coord, { icon, zIndexOffset: activeId === l.id ? 1000 : 0 })
-        .bindPopup(`<a href="${BASE_PATH}/property/${l.id}/" style="font-weight:600;color:#185944">${l.title}</a><br/><span style="color:#5b6578">${l.locality} · ${configLabel(l)} · ${l.areaSqft.toLocaleString('en-IN')} sq ft</span>`)
+        .bindPopup(`<a href="${BASE_PATH}/property/${l.id}/" style="font-weight:600;color:#6522d8">${l.title}</a><br/><span style="color:#5b6578">${l.locality} · ${configLabel(l)} · ${l.areaSqft.toLocaleString('en-IN')} sq ft</span>`)
         .on('click', () => onSelect?.(l.id));
       m.addTo(layer.current);
       markers.current[l.id] = m;

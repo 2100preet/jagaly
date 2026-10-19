@@ -215,12 +215,12 @@ export default function PostWizard() {
                   const resBuy = LOCALITIES.find((x) => x.name === f.locality)?.buyPerSqft ?? rates.buy;
                   const est = com || plot ? commercialRate(spaceKey, tier, f.deal === 'rent' ? 'rent' : 'buy', resBuy) * +f.area : f.deal === 'rent' ? rates.rent * +f.area : rates.buy * +f.area;
                   const d = (+f.price - est) / est;
-                  return <div className={cn('rounded-xl border p-4 text-sm', Math.abs(d) <= 0.08 ? 'border-brand-200 bg-brand-50 text-brand-800' : 'border-saffron-200 bg-saffron-50 text-saffron-800')}><strong>True Price check (sample):</strong> similar {com || plot ? spaceMeta.plural : 'homes'} in {f.locality} go for ~{formatINR(est)}{f.deal === 'rent' ? '/mo' : ''}. Your price is {Math.abs(d * 100).toFixed(0)}% {d >= 0 ? 'above' : 'below'} — {Math.abs(d) <= 0.08 ? `${f.deal === 'rent' ? 'tenants' : 'buyers'} will see a “Fair price” tag.` : d > 0 ? 'you may get fewer enquiries.' : 'expect lots of interest!'}</div>;
+                  return <div className={cn('rounded-xl border p-4 text-sm', Math.abs(d) <= 0.08 ? 'border-brand-200 bg-brand-50 text-brand-800' : 'border-coral-200 bg-coral-50 text-coral-800')}><strong>True Price check (sample):</strong> similar {com || plot ? spaceMeta.plural : 'homes'} in {f.locality} go for ~{formatINR(est)}{f.deal === 'rent' ? '/mo' : ''}. Your price is {Math.abs(d * 100).toFixed(0)}% {d >= 0 ? 'above' : 'below'} — {Math.abs(d) <= 0.08 ? `${f.deal === 'rent' ? 'tenants' : 'buyers'} will see a “Fair price” tag.` : d > 0 ? 'you may get fewer enquiries.' : 'expect lots of interest!'}</div>;
                 })()}
                 {f.deal === 'rent' && !com && (
                   <div className="rounded-xl border border-ink-200 p-4">
                     <label className="flex items-start gap-3 text-sm"><input type="checkbox" className="mt-1 h-4 w-4 accent-brand-600" checked={f.depositSafe} onChange={(e) => set({ depositSafe: e.target.checked, depositFree: e.target.checked ? f.depositFree : false })} />
-                      <span><span className="flex items-center gap-1.5 font-semibold"><Wallet className="h-4 w-4 text-saffron-500" />Accept Deposit Safe <span className="chip bg-ink-100 text-[10px] text-ink-500">Optional</span></span>
+                      <span><span className="flex items-center gap-1.5 font-semibold"><Wallet className="h-4 w-4 text-coral-500" />Accept Deposit Safe <span className="chip bg-ink-100 text-[10px] text-ink-500">Optional</span></span>
                         <span className="mt-0.5 block text-ink-500">Not required to list. Opt in for a “Deposit Safe Owner” badge, higher ranking, faster tenant matching, a free rental agreement and damage released to you via move-in/move-out video comparison. You can also decide later, per tenant. <Link href="/deposit-safe/" className="text-brand-700 underline">Learn more</Link></span></span></label>
                     {f.depositSafe && <label className="ml-7 mt-3 flex items-start gap-2 text-sm"><input type="checkbox" className="mt-1 accent-brand-600" checked={f.depositFree} onChange={(e) => set({ depositFree: e.target.checked })} /><span>Also offer the <strong>deposit-free plan</strong> to Verified Tenants (tenant pays a small monthly fee instead; you’re covered by the protection add-on — planned).</span></label>}
                   </div>
@@ -231,7 +231,7 @@ export default function PostWizard() {
               <div className="space-y-4">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <label className="label mb-0">Description *</label>
-                  <button onClick={runAI} disabled={gen} className="btn bg-gradient-to-r from-saffron-500 to-pink-500 text-white">{gen ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}{gen ? 'Writing…' : 'Write it with AI'}</button>
+                  <button onClick={runAI} disabled={gen} className="btn bg-gradient-to-r from-coral-500 to-pink-500 text-white">{gen ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}{gen ? 'Writing…' : 'Write it with AI'}</button>
                 </div>
                 <textarea className="input min-h-[180px]" value={f.description} onChange={(e) => set({ description: e.target.value })} placeholder="Describe your home, or let AI write it from the details you entered." />
                 <p className="text-xs text-ink-500">AI generation is a demo mock: it composes text from your form answers locally. You can edit freely. {f.description.length}/1000</p>
@@ -256,7 +256,7 @@ export default function PostWizard() {
                         const order = ['uploading', 'checking', 'done'];
                         const cur = order.indexOf(upload);
                         const st = i < cur || upload === 'done' ? 'done' : i === cur ? 'active' : 'todo';
-                        return <div key={k} className="flex items-center gap-2 text-sm">{st === 'done' ? <Check className="h-4 w-4 text-brand-600" /> : st === 'active' ? <Loader2 className="h-4 w-4 animate-spin text-saffron-500" /> : <span className="h-4 w-4 rounded-full border border-ink-300" />}<span className={st === 'todo' ? 'text-ink-400' : ''}>{l}</span></div>;
+                        return <div key={k} className="flex items-center gap-2 text-sm">{st === 'done' ? <Check className="h-4 w-4 text-brand-600" /> : st === 'active' ? <Loader2 className="h-4 w-4 animate-spin text-coral-500" /> : <span className="h-4 w-4 rounded-full border border-ink-300" />}<span className={st === 'todo' ? 'text-ink-400' : ''}>{l}</span></div>;
                       })}
                       {upload === 'done' && <div className="mt-2 flex items-center gap-2 rounded-xl bg-brand-600 p-3 text-sm text-white"><ShieldCheck className="h-5 w-5" />Auto-check passed · <MapPin className="h-4 w-4" />Location matches {f.locality || 'listing'} (simulated)</div>}
                     </div>
@@ -352,7 +352,7 @@ export default function PostWizard() {
               {f.description && <p className="line-clamp-4 border-t border-ink-100 pt-2 text-xs text-ink-600">{f.description}</p>}
             </div>
           </div>
-          <div className="mt-4 rounded-2xl bg-saffron-50 p-4 text-sm text-saffron-800"><strong>Free forever for owners.</strong> No listing fee, no “premium relationship manager” upsell. Optional add-ons on the <Link href="/pricing/" className="underline">pricing page</Link>.</div>
+          <div className="mt-4 rounded-2xl bg-coral-50 p-4 text-sm text-coral-800"><strong>Free forever for owners.</strong> No listing fee, no “premium relationship manager” upsell. Optional add-ons on the <Link href="/pricing/" className="underline">pricing page</Link>.</div>
         </aside>
       </div>
     </div>

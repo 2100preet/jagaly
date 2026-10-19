@@ -28,7 +28,7 @@ export default function Page() {
       <section className="bg-gradient-to-br from-brand-900 to-brand-700 text-white">
         <div className="container-x grid items-center gap-10 py-16 lg:grid-cols-2">
           <div>
-            <span className="chip bg-white/10 text-saffron-200"><ShieldCheck className="h-4 w-4" />{FEATURES.deposit} · optional</span>
+            <span className="chip bg-white/10 text-coral-200"><ShieldCheck className="h-4 w-4" />{FEATURES.deposit} · optional</span>
             <h1 className="mt-4 font-display text-4xl font-extrabold leading-tight sm:text-5xl">Deposit protection both sides can opt in to.</h1>
             <p className="mt-4 text-lg text-brand-100">Owners list on {BRAND.name} normally — <strong className="text-white">no escrow required, ever</strong>. {FEATURES.deposit} is an opt-in perk: tenants can request it, owners can accept it, and owners who do get a badge, better ranking and extra protection.</p>
             <div className="mt-6 flex flex-wrap gap-3">
@@ -53,7 +53,7 @@ export default function Page() {
         <p className="eyebrow">For owners</p><h2 className="h-section mt-2">Why owners choose to opt in</h2>
         <div className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {OWNER_PERKS.map((p) => (
-            <div key={p.t} className="card p-6"><p.i className="h-7 w-7 text-saffron-500" /><h3 className="mt-3 font-semibold">{p.t}</h3><p className="mt-1.5 text-sm text-ink-500">{p.d}</p></div>
+            <div key={p.t} className="card p-6"><p.i className="h-7 w-7 text-coral-500" /><h3 className="mt-3 font-semibold">{p.t}</h3><p className="mt-1.5 text-sm text-ink-500">{p.d}</p></div>
           ))}
         </div>
       </section>
@@ -80,8 +80,8 @@ export default function Page() {
             {['Deposit held in escrow, not spent', 'Deductions only for damage documented on video', 'Undisputed amount back within 48 hours', `Look for the “${FEATURES.deposit} Owner” badge, or request it on any rental`, 'Verified Tenants can be offered the deposit-free plan'].map((x) => <li key={x} className="flex gap-2"><CheckCircle2 className="h-5 w-5 shrink-0 text-brand-600" />{x}</li>)}
           </ul>
         </div>
-        <div className="card border-saffron-200 bg-saffron-50/40 p-6">
-          <Users className="h-7 w-7 text-saffron-600" />
+        <div className="card border-coral-200 bg-coral-50/40 p-6">
+          <Users className="h-7 w-7 text-coral-600" />
           <h3 className="mt-3 font-display text-xl font-bold">Deposit-free plan (planned)</h3>
           <p className="mt-2 text-sm text-ink-600">For owners who opt in and tenants who are verified: instead of a large deposit, the tenant pays a small non-refundable monthly fee (draft: ~3–4% of rent). The owner is covered for unpaid rent and damage up to an agreed limit by the protection add-on. Owners decide whether to offer it.</p>
           <Link href="/pricing/" className="btn-ghost mt-4">See draft pricing</Link>

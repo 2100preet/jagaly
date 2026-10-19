@@ -42,7 +42,7 @@ export default function Page() {
   return (
     <div className="container-x py-12">
       <div className="mx-auto max-w-2xl text-center">
-        <span className="chip bg-saffron-100 text-saffron-700">Draft pricing · subject to change</span>
+        <span className="chip bg-coral-100 text-coral-700">Draft pricing · subject to change</span>
         <h1 className="mt-4 font-display text-4xl font-extrabold tracking-tight">Free to start. Pay only for extras.</h1>
         <p className="mt-3 text-ink-600">Core features are free for tenants, owners, buyers and businesses. Everything else is optional. All prices are drafts for this prototype.</p>
       </div>

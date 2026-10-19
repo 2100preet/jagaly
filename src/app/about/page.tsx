@@ -24,7 +24,7 @@ export default function Page() {
         </div>
         <div className="mt-10 grid gap-5 md:grid-cols-3">
           {[[Target, 'Mission', 'Make renting, leasing and buying a home or a workspace in India as transparent as booking a flight.'], [Eye, 'Radical transparency', 'True Price, Home Truth Scores and RERA completion records are shown to everyone, free.'], [HeartHandshake, 'Fair to both sides', 'Owners list homes and commercial spaces free; tenants, buyers and businesses never pay brokerage.']].map(([I, t, d]: any) => (
-            <div key={t} className="card p-6"><I className="h-6 w-6 text-saffron-500" /><h3 className="mt-3 font-display text-lg font-bold">{t}</h3><p className="mt-1 text-sm text-ink-500">{d}</p></div>
+            <div key={t} className="card p-6"><I className="h-6 w-6 text-coral-500" /><h3 className="mt-3 font-display text-lg font-bold">{t}</h3><p className="mt-1 text-sm text-ink-500">{d}</p></div>
           ))}
         </div>
       </section>

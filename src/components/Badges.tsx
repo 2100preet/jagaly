@@ -14,7 +14,7 @@ export function VerifiedBadge({ l, size = 'sm' }: { l: Listing; size?: 'sm' | 'l
 
 export function KindBadge({ l }: { l: Listing }) {
   return l.kind === 'owner'
-    ? <span className="chip bg-saffron-100 text-saffron-700"><User className="h-3 w-3" />Owner · no brokerage</span>
+    ? <span className="chip bg-coral-100 text-coral-700"><User className="h-3 w-3" />Owner · no brokerage</span>
     : <span className="chip bg-indigo-50 text-indigo-700"><Building2 className="h-3 w-3" />{l.segment === 'commercial' || l.space ? 'Developer' : 'Builder project'}</span>;
 }
 
@@ -22,7 +22,7 @@ export function priceVerdict(l: Listing) {
   const d = (l.price - l.truePrice) / l.truePrice;
   if (d <= -0.05) return { label: 'Good deal', tone: 'text-brand-700 bg-brand-50 border-brand-200', bar: 'bg-brand-500', d };
   if (d <= 0.06) return { label: 'Fair price', tone: 'text-brand-700 bg-brand-50 border-brand-200', bar: 'bg-brand-400', d };
-  if (d <= 0.12) return { label: 'Slightly high', tone: 'text-saffron-700 bg-saffron-50 border-saffron-200', bar: 'bg-saffron-400', d };
+  if (d <= 0.12) return { label: 'Slightly high', tone: 'text-coral-700 bg-coral-50 border-coral-200', bar: 'bg-coral-400', d };
   return { label: 'Overpriced', tone: 'text-red-700 bg-red-50 border-red-200', bar: 'bg-red-500', d };
 }
 
@@ -35,7 +35,7 @@ export function PriceVerdictChip({ l }: { l: Listing }) {
 /** Optional owner perk: owner accepts Deposit Safe (shown only on opted-in listings). */
 export function DepositSafeBadge({ l, size = 'sm' }: { l: Listing; size?: 'sm' | 'lg' }) {
   if (!l.depositSafe) return null;
-  return <span className={`chip bg-saffron-500 text-white ${size === 'lg' ? 'px-3 py-1.5 text-sm' : ''}`} title="Owner opted in to Deposit Safe (optional)"><Wallet className="h-3.5 w-3.5" />{FEATURES.deposit} Owner</span>;
+  return <span className={`chip bg-coral-600 text-white ${size === 'lg' ? 'px-3 py-1.5 text-sm' : ''}`} title="Owner opted in to Deposit Safe (optional)"><Wallet className="h-3.5 w-3.5" />{FEATURES.deposit} Owner</span>;
 }
 
 /** Optional Tier 2: owner name matched to a tax receipt / electricity bill (doc kept private). */

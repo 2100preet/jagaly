@@ -33,7 +33,7 @@ function Section({ id, title, subtitle, children, tag }: { id?: string; title: s
 function scoreTone(s: number) {
   if (s >= 8) return { t: 'Low risk', c: 'bg-brand-500', tx: 'text-brand-700' };
   if (s >= 6) return { t: 'Moderate', c: 'bg-brand-300', tx: 'text-brand-700' };
-  if (s >= 4) return { t: 'Watch out', c: 'bg-saffron-400', tx: 'text-saffron-700' };
+  if (s >= 4) return { t: 'Watch out', c: 'bg-coral-400', tx: 'text-coral-700' };
   return { t: 'High risk', c: 'bg-red-500', tx: 'text-red-700' };
 }
 
@@ -90,7 +90,7 @@ export default function PropertyDetail({ id }: { id: string }) {
             <div className="absolute left-4 top-4 flex flex-wrap gap-2"><VerifiedBadge l={l} size="lg" /><VerifiedOwnerBadge l={l} /><DepositSafeBadge l={l} size="lg" /></div>
             <div className="absolute bottom-4 left-4 rounded-lg bg-black/50 px-2 py-1 text-xs text-white">Sample listing · illustration</div>
             {l.verified && (
-              <button onClick={() => setShowVideo(true)} className="absolute bottom-4 right-4 btn bg-white/95 text-ink-900 shadow-lift hover:bg-white"><PlayCircle className="h-5 w-5 text-saffron-600" />Watch verified walk-through</button>
+              <button onClick={() => setShowVideo(true)} className="absolute bottom-4 right-4 btn bg-white/95 text-ink-900 shadow-lift hover:bg-white"><PlayCircle className="h-5 w-5 text-coral-600" />Watch verified walk-through</button>
             )}
           </div>
           <div className="hidden min-h-0 grid-rows-2 gap-2 md:grid">
@@ -185,7 +185,7 @@ export default function PropertyDetail({ id }: { id: string }) {
               {commute.map((c) => (
                 <div key={c.name} className="flex items-center gap-3">
                   <div className="w-32 shrink-0 text-sm font-medium sm:w-48">{c.name}</div>
-                  <div className="h-2 flex-1 rounded-full bg-ink-100"><div className={cn('h-full rounded-full', c.mins <= 30 ? 'bg-brand-500' : c.mins <= 60 ? 'bg-saffron-400' : 'bg-red-400')} style={{ width: `${Math.min(100, (c.mins / 120) * 100)}%` }} /></div>
+                  <div className="h-2 flex-1 rounded-full bg-ink-100"><div className={cn('h-full rounded-full', c.mins <= 30 ? 'bg-brand-500' : c.mins <= 60 ? 'bg-coral-400' : 'bg-red-400')} style={{ width: `${Math.min(100, (c.mins / 120) * 100)}%` }} /></div>
                   <div className="w-36 shrink-0 whitespace-nowrap text-right text-sm"><span className="font-semibold">~{c.mins} min</span> <span className="text-ink-400">· {c.km.toFixed(1)} km</span></div>
                 </div>
               ))}
@@ -196,7 +196,7 @@ export default function PropertyDetail({ id }: { id: string }) {
           {/* Risk */}
           <Section id="truth" title={FEATURES.truth} subtitle="Commute, water, flooding, power, e-Khata, RERA & title — higher = safer (out of 10)" tag="Sample scores">
             <div className="mb-5 flex flex-wrap items-center gap-5 rounded-2xl bg-gradient-to-r from-brand-700 to-brand-900 p-5 text-white">
-              <div className="grid h-20 w-20 place-items-center rounded-full border-4 border-saffron-400 bg-white/10"><div className="text-center"><div className="font-display text-2xl font-extrabold leading-none">{truthScore.toFixed(1)}</div><div className="text-[10px] text-brand-100">/ 10</div></div></div>
+              <div className="grid h-20 w-20 place-items-center rounded-full border-4 border-coral-400 bg-white/10"><div className="text-center"><div className="font-display text-2xl font-extrabold leading-none">{truthScore.toFixed(1)}</div><div className="text-[10px] text-brand-100">/ 10</div></div></div>
               <div className="flex-1">
                 <div className="font-display text-lg font-bold">{truthScore >= 7.5 ? 'Strong home' : truthScore >= 6 ? 'Good, with a few watch-outs' : 'Do your homework'}</div>
                 <div className="mt-1 flex flex-wrap gap-2 text-xs">
@@ -204,7 +204,7 @@ export default function PropertyDetail({ id }: { id: string }) {
                   <span className="chip bg-white/15">Tankers: {l.tankerPerMonth === 0 ? 'none' : `~${l.tankerPerMonth}/mo in summer`}</span>
                   <span className="chip bg-white/15">Nearest tech park ~{commute[0].mins} min</span>
                   {l.reraDelayMonths !== undefined && <span className="chip bg-white/15">RERA delay: {l.reraDelayMonths ? `+${l.reraDelayMonths} mo` : 'none'}</span>}
-                  <span className={cn('chip', l.titleFlags.length ? 'bg-saffron-500' : 'bg-white/15')}>{l.titleFlags.length ? `${l.titleFlags.length} title flag${l.titleFlags.length > 1 ? 's' : ''}` : 'No title flags'}</span>
+                  <span className={cn('chip', l.titleFlags.length ? 'bg-coral-600' : 'bg-white/15')}>{l.titleFlags.length ? `${l.titleFlags.length} title flag${l.titleFlags.length > 1 ? 's' : ''}` : 'No title flags'}</span>
                 </div>
               </div>
             </div>
@@ -224,7 +224,7 @@ export default function PropertyDetail({ id }: { id: string }) {
               })}
             </div>
             {l.titleFlags.length > 0 && (
-              <div className="mt-3 rounded-xl border border-saffron-200 bg-saffron-50 p-3 text-sm text-saffron-800"><strong>Title flags:</strong> {l.titleFlags.join(' · ')}</div>
+              <div className="mt-3 rounded-xl border border-coral-200 bg-coral-50 p-3 text-sm text-coral-800"><strong>Title flags:</strong> {l.titleFlags.join(' · ')}</div>
             )}
             {l.rera && <p className="mt-3 text-xs text-ink-500">RERA No. (sample format): <span className="font-mono">{l.rera}</span></p>}
             <p className="mt-2 text-xs text-ink-400">Commute component is shown in detail above (estimate). All scores are sample data for the prototype.</p>
@@ -245,13 +245,13 @@ export default function PropertyDetail({ id }: { id: string }) {
           <Section title="Society reviews" subtitle={`From verified residents of ${l.society}`} tag="Sample reviews">
             <div className="mb-4 flex items-center gap-3">
               <div className="font-display text-4xl font-extrabold">{avgRating.toFixed(1)}</div>
-              <div><div className="flex text-saffron-500">{Array.from({ length: 5 }).map((_, i) => <Star key={i} className={cn('h-4 w-4', i < Math.round(avgRating) && 'fill-current')} />)}</div><div className="text-xs text-ink-500">{l.reviews.length * 7 + 3} ratings</div></div>
+              <div><div className="flex text-coral-500">{Array.from({ length: 5 }).map((_, i) => <Star key={i} className={cn('h-4 w-4', i < Math.round(avgRating) && 'fill-current')} />)}</div><div className="text-xs text-ink-500">{l.reviews.length * 7 + 3} ratings</div></div>
             </div>
             <div className="space-y-3">
               {l.reviews.map((r, i) => (
                 <div key={i} className="rounded-xl bg-ink-50 p-4">
                   <div className="flex items-center justify-between"><div className="flex items-center gap-2"><span className="grid h-8 w-8 place-items-center rounded-full bg-brand-100 text-sm font-bold text-brand-700">{r.name[0]}</span><div><div className="text-sm font-semibold">{r.name}</div><div className="text-[11px] text-ink-500">{r.tenure}</div></div></div>
-                    <div className="flex text-saffron-500">{Array.from({ length: r.rating }).map((_, k) => <Star key={k} className="h-3.5 w-3.5 fill-current" />)}</div></div>
+                    <div className="flex text-coral-500">{Array.from({ length: r.rating }).map((_, k) => <Star key={k} className="h-3.5 w-3.5 fill-current" />)}</div></div>
                   <p className="mt-2 text-sm text-ink-700">{r.text}</p>
                 </div>
               ))}
@@ -273,7 +273,7 @@ export default function PropertyDetail({ id }: { id: string }) {
         <aside className="space-y-4 lg:sticky lg:top-20 lg:self-start">
           <div className="card p-5">
             <div className="flex items-center gap-3">
-              <span className="grid h-11 w-11 place-items-center rounded-full bg-saffron-100 font-bold text-saffron-700">{l.kind === 'owner' ? 'O' : l.builder?.[0]}</span>
+              <span className="grid h-11 w-11 place-items-center rounded-full bg-coral-100 font-bold text-coral-700">{l.kind === 'owner' ? 'O' : l.builder?.[0]}</span>
               <div><div className="font-semibold">{l.kind === 'owner' ? 'Owner (name hidden)' : l.builder}</div><div className="text-xs text-ink-500">{l.kind === 'owner' ? 'Responds in ~2 hrs · No brokerage' : 'RERA registered builder (sample)'}</div></div>
             </div>
             <button onClick={() => setRevealed(true)} className="btn-ghost mt-4 w-full"><Phone className="h-4 w-4" />{revealed ? '+91 80 4718 •••• (masked line)' : 'Call via masked number'}</button>
@@ -285,13 +285,13 @@ export default function PropertyDetail({ id }: { id: string }) {
           </div>
           {l.deal === 'rent' && (l.depositSafe ? (
             <Link href="/deposit-safe/" className="card block bg-gradient-to-br from-brand-700 to-brand-900 p-5 text-white">
-              <Wallet className="h-6 w-6 text-saffron-300" />
+              <Wallet className="h-6 w-6 text-coral-300" />
               <div className="mt-2 font-semibold">This owner accepts {FEATURES.deposit}</div>
               <p className="mt-1 text-sm text-brand-100">Optional for you: keep the {formatINR(l.deposit!)} deposit in a partner bank escrow, or ask about the deposit-free plan. Learn how it works →</p>
             </Link>
           ) : (
             <div className="card p-5">
-              <div className="flex items-center gap-2 font-semibold"><Wallet className="h-5 w-5 text-saffron-500" />Want {FEATURES.deposit}?</div>
+              <div className="flex items-center gap-2 font-semibold"><Wallet className="h-5 w-5 text-coral-500" />Want {FEATURES.deposit}?</div>
               <p className="mt-1 text-sm text-ink-500">This owner hasn’t opted in — that’s fine, it’s optional. You can request it; the owner can accept or decline.</p>
               <button onClick={() => setDsRequested(true)} disabled={dsRequested} className="btn-ghost mt-3 w-full">{dsRequested ? 'Request sent (demo)' : `Request ${FEATURES.deposit}`}</button>
             </div>
@@ -300,7 +300,7 @@ export default function PropertyDetail({ id }: { id: string }) {
             <Globe2 className="h-5 w-5 text-indigo-600" /><div><div className="text-sm font-semibold">Living abroad?</div><div className="text-xs text-ink-500">Book a live video visit across time zones with {BRAND.name} NRI (planned)</div></div>
           </Link>
           <button onClick={() => window.dispatchEvent(new Event('gk-open-chat'))} className="card flex w-full items-center gap-3 p-4 text-left hover:shadow-lift">
-            <Sparkles className="h-5 w-5 text-saffron-500" /><div><div className="text-sm font-semibold">Ask AI about this home</div><div className="text-xs text-ink-500">“Is this a fair price?” “How bad is flooding?”</div></div>
+            <Sparkles className="h-5 w-5 text-coral-500" /><div><div className="text-sm font-semibold">Ask AI about this home</div><div className="text-xs text-ink-500">“Is this a fair price?” “How bad is flooding?”</div></div>
           </button>
         </aside>
       </div>

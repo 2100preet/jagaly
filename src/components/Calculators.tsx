@@ -30,10 +30,10 @@ export function EmiCalculator({ price }: { price: number }) {
       <div className="rounded-2xl bg-brand-50 p-5">
         <div className="text-sm text-brand-800">Monthly EMI</div>
         <div className="font-display text-3xl font-extrabold text-brand-800">{fullINR(m)}</div>
-        <div className="mt-4 h-3 overflow-hidden rounded-full bg-saffron-300"><div className="h-full bg-brand-600" style={{ width: `${pct}%` }} /></div>
+        <div className="mt-4 h-3 overflow-hidden rounded-full bg-coral-300"><div className="h-full bg-brand-600" style={{ width: `${pct}%` }} /></div>
         <div className="mt-3 grid grid-cols-2 gap-2 text-sm">
           <div><div className="flex items-center gap-1.5 text-ink-500"><span className="h-2 w-2 rounded-full bg-brand-600" />Loan amount</div><div className="font-semibold">{formatINR(loan)}</div></div>
-          <div><div className="flex items-center gap-1.5 text-ink-500"><span className="h-2 w-2 rounded-full bg-saffron-400" />Total interest</div><div className="font-semibold">{formatINR(interest)}</div></div>
+          <div><div className="flex items-center gap-1.5 text-ink-500"><span className="h-2 w-2 rounded-full bg-coral-400" />Total interest</div><div className="font-semibold">{formatINR(interest)}</div></div>
         </div>
         <p className="mt-3 text-[11px] text-ink-500">Indicative only. Actual EMI depends on lender, credit score and processing fees.</p>
       </div>
@@ -75,8 +75,8 @@ export function RentVsBuy({ price, monthlyRent }: { price: number; monthlyRent: 
         <p className="text-xs text-ink-500">Assumes equivalent rent of {fullINR(monthlyRent)}/mo, 20% down, 20-yr loan, 7% stamp duty & registration, 8% return on invested down payment.</p>
       </div>
       <div className="rounded-2xl border border-ink-200 p-5">
-        <div className={`chip ${buyWins ? 'bg-brand-600 text-white' : 'bg-saffron-500 text-white'}`}>{buyWins ? 'Buying looks better' : 'Renting looks better'} over {years} yrs</div>
-        {[['Net cost of renting', r.rentTotal, 'bg-saffron-400'], ['Net cost of buying', r.buyCost, 'bg-brand-600']].map(([l, v, c]) => (
+        <div className={`chip ${buyWins ? 'bg-brand-600 text-white' : 'bg-coral-600 text-white'}`}>{buyWins ? 'Buying looks better' : 'Renting looks better'} over {years} yrs</div>
+        {[['Net cost of renting', r.rentTotal, 'bg-coral-400'], ['Net cost of buying', r.buyCost, 'bg-brand-600']].map(([l, v, c]) => (
           <div key={l as string} className="mt-4">
             <div className="flex justify-between text-sm"><span className="text-ink-600">{l}</span><span className="font-semibold">{(v as number) < 0 ? '− ' : ''}{formatINR(Math.abs(v as number))}</span></div>
             <div className="mt-1 h-2.5 rounded-full bg-ink-100"><div className={`h-full rounded-full ${c}`} style={{ width: `${Math.max(3, (Math.abs(v as number) / max) * 100)}%` }} /></div>
